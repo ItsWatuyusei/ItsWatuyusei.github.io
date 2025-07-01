@@ -3,159 +3,438 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio - [Tu Nombre] | Fullstack Developer</title>
+    <title>Portafolio | [Tu Nombre] Fullstack Developer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* Aquí puedes agregar tus estilos CSS */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
+        :root {
+            --primary: #0057FF; /* Azul Behance */
+            --dark: #191919;
+            --light: #f8f8f8;
+            --gray: #e5e5e5;
+            --text: #333333;
         }
-        .portfolio-header {
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            background-color: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        /* Header estilo Behance */
+        header {
+            background-color: white;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            padding: 15px 5%;
+        }
+        
+        .nav-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+        }
+        
+        .main-nav a {
+            color: var(--text);
+            text-decoration: none;
+            margin-left: 25px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        .main-nav a:hover {
+            color: var(--primary);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background-color: white;
+            padding: 80px 5%;
             text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+        
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            color: #666;
+        }
+        
+        .tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
             margin-bottom: 40px;
         }
-        .skills {
-            background: #f4f4f4;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-radius: 5px;
+        
+        .tag {
+            background-color: var(--gray);
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 14px;
         }
+        
+        /* Projects Grid - Estilo Behance */
+        .projects-container {
+            padding: 60px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 28px;
+            margin-bottom: 40px;
+            font-weight: 600;
+        }
+        
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 30px;
         }
+        
         .project-card {
-            border: 1px solid #ddd;
+            background: white;
             border-radius: 8px;
             overflow: hidden;
-            transition: transform 0.3s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
+        
         .project-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
         }
+        
         .project-image {
             width: 100%;
-            height: 180px;
+            height: 240px;
             object-fit: cover;
+            border-bottom: 1px solid var(--gray);
         }
+        
         .project-info {
-            padding: 15px;
+            padding: 20px;
         }
-        .tech-badge {
-            display: inline-block;
-            background: #e2e8f0;
-            padding: 3px 8px;
-            border-radius: 15px;
-            font-size: 0.8em;
+        
+        .project-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .project-description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 15px;
+        }
+        
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .tech-pill {
+            background-color: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        
+        .project-likes {
+            display: flex;
+            align-items: center;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .project-likes i {
             margin-right: 5px;
-            margin-bottom: 5px;
+            color: var(--primary);
+        }
+        
+        /* Footer estilo Behance */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 5% 30px;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .footer-logo {
+            font-size: 24px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links a {
+            color: #ccc;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 20px;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--primary);
+        }
+        
+        .copyright {
+            color: #999;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 768px) {
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 <body>
-    <header class="portfolio-header">
-        <h1>[Tu Nombre]</h1>
-        <h2>Desarrollador Fullstack</h2>
-        <p>Creando soluciones digitales completas desde el frontend hasta el backend</p>
+    <!-- Header -->
+    <header>
+        <div class="nav-container">
+            <a href="#" class="logo">devFolio.</a>
+            <nav class="main-nav">
+                <a href="#">Proyectos</a>
+                <a href="#">Sobre mí</a>
+                <a href="#">Habilidades</a>
+                <a href="#">Contacto</a>
+            </nav>
+        </div>
     </header>
 
-    <section class="skills">
-        <h2>Tecnologías que domino</h2>
-        <div>
-            <span class="tech-badge">JavaScript</span>
-            <span class="tech-badge">TypeScript</span>
-            <span class="tech-badge">React</span>
-            <span class="tech-badge">Node.js</span>
-            <span class="tech-badge">Express</span>
-            <span class="tech-badge">MongoDB</span>
-            <span class="tech-badge">PostgreSQL</span>
-            <span class="tech-badge">Docker</span>
-            <span class="tech-badge">AWS</span>
-            <!-- Agrega más según tus habilidades -->
+    <!-- Hero Section -->
+    <section class="hero">
+        <h1>Soluciones digitales completas</h1>
+        <p>Desarrollador Fullstack especializado en crear aplicaciones web escalables con las mejores tecnologías modernas.</p>
+        
+        <div class="tags">
+            <span class="tag">JavaScript</span>
+            <span class="tag">React</span>
+            <span class="tag">Node.js</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">MongoDB</span>
+            <span class="tag">AWS</span>
         </div>
     </section>
 
-    <section class="projects">
-        <h2>Mis Proyectos</h2>
+    <!-- Projects Section -->
+    <div class="projects-container">
+        <h2 class="section-title">Proyectos destacados</h2>
+        
         <div class="projects-grid">
-            
             <!-- Proyecto 1 -->
             <div class="project-card">
-                <img src="imagen-proyecto1.jpg" alt="Captura del proyecto 1" class="project-image">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Dashboard analítico" class="project-image">
                 <div class="project-info">
-                    <h3>E-commerce Completo</h3>
-                    <p>Plataforma de comercio electrónico con carrito de compras, pasarela de pagos y panel de administración.</p>
-                    <div>
-                        <span class="tech-badge">React</span>
-                        <span class="tech-badge">Node.js</span>
-                        <span class="tech-badge">MongoDB</span>
-                        <span class="tech-badge">Stripe API</span>
+                    <h3 class="project-title">Sistema de Analytics</h3>
+                    <p class="project-description">Plataforma de análisis de datos con visualizaciones interactivas y exportación de reportes.</p>
+                    <div class="project-meta">
+                        <div class="project-tech">
+                            <span class="tech-pill">React</span>
+                            <span class="tech-pill">D3.js</span>
+                            <span class="tech-pill">Node.js</span>
+                        </div>
+                        <div class="project-likes">
+                            <i class="fas fa-heart"></i> 128
+                        </div>
                     </div>
-                    <a href="#">Ver detalles</a>
                 </div>
             </div>
             
             <!-- Proyecto 2 -->
             <div class="project-card">
-                <img src="imagen-proyecto2.jpg" alt="Captura del proyecto 2" class="project-image">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1115&q=80" alt="E-commerce" class="project-image">
                 <div class="project-info">
-                    <h3>Sistema de Gestión de Tareas</h3>
-                    <p>Aplicación para equipos con autenticación JWT, asignación de tareas y notificaciones en tiempo real.</p>
-                    <div>
-                        <span class="tech-badge">Vue.js</span>
-                        <span class="tech-badge">NestJS</span>
-                        <span class="tech-badge">PostgreSQL</span>
-                        <span class="tech-badge">Socket.io</span>
+                    <h3 class="project-title">Tienda Online Premium</h3>
+                    <p class="project-description">E-commerce completo con carrito, pasarela de pagos y panel de administración.</p>
+                    <div class="project-meta">
+                        <div class="project-tech">
+                            <span class="tech-pill">Next.js</span>
+                            <span class="tech-pill">Stripe</span>
+                            <span class="tech-pill">MongoDB</span>
+                        </div>
+                        <div class="project-likes">
+                            <i class="fas fa-heart"></i> 256
+                        </div>
                     </div>
-                    <a href="#">Ver detalles</a>
                 </div>
             </div>
             
             <!-- Proyecto 3 -->
             <div class="project-card">
-                <img src="imagen-proyecto3.jpg" alt="Captura del proyecto 3" class="project-image">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="API de transporte" class="project-image">
                 <div class="project-info">
-                    <h3>API para Servicio de Transporte</h3>
-                    <p>API RESTful para aplicación de transporte con geolocalización, cálculo de rutas y precios.</p>
-                    <div>
-                        <span class="tech-badge">Express</span>
-                        <span class="tech-badge">MongoDB</span>
-                        <span class="tech-badge">Google Maps API</span>
-                        <span class="tech-badge">JWT</span>
+                    <h3 class="project-title">API de Transporte</h3>
+                    <p class="project-description">Backend para app de transporte con geolocalización y cálculo de rutas óptimas.</p>
+                    <div class="project-meta">
+                        <div class="project-tech">
+                            <span class="tech-pill">NestJS</span>
+                            <span class="tech-pill">PostgreSQL</span>
+                            <span class="tech-pill">Redis</span>
+                        </div>
+                        <div class="project-likes">
+                            <i class="fas fa-heart"></i> 184
+                        </div>
                     </div>
-                    <a href="#">Ver detalles</a>
                 </div>
             </div>
             
             <!-- Proyecto 4 -->
             <div class="project-card">
-                <img src="imagen-proyecto4.jpg" alt="Captura del proyecto 4" class="project-image">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1115&q=80" alt="App de tareas" class="project-image">
                 <div class="project-info">
-                    <h3>Dashboard Analítico</h3>
-                    <p>Panel de control con gráficos interactivos y exportación de reportes en PDF/Excel.</p>
-                    <div>
-                        <span class="tech-badge">React</span>
-                        <span class="tech-badge">Chart.js</span>
-                        <span class="tech-badge">Python</span>
-                        <span class="tech-badge">Pandas</span>
+                    <h3 class="project-title">Gestor de Tareas Colaborativo</h3>
+                    <p class="project-description">Aplicación para equipos con tableros Kanban, asignación de tareas y chat integrado.</p>
+                    <div class="project-meta">
+                        <div class="project-tech">
+                            <span class="tech-pill">Vue.js</span>
+                            <span class="tech-pill">Firebase</span>
+                            <span class="tech-pill">WebSockets</span>
+                        </div>
+                        <div class="project-likes">
+                            <i class="fas fa-heart"></i> 312
+                        </div>
                     </div>
-                    <a href="#">Ver detalles</a>
                 </div>
             </div>
             
+            <!-- Proyecto 5 -->
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" alt="Microservicios" class="project-image">
+                <div class="project-info">
+                    <h3 class="project-title">Arquitectura de Microservicios</h3>
+                    <p class="project-description">Sistema distribuido con Docker, Kubernetes y comunicación entre servicios.</p>
+                    <div class="project-meta">
+                        <div class="project-tech">
+                            <span class="tech-pill">Docker</span>
+                            <span class="tech-pill">Kubernetes</span>
+                            <span class="tech-pill">gRPC</span>
+                        </div>
+                        <div class="project-likes">
+                            <i class="fas fa-heart"></i> 147
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Proyecto 6 -->
+            <div class="project-card">
+                <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1115&q=80" alt="Autenticación" class="project-image">
+                <div class="project-info">
+                    <h3 class="project-title">Sistema de Autenticación</h3>
+                    <p class="project-description">Módulo seguro con OAuth 2.0, JWT, roles y permisos escalables.</p>
+                    <div class="project-meta">
+                        <div class="project-tech">
+                            <span class="tech-pill">Node.js</span>
+                            <span class="tech-pill">OAuth</span>
+                            <span class="tech-pill">JWT</span>
+                        </div>
+                        <div class="project-likes">
+                            <i class="fas fa-heart"></i> 221
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </section>
+    </div>
 
+    <!-- Footer -->
     <footer>
-        <p>Contacto: <a href="mailto:tucorreo@ejemplo.com">tucorreo@ejemplo.com</a></p>
-        <p>GitHub: <a href="https://github.com/tuusuario" target="_blank">github.com/tuusuario</a></p>
-        <p>LinkedIn: <a href="https://linkedin.com/in/tuperfil" target="_blank">linkedin.com/in/tuperfil</a></p>
+        <div class="footer-content">
+            <a href="#" class="footer-logo">devFolio.</a>
+            
+            <div class="footer-links">
+                <a href="#">Proyectos</a>
+                <a href="#">Sobre mí</a>
+                <a href="#">Habilidades</a>
+                <a href="#">Contacto</a>
+                <a href="#">Blog</a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+            
+            <p class="copyright">© 2023 [Tu Nombre]. Todos los derechos reservados.</p>
+        </div>
     </footer>
 </body>
 </html>
