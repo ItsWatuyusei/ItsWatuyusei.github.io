@@ -303,4 +303,62 @@ body {
         width: 28px;
         height: 28px;
     }
+}
+.contact-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(30, 34, 50, 0.75);
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+.contact-modal-content {
+    background: #fff;
+    border-radius: 16px;
+    max-width: 420px;
+    width: 92vw;
+    padding: 32px 18px 18px 18px;
+    box-shadow: 0 8px 32px rgba(26,35,126,0.18);
+    position: relative;
+    animation: modalIn 0.3s cubic-bezier(.4,0,.2,1);
+    min-height: 120px;
+}
+.contact-modal-close {
+    position: absolute;
+    top: 12px;
+    right: 18px;
+    font-size: 2rem;
+    color: #1a237e;
+    cursor: pointer;
+    font-weight: bold;
+    transition: color 0.2s;
+    z-index: 10;
+    background: none;
+    border: none;
+    line-height: 1;
+}
+.contact-modal-close:hover {
+    color: #00c6ae;
+}
+@keyframes modalIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+}
+@media (max-width: 600px) {
+    .contact-modal-content {
+        max-width: 98vw;
+        padding: 18px 4vw 10px 4vw;
+    }
+}
+.section-separator {
+    border: none;
+    border-top: 2px solid #e6e6e6;
+    margin: 36px 0 36px 0;
+    width: 100%;
+    opacity: 0.7;
 } 
