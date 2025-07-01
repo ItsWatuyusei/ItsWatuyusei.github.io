@@ -199,6 +199,43 @@ body {
     color: #fff;
     text-decoration: underline;
 }
+.subtitle {
+    font-size: 1.08rem;
+    color: #e0f7fa;
+    margin-bottom: 8px;
+    font-weight: 500;
+    letter-spacing: 0.2px;
+}
+.tech-stack-section {
+    text-align: center;
+    margin-bottom: 32px;
+}
+.tech-stack-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 18px;
+    margin-top: 10px;
+}
+.tech-stack-logos img {
+    width: 38px;
+    height: 38px;
+    filter: grayscale(0.2) brightness(0.95);
+    transition: filter 0.2s, transform 0.2s;
+}
+.tech-stack-logos img:hover {
+    filter: none;
+    transform: scale(1.12);
+}
+.fadein {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+}
+.fadein-visible {
+    opacity: 1;
+    transform: none;
+}
 @media (max-width: 900px) {
     .main-box {
         margin: 8px 0 0 0;
@@ -261,5 +298,9 @@ body {
     .footer {
         font-size: 0.9rem;
         padding: 12px 0 10px 0;
+    }
+    .tech-stack-logos img {
+        width: 28px;
+        height: 28px;
     }
 } 
