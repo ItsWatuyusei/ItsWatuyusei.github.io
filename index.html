@@ -5,221 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Full Stack Developer</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #1a237e;
-            --primary-light: #536dfe;
-            --accent: #00c6ae;
-            --bg: #e9ecf3;
-            --box-bg: #fff;
-            --text: #23272f;
-            --muted: #7a7a7a;
-            --border: #e6e6e6;
-            --shadow: 0 8px 32px rgba(26,35,126,0.10);
-        }
-        body {
-            font-family: 'Montserrat', Arial, sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            margin: 0;
-            padding: 0;
-        }
-        .main-box {
-            max-width: 950px;
-            margin: 48px auto 32px auto;
-            background: var(--box-bg);
-            border-radius: 22px;
-            box-shadow: var(--shadow);
-            padding: 0 0 0 0;
-            overflow: hidden;
-            border: 1.5px solid var(--border);
-        }
-        .header {
-            background: linear-gradient(120deg, var(--primary-light) 0%, var(--primary) 100%);
-            color: #fff;
-            padding: 0 0 0 0;
-            position: relative;
-        }
-        .header-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 44px 24px 32px 24px;
-        }
-        .avatar {
-            width: 110px;
-            height: 110px;
-            border-radius: 50%;
-            background: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3.2rem;
-            color: var(--primary);
-            margin-bottom: 16px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
-            border: 4px solid var(--accent);
-        }
-        .avatar img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        .name {
-            font-size: 2.1rem;
-            font-weight: 700;
-            margin: 0 0 6px 0;
-            letter-spacing: 1px;
-        }
-        .role {
-            color: #e0f7fa;
-            font-size: 1.08rem;
-            margin-bottom: 12px;
-            font-weight: 600;
-        }
-        .links {
-            margin-top: 8px;
-        }
-        .links a {
-            color: #fff;
-            text-decoration: none;
-            margin: 0 12px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            transition: color 0.2s;
-        }
-        .links a:hover {
-            color: #ffe082;
-        }
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 36px 28px 0 28px;
-        }
-        .section {
-            margin-bottom: 44px;
-        }
-        .section-title {
-            font-size: 1.35rem;
-            font-weight: 700;
-            margin-bottom: 20px;
-            color: var(--primary);
-            letter-spacing: 0.5px;
-        }
-        .skills {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 13px;
-            margin-bottom: 10px;
-        }
-        .skill {
-            background: linear-gradient(90deg, #e3f0ff 0%, #e0fff7 100%);
-            color: var(--primary);
-            border-radius: 16px;
-            padding: 7px 18px;
-            font-size: 1.01rem;
-            font-weight: 600;
-            box-shadow: 0 1px 4px rgba(26,35,126,0.04);
-            border: 1px solid #e0eaff;
-            transition: background 0.2s, color 0.2s;
-        }
-        .skill:hover {
-            background: linear-gradient(90deg, var(--primary-light) 0%, var(--accent) 100%);
-            color: #fff;
-        }
-        .projects {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-            gap: 26px;
-        }
-        .project-card {
-            background: var(--box-bg);
-            border-radius: 12px;
-            box-shadow: 0 2px 12px rgba(26,35,126,0.07);
-            border: 1px solid var(--border);
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
-            transition: box-shadow 0.2s, transform 0.2s;
-            position: relative;
-        }
-        .project-card:hover {
-            box-shadow: 0 8px 32px rgba(26,35,126,0.13);
-            transform: translateY(-5px) scale(1.018);
-        }
-        .project-image {
-            background: linear-gradient(90deg, #e3f0ff 0%, #e0fff7 100%);
-            height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.1rem;
-            color: var(--muted);
-        }
-        .project-content {
-            padding: 18px 20px 14px 20px;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-        }
-        .project-title {
-            font-size: 1.09rem;
-            font-weight: 700;
-            margin: 0 0 8px 0;
-            color: var(--primary);
-        }
-        .project-desc {
-            color: var(--muted);
-            font-size: 0.98rem;
-            margin-bottom: 12px;
-        }
-        .project-link {
-            margin-top: auto;
-            color: var(--primary-light);
-            text-decoration: none;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            transition: color 0.2s;
-        }
-        .project-link:hover {
-            color: var(--accent);
-        }
-        .footer {
-            background: linear-gradient(90deg, #23243a 0%, #1a237e 100%);
-            color: #fff;
-            text-align: center;
-            padding: 22px 0 18px 0;
-            font-size: 1rem;
-            font-weight: 500;
-            border-top: 1.5px solid var(--border);
-            border-bottom-left-radius: 22px;
-            border-bottom-right-radius: 22px;
-            letter-spacing: 0.5px;
-        }
-        .footer a {
-            color: #ffe082;
-            text-decoration: none;
-            margin: 0 8px;
-            font-weight: 600;
-        }
-        .footer a:hover {
-            color: #fff;
-            text-decoration: underline;
-        }
-        @media (max-width: 700px) {
-            .main-box {
-                margin: 16px 0 0 0;
-                border-radius: 0;
-            }
-            .container {
-                padding: 24px 6px 0 6px;
-            }
-            .header-content {
-                padding: 32px 8px 20px 8px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="main-box">
@@ -241,10 +27,8 @@
                 <div class="section-title">Skills</div>
                 <div class="skills">
                     <div class="skill">C++</div>
-                    <div class="skill">C++</div>
                     <div class="skill">E-Commerce</div>
                     <div class="skill">Flutter</div>
-                    <div class="skill">JavaScript</div>
                     <div class="skill">MySQL</div>
                     <div class="skill">.NET</div>
                     <div class="skill">Node.js</div>
@@ -259,11 +43,11 @@
                 <div class="section-title">Featured Projects</div>
                 <div class="projects">
                     <div class="project-card">
-                        <div class="project-image">📱</div>
+                        <div class="project-image">🛒</div>
                         <div class="project-content">
-                            <div class="project-title">Project Name 1</div>
-                            <div class="project-desc">Short description of the project and technologies used.</div>
-                            <a class="project-link" href="https://github.com/yourusername/project1" target="_blank">View on GitHub</a>
+                            <div class="project-title">BitelFibra</div>
+                            <div class="project-desc">E-commerce platform for fiber optic internet plans, built with WooCommerce. Features online sales, product catalog, and custom checkout for Bitel Perú.</div>
+                            <a class="project-link" href="https://bitelfibra.com.pe" target="_blank">Visit Site</a>
                         </div>
                     </div>
                     <div class="project-card">
@@ -294,7 +78,7 @@
             </div>
         </div>
         <div class="footer">
-            Copyright © 2025 ItsWatuyusei <a href="https://linktr.ee/itswatuyusei" target="_blank">Linktree</a>
+            Copyright © 2025 <a href="https://linktr.ee/itswatuyusei" target="_blank">ItsWatuyusei</a>
         </div>
     </div>
 </body>
