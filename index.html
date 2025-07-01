@@ -10,6 +10,7 @@
     <meta property="og:description" content="Portfolio of ItsWatuyusei, Full Stack Developer. Projects, skills, and contact.">
     <meta property="og:image" content="https://avatars.githubusercontent.com/u/184704658?v=4">
     <meta name="description" content="Portfolio of ItsWatuyusei, Full Stack Developer. Projects, skills, and contact.">
+    <meta name="author" content="ItsWatuyusei">
 </head>
 <body>
     <div class="main-box">
@@ -23,7 +24,7 @@
                 <div class="role">Full Stack Developer</div>
                 <div class="links">
                     <a href="https://linktr.ee/itswatuyusei" target="_blank">Linktree</a>
-                    <!-- Add more links if needed -->
+                    <a href="#" id="contact-link">Contact</a>
                 </div>
             </div>
         </div>
@@ -43,9 +44,10 @@
                     <div class="skill">Git</div>
                     <div class="skill">E-Commerce</div>
                     <div class="skill">WooCommerce</div>
-                    <div class="skill">Shopify</div>                    
+                    <div class="skill">Shopify</div>
                 </div>
             </div>
+            <hr class="section-separator" />
             <div class="section">
                 <div class="section-title">Featured Projects</div>
                 <div class="projects fadein-group">
@@ -87,6 +89,7 @@
                     </div>
                 </div>
             </div>
+            <hr class="section-separator" />
             <div class="section tech-stack-section">
                 <div class="section-title">Tech Stack</div>
                 <div class="tech-stack-logos">
@@ -104,11 +107,19 @@
                     <img src="https://cdn.worldvectorlogo.com/logos/shopify.svg" alt="Shopify" title="Shopify" style="background:#fff;border-radius:8px;padding:4px;" />
                 </div>
             </div>
+            <hr class="section-separator" />
         </div>
         <div class="footer">
             Copyright © 2025 <a href="https://linktr.ee/itswatuyusei" target="_blank">ItsWatuyusei</a>
         </div>
     </div>
+    <div id="contact-modal" class="contact-modal">
+        <div class="contact-modal-content">
+            <button class="contact-modal-close" id="contact-modal-close" aria-label="Close">&times;</button>
+            <div class="hs-form-frame" data-region="na1" data-form-id="cd6516c7-bee3-45ce-8063-4268c4421d1c" data-portal-id="49346124"></div>
+        </div>
+    </div>
+    <script src="https://js.hsforms.net/forms/embed/49346124.js" defer></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         const fadeEls = document.querySelectorAll('.fadein-group .project-card');
@@ -122,6 +133,24 @@
         fadeEls.forEach(el => {
             el.classList.add('fadein');
             observer.observe(el);
+        });
+        const contactLink = document.getElementById('contact-link');
+        const contactModal = document.getElementById('contact-modal');
+        const contactModalClose = document.getElementById('contact-modal-close');
+        contactLink.addEventListener('click', function(e) {
+            e.preventDefault();
+            contactModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        });
+        contactModalClose.addEventListener('click', function() {
+            contactModal.style.display = 'none';
+            document.body.style.overflow = '';
+        });
+        window.addEventListener('click', function(e) {
+            if (e.target === contactModal) {
+                contactModal.style.display = 'none';
+                document.body.style.overflow = '';
+            }
         });
     });
     </script>
