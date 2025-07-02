@@ -425,4 +425,111 @@ body {
         max-width: 95vw;
         padding: 12px;
     }
+}
+.avatar-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+}
+.project-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+    display: block;
+}
+.contact-btn {
+    background: var(--accent);
+    color: #fff !important;
+    padding: 8px 18px;
+    border-radius: 22px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 2px 8px rgba(0,198,174,0.08);
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+.contact-btn:hover {
+    background: #009e8e;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0,198,174,0.16);
+}
+.avatar-link {
+    display: block;
+    text-decoration: none;
+    border-radius: 50%;
+}
+.avatar-link:focus {
+    outline: 2px solid var(--accent);
+}
+.contact-icon {
+    font-size: 1.1em;
+    margin-right: 2px;
+}
+.darkmode-switch {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 20;
+}
+.darkmode-label {
+    font-size: 1.3em;
+    cursor: pointer;
+    margin-left: 6px;
+    user-select: none;
+}
+#darkmode-toggle {
+    display: none;
+}
+/* Dark mode styles */
+.dark {
+    --bg: #181a20;
+    --box-bg: #23243a;
+    --text: #f3f3f3;
+    --muted: #b0b0b0;
+    --primary: #8ab4f8;
+    --primary-light: #536dfe;
+    --accent: #00c6ae;
+    --border: #23243a;
+    --shadow: 0 8px 32px rgba(0,198,174,0.10);
+}
+.dark body {
+    background: var(--bg);
+    color: var(--text);
+}
+.dark .main-box {
+    background: var(--box-bg);
+    color: var(--text);
+    box-shadow: var(--shadow);
+}
+.dark .header, .dark .footer {
+    background: linear-gradient(120deg, #23243a 0%, #181a20 100%);
+    color: #fff;
+}
+.dark .section-separator {
+    border-top: 2px solid #23243a;
+}
+.dark .project-card {
+    background: #23243a;
+    color: var(--text);
+}
+.dark .project-title, .dark .section-title {
+    color: var(--primary);
+}
+.dark .contact-btn {
+    background: #009e8e;
+    color: #fff !important;
+}
+.dark .contact-btn:hover {
+    background: #00c6ae;
+}
+.dark .tech-stack-logos img {
+    filter: grayscale(0.2) brightness(0.8);
 } 
