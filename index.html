@@ -205,10 +205,21 @@
 
         const darkToggle = document.getElementById('darkmode-toggle');
         const root = document.documentElement;
+        function updateMoon() {
+            const darkLabel = document.querySelector('.darkmode-switch-inside .darkmode-label');
+            if (darkLabel) {
+                if (root.classList.contains('dark')) {
+                    darkLabel.textContent = '🌜';
+                } else {
+                    darkLabel.textContent = '🌙';
+                }
+            }
+        }
         if (localStorage.getItem('theme') === 'dark') {
             root.classList.add('dark');
             darkToggle.checked = true;
         }
+        updateMoon();
         darkToggle.addEventListener('change', function() {
             if (this.checked) {
                 root.classList.add('dark');
@@ -217,6 +228,7 @@
                 root.classList.remove('dark');
                 localStorage.setItem('theme', 'light');
             }
+            updateMoon();
         });
     });
     </script>
