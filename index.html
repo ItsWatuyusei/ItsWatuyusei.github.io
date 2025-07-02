@@ -115,7 +115,7 @@
     <div id="contact-modal" class="contact-modal">
         <div class="contact-modal-content">
             <button class="contact-modal-close" id="contact-modal-close" aria-label="Close">&times;</button>
-            <div class="hs-form-frame" data-region="na1" data-form-id="cd6516c7-bee3-45ce-8063-4268c4421d1c" data-portal-id="49346124"></div>
+            <div class="hs-form-frame" data-region="na1" data-form-id="16683cb4-cb65-4421-ba88-58a310b3ac2f" data-portal-id="49346124"></div>
         </div>
     </div>
     <div id="image-modal" class="image-modal">
@@ -158,7 +158,6 @@
             }
         });
 
-        // Image modal logic
         const projectTitles = document.querySelectorAll('.project-title[data-image]');
         const imageModal = document.getElementById('image-modal');
         const imageModalClose = document.getElementById('image-modal-close');
@@ -186,7 +185,6 @@
             }
         });
 
-        // Close modals with Escape key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 if (contactModal.style.display === 'flex') {
