@@ -20,7 +20,7 @@ body {
     max-width: 950px;
     margin: 48px auto 32px auto;
     background: var(--box-bg);
-    border-radius: 16px;
+    border-radius: 22px;
     box-shadow: var(--shadow);
     padding: 0 0 0 0;
     overflow: hidden;
@@ -249,6 +249,12 @@ body {
     }
 }
 @media (max-width: 600px) {
+    .main-box {
+        margin: 0 auto 0 auto;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+    }
     .container {
         padding: 10px 0 0 0;
     }
@@ -290,6 +296,7 @@ body {
     .footer {
         font-size: 0.9rem;
         padding: 12px 0 10px 0;
+        border-radius: 0;
     }
     .tech-stack-logos img {
         width: 28px;
