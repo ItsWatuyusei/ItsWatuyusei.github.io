@@ -21,8 +21,12 @@
                     <a href="/" class="avatar-link"><img src="https://avatars.githubusercontent.com/u/184704658?v=4" alt="Avatar" class="avatar-img" /></a>
                 </div>
                 <div class="name">ItsWatuyusei</div>
-                <div class="subtitle">Building digital solutions for business, community, and innovation.</div>
-                <div class="role">Full Stack Developer</div>
+                <div class="subtitle">
+                    <span class="typewriter-text" data-text="Building digital solutions for business, community, and innovation."></span>
+                </div>
+                <div class="role">
+                    <span class="typewriter-text-role" data-text="Full Stack Developer"></span>
+                </div>
                 <div class="links">
                     <a href="#" id="contact-link" class="contact-btn"><span class="contact-icon">✉️</span> Contact</a>
                 </div>
@@ -36,19 +40,23 @@
             <div class="section">
                 <div class="section-title">Skills</div>
                 <div class="skills">
+                    <div class="skill">HTML</div>
+                    <div class="skill">CSS</div>
+                    <div class="skill">JavaScript</div>
                     <div class="skill">Python</div>
                     <div class="skill">PHP</div>
                     <div class="skill">C++</div>
+                    <div class="skill">Dart</div>
                     <div class="skill">.NET</div>
                     <div class="skill">Node.js</div>
                     <div class="skill">React</div>
                     <div class="skill">Flutter</div>
                     <div class="skill">SQL</div>
-                    <div class="skill">MySQL</div>
                     <div class="skill">Git</div>
-                    <div class="skill">E-Commerce</div>
-                    <div class="skill">WooCommerce</div>
                     <div class="skill">Shopify</div>
+                    <div class="skill">WooCommerce</div>
+                    <div class="skill">PrestaShop</div>
+                    <div class="skill">WordPress</div>
                 </div>
             </div>
             <hr class="section-separator" />
@@ -132,6 +140,46 @@
     <script src="https://js.hsforms.net/forms/embed/49346124.js" defer></script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
+        const typewriterText = document.querySelector('.typewriter-text');
+        const typewriterRole = document.querySelector('.typewriter-text-role');
+        const fullText = typewriterText.getAttribute('data-text');
+        const roleText = typewriterRole.getAttribute('data-text');
+        let currentIndex = 0;
+        let roleIndex = 0;
+        
+        typewriterRole.classList.remove('typing');
+        
+        function typeWriter() {
+            if (currentIndex < fullText.length) {
+                typewriterText.textContent += fullText.charAt(currentIndex);
+                currentIndex++;
+                setTimeout(typeWriter, 80);
+            } else {
+                typewriterText.classList.remove('typing');
+                typewriterText.classList.add('completed');
+                setTimeout(() => {
+                    typewriterRole.classList.add('typing');
+                    typeWriterRole();
+                }, 500);
+            }
+        }
+        
+        function typeWriterRole() {
+            if (roleIndex < roleText.length) {
+                typewriterRole.textContent += roleText.charAt(roleIndex);
+                roleIndex++;
+                setTimeout(typeWriterRole, 60);
+            } else {
+                typewriterRole.classList.remove('typing');
+                typewriterRole.classList.add('completed');
+            }
+        }
+        
+        setTimeout(() => {
+            typewriterText.classList.add('typing');
+            typeWriter();
+        }, 500);
+        
         const fadeEls = document.querySelectorAll('.fadein-group .project-card');
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
