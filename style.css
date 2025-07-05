@@ -206,6 +206,30 @@ body {
     font-weight: 500;
     letter-spacing: 0.2px;
 }
+.typewriter-text {
+    position: relative;
+    display: inline-block;
+}
+.typewriter-text::after {
+    content: '|';
+    position: relative;
+    display: inline-block;
+    animation: blink 1s infinite;
+    color: #e0f7fa;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    margin-left: 2px;
+}
+.typewriter-text.typing::after {
+    opacity: 1;
+}
+@keyframes blink {
+    0%, 50% { opacity: 1; }
+    51%, 100% { opacity: 0; }
+}
+.typewriter-text.completed::after {
+    display: none;
+}
 .tech-stack-section {
     text-align: center;
     margin-bottom: 32px;
@@ -529,4 +553,30 @@ body {
 }
 .dark .tech-stack-logos img {
     filter: grayscale(0.2) brightness(0.8);
+}
+
+.typewriter-text-role {
+    position: relative;
+    display: inline-block;
+}
+
+.typewriter-text-role::after {
+    content: '|';
+    position: relative;
+    display: inline-block;
+    animation: blink 1s infinite;
+    color: #e0f7fa;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    margin-left: 2px;
+    visibility: hidden;
+}
+
+.typewriter-text-role.typing::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.typewriter-text-role.completed::after {
+    display: none;
 }
