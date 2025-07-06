@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Full Stack Developer</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <meta property="og:title" content="Portfolio | Full Stack Developer">
     <meta property="og:description" content="Portfolio of ItsWatuyusei, Full Stack Developer. Projects, skills and contact.">
@@ -14,6 +15,8 @@
     <meta name="keywords" content="Full Stack, Developer, Portfolio, Python, React, WooCommerce, CMS, ECommerce, ItsWatuyusei">
 </head>
 <body>
+    <div class="progress-bar" id="progress-bar"></div>
+    
     <div class="main-box">
         <div class="header">
             <div class="header-content">
@@ -28,11 +31,11 @@
                     <span class="typewriter-text-role" data-text="Full Stack Developer"></span>
                 </div>
                 <div class="links">
-                    <a href="#" id="contact-link" class="contact-btn"><span class="contact-icon">✉️</span> Contact</a>
+                    <a href="#" id="contact-link" class="contact-btn"><i class="fas fa-envelope contact-icon"></i> Contact</a>
                 </div>
                 <div class="darkmode-switch">
                     <input type="checkbox" id="darkmode-toggle" aria-label="Toggle dark mode">
-                    <label for="darkmode-toggle" class="darkmode-label">🌙</label>
+                    <label for="darkmode-toggle" class="darkmode-label"><i class="fas fa-moon"></i></label>
                 </div>
             </div>
         </div>
@@ -124,15 +127,19 @@
             Copyright © 2025 <a href="https://linktr.ee/itswatuyusei" target="_blank">ItsWatuyusei</a>
         </div>
     </div>
+    
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
     <div id="contact-modal" class="contact-modal">
         <div class="contact-modal-content">
-            <button class="contact-modal-close" id="contact-modal-close" aria-label="Close">&times;</button>
+            <button class="contact-modal-close" id="contact-modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
             <div class="hs-form-frame" data-region="na1" data-form-id="16683cb4-cb65-4421-ba88-58a310b3ac2f" data-portal-id="49346124"></div>
         </div>
     </div>
     <div id="image-modal" class="image-modal">
         <div class="image-modal-content">
-            <button class="image-modal-close" id="image-modal-close" aria-label="Close">&times;</button>
+            <button class="image-modal-close" id="image-modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
             <img id="modal-image" src="" alt="Project Screenshot" />
         </div>
     </div>
@@ -177,7 +184,7 @@
         setTimeout(() => {
             typewriterText.classList.add('typing');
             typeWriter();
-        }, 500);
+        }, 2000);
         
         const fadeEls = document.querySelectorAll('.fadein-group .project-card');
         const observer = new IntersectionObserver((entries) => {
@@ -253,12 +260,12 @@
         const darkToggle = document.getElementById('darkmode-toggle');
         const root = document.documentElement;
         function updateMoon() {
-            const darkLabel = document.querySelector('.darkmode-switch-inside .darkmode-label');
+            const darkLabel = document.querySelector('.darkmode-label i');
             if (darkLabel) {
                 if (root.classList.contains('dark')) {
-                    darkLabel.textContent = '🌜';
+                    darkLabel.className = 'fas fa-sun';
                 } else {
-                    darkLabel.textContent = '🌙';
+                    darkLabel.className = 'fas fa-moon';
                 }
             }
         }
@@ -276,6 +283,67 @@
                 localStorage.setItem('theme', 'light');
             }
             updateMoon();
+        });
+
+        const progressBar = document.getElementById('progress-bar');
+        window.addEventListener('scroll', function() {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercent = (scrollTop / scrollHeight) * 100;
+            progressBar.style.width = scrollPercent + '%';
+        });
+
+        const backToTopBtn = document.getElementById('back-to-top');
+        window.addEventListener('scroll', function() {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Tab') {
+                document.body.classList.add('keyboard-navigation');
+            }
+            
+            if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                const projectCards = document.querySelectorAll('.project-card');
+                const currentFocus = document.activeElement;
+                let currentIndex = -1;
+                
+                projectCards.forEach((card, index) => {
+                    if (card.contains(currentFocus)) {
+                        currentIndex = index;
+                    }
+                });
+                
+                if (currentIndex !== -1) {
+                    let nextIndex;
+                    if (e.key === 'ArrowRight') {
+                        nextIndex = (currentIndex + 1) % projectCards.length;
+                    } else {
+                        nextIndex = (currentIndex - 1 + projectCards.length) % projectCards.length;
+                    }
+                    
+                    const nextCard = projectCards[nextIndex];
+                    const link = nextCard.querySelector('.project-link');
+                    if (link) {
+                        link.focus();
+                    }
+                }
+            }
+        });
+
+        document.addEventListener('mousedown', function() {
+            document.body.classList.remove('keyboard-navigation');
         });
     });
     </script>
