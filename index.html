@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portfolio | Full Stack Developer</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <meta property="og:title" content="ItsWatuyusei | Full Stack Developer Portfolio">
     <meta property="og:description" content="Full Stack Developer specializing in Python, React, WooCommerce, and modern web technologies. View my projects and get in touch for collaboration.">
-    <meta property="og:image" content="https://avatars.githubusercontent.com/u/184704658?v=4">
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/184704658?v=4&size=200">
+    <meta property="og:image:width" content="200">
+    <meta property="og:image:height" content="200">
     <meta property="og:url" content="https://itswatuyusei.com">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="ItsWatuyusei Portfolio">
@@ -17,7 +19,7 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="ItsWatuyusei | Full Stack Developer Portfolio">
     <meta name="twitter:description" content="Full Stack Developer specializing in Python, React, WooCommerce, and modern web technologies.">
-    <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/184704658?v=4">
+    <meta name="twitter:image" content="https://avatars.githubusercontent.com/u/184704658?v=4&size=200">
     <meta name="twitter:creator" content="@itswatuyusei">
     
     <meta name="description" content="Full Stack Developer specializing in Python, React, WooCommerce, and modern web technologies. View my projects and get in touch for collaboration.">
@@ -80,6 +82,32 @@
 <body id="top">
     <div class="progress-bar" id="progress-bar"></div>
     
+    <div class="quick-search-modal" id="quick-search-modal">
+        <div class="quick-search-content">
+            <div class="quick-search-header">
+                <i class="fas fa-search"></i>
+                <input type="text" id="quick-search-input" placeholder="Search portfolio... (Ctrl+K)" autocomplete="off">
+                <button class="quick-search-close" id="quick-search-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="quick-search-results" id="quick-search-results">
+                <div class="search-category">
+                    <h4>Sections</h4>
+                    <div class="search-items" id="sections-results"></div>
+                </div>
+                <div class="search-category">
+                    <h4>Projects</h4>
+                    <div class="search-items" id="projects-results"></div>
+                </div>
+                <div class="search-category">
+                    <h4>Skills</h4>
+                    <div class="search-items" id="skills-results"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <nav class="sticky-nav" id="sticky-nav">
         <div class="nav-container">
             <div class="nav-logo">
@@ -88,16 +116,23 @@
                     <span class="nav-name">ItsWatuyusei</span>
                 </a>
             </div>
-            <div class="nav-links">
+            <div class="nav-links" id="nav-links">
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="#projects" class="nav-link">Projects</a>
                 <a href="#tech-stack" class="nav-link">Tech Stack</a>
                 <a href="https://linktr.ee/itswatuyusei" target="_blank" class="nav-link nav-links-btn">Links</a>
                 <a href="#" id="nav-contact-link" class="nav-link nav-contact-btn">Contact</a>
             </div>
-            <div class="nav-darkmode">
-                <input type="checkbox" id="nav-darkmode-toggle" aria-label="Toggle dark mode">
-                <label for="nav-darkmode-toggle" class="nav-darkmode-label"><i class="fas fa-moon"></i></label>
+            <div class="nav-controls">
+                <div class="nav-darkmode">
+                    <input type="checkbox" id="nav-darkmode-toggle" aria-label="Toggle dark mode">
+                    <label for="nav-darkmode-toggle" class="nav-darkmode-label"><i class="fas fa-moon"></i></label>
+                </div>
+                <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
             </div>
         </div>
     </nav>
@@ -132,46 +167,72 @@
                     <div class="skill">HTML</div>
                     <div class="skill">CSS</div>
                     <div class="skill">JavaScript</div>
+                    <div class="skill">React</div>
+                    <div class="skill">Node.js</div>
                     <div class="skill">Python</div>
                     <div class="skill">PHP</div>
                     <div class="skill">C++</div>
                     <div class="skill">.NET</div>
-                    <div class="skill">Node.js</div>
-                    <div class="skill">React</div>
                     <div class="skill">Flutter</div>
                     <div class="skill">SQL</div>
                     <div class="skill">Git</div>
-                    <div class="skill">Shopify</div>
-                    <div class="skill">WooCommerce</div>
-                    <div class="skill">PrestaShop</div>
                     <div class="skill">WordPress</div>
+                    <div class="skill">WooCommerce</div>
+                    <div class="skill">Shopify</div>
+                    <div class="skill">PrestaShop</div>
                 </div>
             </div>
             <hr class="section-separator" />
             <div class="section" id="projects">
                 <div class="section-title">Featured Projects</div>
+                <div class="project-controls">
+                    <div class="search-container">
+                        <input type="text" id="project-search" placeholder="Search projects..." class="project-search">
+                        <i class="fas fa-search search-icon"></i>
+                    </div>
+                    <div class="filter-container">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="python">Python</button>
+                        <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
+                        <button class="filter-btn" data-filter="javascript">JavaScript</button>
+                        <button class="filter-btn" data-filter="html">HTML</button>
+                    </div>
+                </div>
                 <div class="projects fadein-group">
-                    <div class="project-card">
+                    <div class="project-card" data-technologies="html,php,woocommerce,wordpress,css,ecommerce">
                         <div class="project-image">
                             <img src="https://github.com/ItsWatuyusei/ItsWatuyusei.github.io/blob/main/bitelfibra.jpeg?raw=true" alt="BitelFibra Screenshot" class="project-img" loading="lazy" />
                         </div>
                         <div class="project-content">
                             <div class="project-title" data-image="https://github.com/ItsWatuyusei/ItsWatuyusei.github.io/blob/main/bitelfibra.jpeg?raw=true">BitelFibra</div>
-                            <div class="project-desc">E-commerce platform for fiber optic internet plans, built with WooCommerce. Features online sales, product catalog, and custom checkout for Bitel Perú.</div>
+                            <div class="project-desc">E-commerce platform for fiber optic internet plans. Online sales, product catalog, payment integration.</div>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">PHP</span>
+                                <span class="tech-tag">WooCommerce</span>
+                                <span class="tech-tag">WordPress</span>
+                                <span class="tech-tag">CSS</span>
+                            </div>
                             <a class="project-link" href="https://BitelFibra.com.pe" target="_blank">Visit Site</a>
                         </div>
                     </div>
-                    <div class="project-card">
+                    <div class="project-card" data-technologies="css,html,php,smf">
                         <div class="project-image">
                             <img src="https://github.com/ItsWatuyusei/ItsWatuyusei.github.io/blob/main/forum.itswatuyusei.jpeg?raw=true" alt="ItsWatuyusei Forum Screenshot" class="project-img" loading="lazy" />
                         </div>
                         <div class="project-content">
                             <div class="project-title" data-image="https://github.com/ItsWatuyusei/ItsWatuyusei.github.io/blob/main/forum.itswatuyusei.jpeg?raw=true">ItsWatuyusei</div>
-                            <div class="project-desc">Programming community and forum built with SMF. A space for discussions about technology, programming, gaming, and more.</div>
+                            <div class="project-desc">Programming community and forum. User registration, discussion boards, file sharing.</div>
+                            <div class="project-tech">
+                                <span class="tech-tag">CSS</span>
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">PHP</span>
+                                <span class="tech-tag">SMF</span>
+                            </div>
                             <a class="project-link" href="https://Forum.ItsWatuyusei.com" target="_blank">Visit Site</a>
                         </div>
                     </div>
-                    <div class="project-card">
+                    <div class="project-card" data-technologies="python,javascript">
                         <div class="project-image">🌐</div>
                         <div class="project-content">
                             <div class="project-title" data-image="https://via.placeholder.com/400x280?text=Project+3">Project Name 3</div>
@@ -179,7 +240,7 @@
                             <a class="project-link" href="#" target="_blank">View on..</a>
                         </div>
                     </div>
-                    <div class="project-card">
+                    <div class="project-card" data-technologies="python">
                         <div class="project-image">🗄️</div>
                         <div class="project-content">
                             <div class="project-title" data-image="https://via.placeholder.com/400x280?text=Project+4">Project Name 4</div>
@@ -193,16 +254,19 @@
             <div class="section tech-stack-section" id="tech-stack">
                 <div class="section-title">Tech Stack</div>
                 <div class="tech-stack-logos">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML" title="HTML" loading="lazy" />
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS" title="CSS" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript" title="JavaScript" loading="lazy" />
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" title="React" loading="lazy" />
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" title="Node.js" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" title="Python" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" title="PHP" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++" title="C++" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg" alt=".NET" title=".NET" loading="lazy" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js" title="Node.js" loading="lazy" />
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React" title="React" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="Flutter" title="Flutter" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="SQL" title="SQL" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git" title="Git" loading="lazy" />
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg" alt="WordPress" title="WordPress" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/woocommerce/woocommerce-original.svg" alt="WooCommerce" title="WooCommerce" loading="lazy" />
                     <img src="https://cdn.worldvectorlogo.com/logos/shopify.svg" alt="Shopify" title="Shopify" loading="lazy" />
                 </div>
@@ -612,6 +676,141 @@
             logo.style.transform = 'scale(0.8) rotate(-10deg)';
             logo.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
             techStackObserver.observe(logo);
+        });
+
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const mobileNavLinks = document.getElementById('nav-links');
+        
+        hamburgerMenu.addEventListener('click', function() {
+            this.classList.toggle('active');
+            mobileNavLinks.classList.toggle('active');
+        });
+
+        const projectSearch = document.getElementById('project-search');
+        const projectCards = document.querySelectorAll('.project-card');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        
+        projectSearch.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            projectCards.forEach(card => {
+                const title = card.querySelector('.project-title').textContent.toLowerCase();
+                const desc = card.querySelector('.project-desc').textContent.toLowerCase();
+                const tech = card.querySelector('.project-tech').textContent.toLowerCase();
+                
+                const matches = title.includes(searchTerm) || desc.includes(searchTerm) || tech.includes(searchTerm);
+                card.style.display = matches ? 'block' : 'none';
+            });
+        });
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const filter = this.getAttribute('data-filter');
+                
+                filterBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                projectCards.forEach(card => {
+                    const technologies = card.getAttribute('data-technologies');
+                    
+                    if (filter === 'all' || technologies.includes(filter)) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        const quickSearchModal = document.getElementById('quick-search-modal');
+        const quickSearchInput = document.getElementById('quick-search-input');
+        const quickSearchClose = document.getElementById('quick-search-close');
+        const sectionsResults = document.getElementById('sections-results');
+        const projectsResults = document.getElementById('projects-results');
+        const skillsResults = document.getElementById('skills-results');
+
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                quickSearchModal.style.display = 'flex';
+                quickSearchInput.focus();
+            }
+            
+            if (e.key === 'Escape' && quickSearchModal.style.display === 'flex') {
+                quickSearchModal.style.display = 'none';
+            }
+        });
+
+        quickSearchClose.addEventListener('click', function() {
+            quickSearchModal.style.display = 'none';
+        });
+
+        quickSearchModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.style.display = 'none';
+            }
+        });
+
+        quickSearchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            
+            if (searchTerm.length < 2) {
+                sectionsResults.innerHTML = '';
+                projectsResults.innerHTML = '';
+                skillsResults.innerHTML = '';
+                return;
+            }
+
+            const sections = [
+                { title: 'Skills', desc: 'View my technical skills', href: '#skills' },
+                { title: 'Projects', desc: 'Browse my projects', href: '#projects' },
+                { title: 'Tech Stack', desc: 'See my technology stack', href: '#tech-stack' }
+            ];
+
+            const projects = Array.from(projectCards).map(card => ({
+                title: card.querySelector('.project-title').textContent,
+                desc: card.querySelector('.project-desc').textContent,
+                href: '#projects'
+            }));
+
+            const skills = Array.from(document.querySelectorAll('.skill')).map(skill => ({
+                title: skill.textContent,
+                desc: 'Technical skill',
+                href: '#skills'
+            }));
+
+            const filteredSections = sections.filter(s => 
+                s.title.toLowerCase().includes(searchTerm) || s.desc.toLowerCase().includes(searchTerm)
+            );
+
+            const filteredProjects = projects.filter(p => 
+                p.title.toLowerCase().includes(searchTerm) || p.desc.toLowerCase().includes(searchTerm)
+            );
+
+            const filteredSkills = skills.filter(s => 
+                s.title.toLowerCase().includes(searchTerm)
+            );
+
+            sectionsResults.innerHTML = filteredSections.map(s => `
+                <div class="search-item" onclick="document.querySelector('${s.href}').scrollIntoView({behavior: 'smooth'}); quickSearchModal.style.display='none';">
+                    <div class="search-item-title">${s.title}</div>
+                    <div class="search-item-desc">${s.desc}</div>
+                </div>
+            `).join('');
+
+            projectsResults.innerHTML = filteredProjects.map(p => `
+                <div class="search-item" onclick="document.querySelector('${p.href}').scrollIntoView({behavior: 'smooth'}); quickSearchModal.style.display='none';">
+                    <div class="search-item-title">${p.title}</div>
+                    <div class="search-item-desc">${p.desc}</div>
+                </div>
+            `).join('');
+
+            skillsResults.innerHTML = filteredSkills.map(s => `
+                <div class="search-item" onclick="document.querySelector('${s.href}').scrollIntoView({behavior: 'smooth'}); quickSearchModal.style.display='none';">
+                    <div class="search-item-title">${s.title}</div>
+                    <div class="search-item-desc">${s.desc}</div>
+                </div>
+            `).join('');
         });
     });
     </script>
