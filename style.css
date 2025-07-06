@@ -269,28 +269,12 @@ body {
     font-weight: 700;
     letter-spacing: 0.5px;
     transition: all 0.3s ease;
-    position: relative;
     display: inline-block;
-}
-
-.project-link::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--accent);
-    transition: width 0.3s ease;
 }
 
 .project-link:hover {
     color: var(--accent);
     transform: translateX(5px);
-}
-
-.project-link:hover::after {
-    width: 100%;
 }
 .footer {
     background: linear-gradient(90deg, #23243a 0%, #1a237e 100%);
