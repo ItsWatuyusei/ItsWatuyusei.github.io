@@ -129,11 +129,13 @@ body {
 }
 .links {
     margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 .links a {
     color: #fff;
     text-decoration: none;
-    margin: 0 12px;
     font-weight: 600;
     letter-spacing: 0.5px;
     transition: color 0.2s;
@@ -607,6 +609,35 @@ body {
     box-shadow: 0 4px 16px rgba(0,198,174,0.2);
     transform: translateY(-1px);
 }
+
+.links-btn {
+    background: #ff6b35;
+    color: #fff !important;
+    padding: 8px 18px;
+    border-radius: 22px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 2px 8px rgba(255,107,53,0.08);
+    transition: all 0.3s ease;
+    border: none;
+    outline: none;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.links-btn:hover {
+    background: #e55a2b;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(255,107,53,0.2);
+    transform: translateY(-1px);
+}
+
+.links-icon {
+    font-size: 1.1em;
+    margin-right: 2px;
+}
 .avatar-link {
     display: block;
     text-decoration: none;
@@ -674,6 +705,15 @@ body {
 }
 .dark .contact-btn:hover {
     background: #00c6ae;
+}
+
+.dark .links-btn {
+    background: #ff6b35;
+    color: #fff !important;
+}
+
+.dark .links-btn:hover {
+    background: #e55a2b;
 }
 .dark .tech-stack-logos img {
     filter: grayscale(0.2) brightness(0.8);
