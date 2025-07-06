@@ -32,6 +32,7 @@
                 </div>
                 <div class="links">
                     <a href="#" id="contact-link" class="contact-btn"><i class="fas fa-envelope contact-icon"></i> Contact</a>
+                    <a href="https://linktr.ee/itswatuyusei" target="_blank" class="links-btn"><i class="fas fa-link links-icon"></i> Links</a>
                 </div>
                 <div class="darkmode-switch">
                     <input type="checkbox" id="darkmode-toggle" aria-label="Toggle dark mode">
@@ -286,12 +287,33 @@
         });
 
         const progressBar = document.getElementById('progress-bar');
-        window.addEventListener('scroll', function() {
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrollPercent = (scrollTop / scrollHeight) * 100;
-            progressBar.style.width = scrollPercent + '%';
-        });
+        
+        function updateProgressBar() {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+            
+            const documentHeight = Math.max(
+                document.body.scrollHeight,
+                document.body.offsetHeight,
+                document.documentElement.clientHeight,
+                document.documentElement.scrollHeight,
+                document.documentElement.offsetHeight
+            );
+            
+            const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+            
+            const scrollableHeight = documentHeight - windowHeight;
+            const scrollPercent = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
+            
+            const clampedPercent = Math.min(Math.max(scrollPercent, 0), 100);
+            
+            progressBar.style.width = clampedPercent + '%';
+        }
+        
+        window.addEventListener('scroll', updateProgressBar, { passive: true });
+        
+        window.addEventListener('resize', updateProgressBar, { passive: true });
+        
+        updateProgressBar();
 
         const backToTopBtn = document.getElementById('back-to-top');
         window.addEventListener('scroll', function() {
