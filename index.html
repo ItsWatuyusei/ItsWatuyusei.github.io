@@ -199,7 +199,7 @@
                         <button class="filter-btn" data-filter="cms">CMS</button>
                     </div>
                 </div>
-                <div class="projects fadein-group">
+                <div class="projects fadein-group" id="projects-container">
                     <div class="project-card" data-technologies="html,php,woocommerce,wordpress,css,ecommerce,cms">
                         <div class="project-image">
                             <img src="https://github.com/ItsWatuyusei/ItsWatuyusei.github.io/blob/main/bitelfibra.jpeg?raw=true" alt="BitelFibra Screenshot" class="project-img" loading="lazy" />
@@ -217,7 +217,7 @@
                             <a class="project-link" href="https://BitelFibra.com.pe" target="_blank">Visit Site</a>
                         </div>
                     </div>
-                    <div class="project-card" data-technologies="css,html,php,smf">
+                    <div class="project-card" data-technologies="css,html,php,smf,cms">
                         <div class="project-image">
                             <img src="https://github.com/ItsWatuyusei/ItsWatuyusei.github.io/blob/main/forum.itswatuyusei.jpeg?raw=true" alt="ItsWatuyusei Forum Screenshot" class="project-img" loading="lazy" />
                         </div>
@@ -233,7 +233,7 @@
                             <a class="project-link" href="https://Forum.ItsWatuyusei.com" target="_blank">Visit Site</a>
                         </div>
                     </div>
-                    <div class="project-card" data-technologies="python,javascript">
+                    <div class="project-card" data-technologies="">
                         <div class="project-image">🌐</div>
                         <div class="project-content">
                             <div class="project-title" data-image="https://via.placeholder.com/400x280?text=Project+3">Project Name 3</div>
@@ -241,7 +241,7 @@
                             <a class="project-link" href="#" target="_blank">View on..</a>
                         </div>
                     </div>
-                    <div class="project-card" data-technologies="python">
+                    <div class="project-card" data-technologies="">
                         <div class="project-image">🗄️</div>
                         <div class="project-content">
                             <div class="project-title" data-image="https://via.placeholder.com/400x280?text=Project+4">Project Name 4</div>
@@ -693,6 +693,7 @@
         
         projectSearch.addEventListener('input', function() {
             const searchTerm = this.value.toLowerCase();
+            let visibleProjects = 0;
             
             projectCards.forEach(card => {
                 const title = card.querySelector('.project-title').textContent.toLowerCase();
@@ -701,7 +702,30 @@
                 
                 const matches = title.includes(searchTerm) || desc.includes(searchTerm) || tech.includes(searchTerm);
                 card.style.display = matches ? 'block' : 'none';
+                if (matches) visibleProjects++;
             });
+            
+            const projectsContainer = document.getElementById('projects-container');
+            let noProjectsMessage = projectsContainer.querySelector('.no-projects-message');
+            
+            if (visibleProjects === 0 && searchTerm.length > 0) {
+                if (!noProjectsMessage) {
+                    noProjectsMessage = document.createElement('div');
+                    noProjectsMessage.className = 'no-projects-message';
+                    noProjectsMessage.innerHTML = `
+                        <i class="fas fa-search"></i>
+                        <h3>No Projects Found</h3>
+                        <p>No projects match your search criteria.</p>
+                        <div class="filter-suggestion">Try different keywords or browse all projects.</div>
+                    `;
+                    projectsContainer.appendChild(noProjectsMessage);
+                }
+                noProjectsMessage.style.display = 'block';
+            } else {
+                if (noProjectsMessage) {
+                    noProjectsMessage.style.display = 'none';
+                }
+            }
         });
 
         filterBtns.forEach(btn => {
@@ -711,17 +735,43 @@
                 filterBtns.forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
                 
+                let visibleProjects = 0;
+                
                 projectCards.forEach(card => {
                     const technologies = card.getAttribute('data-technologies');
                     
                     if (filter === 'all') {
                         card.style.display = 'block';
+                        visibleProjects++;
                     } else if (technologies && technologies.includes(filter)) {
                         card.style.display = 'block';
+                        visibleProjects++;
                     } else {
                         card.style.display = 'none';
                     }
                 });
+                
+                const projectsContainer = document.getElementById('projects-container');
+                let noProjectsMessage = projectsContainer.querySelector('.no-projects-message');
+                
+                if (visibleProjects === 0) {
+                    if (!noProjectsMessage) {
+                        noProjectsMessage = document.createElement('div');
+                        noProjectsMessage.className = 'no-projects-message';
+                        noProjectsMessage.innerHTML = `
+                            <i class="fas fa-search"></i>
+                            <h3>No Projects Available</h3>
+                            <p>No projects found with the selected technology filter.</p>
+                            <div class="filter-suggestion">Try selecting a different filter or browse all projects.</div>
+                        `;
+                        projectsContainer.appendChild(noProjectsMessage);
+                    }
+                    noProjectsMessage.style.display = 'block';
+                } else {
+                    if (noProjectsMessage) {
+                        noProjectsMessage.style.display = 'none';
+                    }
+                }
             });
         });
 
