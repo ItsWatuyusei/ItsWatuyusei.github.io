@@ -754,10 +754,11 @@ body {
 
 .project-content {
     padding: 18px 20px 14px 20px;
-    flex: 1;
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    min-height: 220px;
 }
 
 .project-title {
@@ -790,11 +791,53 @@ body {
     display: block;
     width: 100%;
     text-align: left;
+    padding: 8px 0 0 0;
 }
 
 .project-link:hover {
     color: var(--accent);
     transform: translateX(5px);
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin: 32px 0 0 0;
+}
+
+.pagination-btn {
+    background: #f0f6ff;
+    color: #1a233e;
+    border: none;
+    border-radius: 8px;
+    padding: 1px 8px;
+    font-size: 0.89rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.04);
+    margin: 0;
+    display: inline-block;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    outline: none;
+    height: 22px;
+    line-height: 16px;
+}
+
+.pagination-btn.active, .pagination-btn:focus {
+    background: #b3d1ff;
+    color: #fff;
+    box-shadow: 0 4px 12px 0 rgba(79,140,255,0.13);
+    transform: translateY(-1px) scale(1.04);
+}
+
+.pagination-btn:hover:not(.active) {
+    background: #e0eaff;
+    color: #1a233e;
+    box-shadow: 0 2px 8px 0 rgba(79,140,255,0.10);
+    transform: translateY(-1px) scale(1.03);
 }
 
 .footer {
@@ -978,8 +1021,8 @@ body {
         border-radius: 8px;
     }
     
-    .hamburger-menu {
-        display: flex;
+
+    .hamburger-menu {        display: flex;
     }
     
     .project-controls {
