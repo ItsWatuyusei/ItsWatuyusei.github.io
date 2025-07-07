@@ -484,4 +484,44 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+    const projectsContainer = document.getElementById('projects-container');
+    const paginationContainer = document.getElementById('projects-pagination');
+    let allProjectCards = Array.from(document.querySelectorAll('.project-card'));
+    let currentPage = 1;
+    const projectsPerPage = 6;
+
+    function renderProjectsPage(page) {
+        const totalProjects = allProjectCards.length;
+        const totalPages = Math.ceil(totalProjects / projectsPerPage);
+        allProjectCards.forEach(card => card.style.display = 'none');
+        const start = (page - 1) * projectsPerPage;
+        const end = start + projectsPerPage;
+        allProjectCards.slice(start, end).forEach(card => card.style.display = 'block');
+        if (totalProjects > projectsPerPage) {
+            let pagHtml = '';
+            for (let i = 1; i <= totalPages; i++) {
+                pagHtml += `<button class="pagination-btn${i === page ? ' active' : ''}" data-page="${i}">${i}</button>`;
+            }
+            paginationContainer.innerHTML = pagHtml;
+            paginationContainer.style.display = '';
+            Array.from(paginationContainer.querySelectorAll('.pagination-btn')).forEach(btn => {
+                btn.onclick = function(e) {
+                    e.preventDefault();
+                    currentPage = parseInt(this.getAttribute('data-page'));
+                    renderProjectsPage(currentPage);
+                };
+            });
+        } else {
+            paginationContainer.innerHTML = '';
+            paginationContainer.style.display = 'none';
+        }
+    }
+    renderProjectsPage(currentPage);
+    function updateProjectsPagination() {
+        allProjectCards = Array.from(document.querySelectorAll('.project-card')).filter(card => card.style.display !== 'none');
+        currentPage = 1;
+        renderProjectsPage(currentPage);
+    }
+    projectSearch.addEventListener('input', updateProjectsPagination);
+    filterBtns.forEach(btn => btn.addEventListener('click', updateProjectsPagination));
 }); 
