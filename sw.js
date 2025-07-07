@@ -1,4 +1,4 @@
-const CACHE_NAME = 'itswatuyusei-portfolio-v1';
+const CACHE_NAME = 'itswatuyusei-portfolio';
 const urlsToCache = [
     '/',
     '/style.css',
