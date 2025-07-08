@@ -78,18 +78,60 @@ document.addEventListener('DOMContentLoaded', function() {
             document.body.style.overflow = '';
         }
     });
-    const projectTitles = document.querySelectorAll('.project-title[data-image]');
+    const projectTitles = document.querySelectorAll('.project-title[data-images]');
     const imageModal = document.getElementById('image-modal');
     const imageModalClose = document.getElementById('image-modal-close');
     const modalImage = document.getElementById('modal-image');
+    const galleryPrev = document.getElementById('gallery-prev');
+    const galleryNext = document.getElementById('gallery-next');
+    let galleryImages = [];
+    let galleryIndex = 0;
+    function showGalleryImage(idx, animate = true) {
+        if (!galleryImages.length) return;
+        galleryIndex = ((idx % galleryImages.length) + galleryImages.length) % galleryImages.length;
+        if (animate) {
+            modalImage.classList.remove('fadein-img');
+            void modalImage.offsetWidth;
+            modalImage.classList.add('fadein-img');
+        }
+        modalImage.src = galleryImages[galleryIndex];
+        const showNav = galleryImages.length > 1;
+        galleryPrev.style.display = showNav ? 'inline-block' : 'none';
+        galleryNext.style.display = showNav ? 'inline-block' : 'none';
+    }
     projectTitles.forEach(title => {
         title.style.cursor = 'pointer';
         title.addEventListener('click', function() {
-            const imageSrc = this.getAttribute('data-image');
-            modalImage.src = imageSrc;
+            try {
+                galleryImages = JSON.parse(this.getAttribute('data-images'));
+            } catch {
+                galleryImages = [this.getAttribute('data-image')];
+            }
+            galleryIndex = 0;
             imageModal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
+            showGalleryImage(0, false);
         });
+    });
+    galleryPrev.addEventListener('mousedown', e => { e.preventDefault(); e.stopPropagation(); });
+    galleryNext.addEventListener('mousedown', e => { e.preventDefault(); e.stopPropagation(); });
+    galleryPrev.addEventListener('click', e => {
+        e.preventDefault(); e.stopPropagation();
+        if (galleryImages.length > 1) showGalleryImage(galleryIndex - 1, true);
+    });
+    galleryNext.addEventListener('click', e => {
+        e.preventDefault(); e.stopPropagation();
+        if (galleryImages.length > 1) showGalleryImage(galleryIndex + 1, true);
+    });
+    imageModal.addEventListener('keydown', function(e) {
+        if (e.key === 'ArrowLeft') {
+            showGalleryImage(galleryIndex - 1);
+        } else if (e.key === 'ArrowRight') {
+            showGalleryImage(galleryIndex + 1);
+        }
+    });
+    imageModal.addEventListener('shown', function() {
+        modalImage.focus();
     });
     imageModalClose.addEventListener('click', function() {
         imageModal.style.display = 'none';
@@ -314,18 +356,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { threshold: 0.1 });
     const techLogos = document.querySelectorAll('.tech-stack-logos img');
     techLogos.forEach((logo, index) => {
-        // Animación de aparición
         logo.style.opacity = '0';
         logo.style.transform = 'scale(0.8) rotate(-10deg)';
         logo.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
         techStackObserver.observe(logo);
-        // Efecto de rebote al hacer clic
         logo.addEventListener('click', function() {
             logo.classList.remove('clicked');
             void logo.offsetWidth;
             logo.classList.add('clicked');
         });
-        // Accesibilidad: Enter/Espacio
         logo.addEventListener('keydown', function(e) {
             if (e.key === 'Enter' || e.key === ' ') {
                 logo.classList.remove('clicked');
