@@ -1649,3 +1649,115 @@ body {
         line-height: 14px;
     }
 }
+
+.fadein-img {
+    opacity: 0;
+    animation: fadein-img-anim 0.4s forwards;
+}
+@keyframes fadein-img-anim {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+.gallery-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 8px 0 0 0;
+    position: relative;
+}
+.gallery-prev, .gallery-next {
+    position: relative;
+    z-index: 2;
+    min-width: 44px;
+    min-height: 44px;
+    height: 56px;
+    width: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    background: rgba(255,255,255,0.85);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    border: none;
+    margin: 0 12px;
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+    user-select: none;
+}
+.gallery-prev:active, .gallery-next:active {
+    background: var(--primary-light);
+    color: #fff;
+}
+#modal-image {
+    max-width: 70vw;
+    max-height: 55vh;
+    border-radius: 10px;
+    margin: 0 8px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+    background: #fff;
+    transition: box-shadow 0.2s;
+    display: block;
+}
+#modal-image:focus {
+    outline: 2px solid var(--primary);
+}
+@media (max-width: 900px) {
+    #modal-image {
+        max-width: 90vw;
+        max-height: 35vh;
+    }
+    .gallery-prev, .gallery-next {
+        min-width: 36px;
+        min-height: 36px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.3rem;
+        margin: 0 4px;
+    }
+}
+
+/* Botón de galería igual a filtro */
+.portfolio-btn {
+    background: #f0f6ff;
+    color: #1a233e;
+    border: none;
+    border-radius: 8px;
+    padding: 1px 8px;
+    font-size: 0.89rem;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    box-shadow: 0 1px 4px 0 rgba(0,0,0,0.04);
+    margin: 0 8px;
+    display: inline-block;
+    cursor: pointer;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    outline: none;
+    height: 22px;
+    line-height: 16px;
+}
+.portfolio-btn.active, .portfolio-btn:focus {
+    background: #b3d1ff;
+    color: #fff;
+    box-shadow: 0 4px 12px 0 rgba(79,140,255,0.13);
+    transform: translateY(-1px) scale(1.04);
+}
+.portfolio-btn:hover:not(.active) {
+    background: #e0eaff;
+    color: #1a233e;
+    box-shadow: 0 2px 8px 0 rgba(79,140,255,0.10);
+    transform: translateY(-1px) scale(1.03);
+}
+
+@media (max-width: 900px) {
+    .portfolio-btn {
+        min-width: 36px;
+        min-height: 36px;
+        height: 36px;
+        font-size: 1rem;
+        margin: 0 4px;
+        padding: 4px 10px;
+    }
+}
