@@ -314,10 +314,28 @@ document.addEventListener('DOMContentLoaded', function() {
     }, { threshold: 0.1 });
     const techLogos = document.querySelectorAll('.tech-stack-logos img');
     techLogos.forEach((logo, index) => {
+        // Animación de aparición
         logo.style.opacity = '0';
         logo.style.transform = 'scale(0.8) rotate(-10deg)';
         logo.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
         techStackObserver.observe(logo);
+        // Efecto de rebote al hacer clic
+        logo.addEventListener('click', function() {
+            logo.classList.remove('clicked');
+            void logo.offsetWidth;
+            logo.classList.add('clicked');
+        });
+        // Accesibilidad: Enter/Espacio
+        logo.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                logo.classList.remove('clicked');
+                void logo.offsetWidth;
+                logo.classList.add('clicked');
+            }
+        });
+        logo.setAttribute('tabindex', '0');
+        logo.setAttribute('role', 'button');
+        logo.setAttribute('aria-label', logo.alt || 'Tech icon');
     });
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const mobileNavLinks = document.getElementById('nav-links');
