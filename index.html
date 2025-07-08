@@ -222,7 +222,7 @@
                             <img src="https://raw.githubusercontent.com/ItsWatuyusei/ItsWatuyusei.github.io/refs/heads/main/bitelfibra.jpeg" alt="BitelFibra Screenshot" class="project-img" loading="lazy" />
                         </div>
                         <div class="project-content">
-                            <div class="project-title" data-image="https://raw.githubusercontent.com/ItsWatuyusei/ItsWatuyusei.github.io/refs/heads/main/bitelfibra.jpeg">BitelFibra</div>
+                            <div class="project-title" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra00.png?updatedAt=1752006146778","https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra01.png?updatedAt=1752006146616","https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra02.png?updatedAt=1752006146072"]'>BitelFibra</div>
                             <div class="project-desc">E-commerce platform for fiber optic internet plans. Online sales, product catalog, payment integration.</div>
                             <div class="project-tech">
                                 <span class="tech-tag">HTML</span>
@@ -239,7 +239,7 @@
                             <img src="https://raw.githubusercontent.com/ItsWatuyusei/ItsWatuyusei.github.io/refs/heads/main/forum.itswatuyusei.jpeg" alt="ItsWatuyusei Forum Screenshot" class="project-img" loading="lazy" />
                         </div>
                         <div class="project-content">
-                            <div class="project-title" data-image="https://raw.githubusercontent.com/ItsWatuyusei/ItsWatuyusei.github.io/refs/heads/main/forum.itswatuyusei.jpeg">ItsWatuyusei</div>
+                            <div class="project-title" data-images='["https://raw.githubusercontent.com/ItsWatuyusei/ItsWatuyusei.github.io/refs/heads/main/forum.itswatuyusei.jpeg"]'>ItsWatuyusei</div>
                             <div class="project-desc">Programming community and forum. User registration, discussion boards, file sharing.</div>
                             <div class="project-tech">
                                 <span class="tech-tag">CSS</span>
@@ -253,7 +253,7 @@
                     <div class="project-card" data-technologies="python">
                         <div class="project-image">🐍</div>
                         <div class="project-content">
-                            <div class="project-title" data-image="https://via.placeholder.com/400x280?text=Project+3">Project Name 3</div>
+                            <div class="project-title" data-images='["https://via.placeholder.com/400x280?text=Project+3"]'>Project Name 3</div>
                             <div class="project-desc">Short description of the project.</div>
                             <div class="project-tech">
                                 <span class="tech-tag">Python</span>
@@ -314,7 +314,11 @@
     <div id="image-modal" class="image-modal">
         <div class="image-modal-content">
             <button class="image-modal-close" id="image-modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
-            <img id="modal-image" src="" alt="Project Screenshot" />
+            <div class="gallery-container" id="gallery-container">
+                <button class="gallery-prev portfolio-btn" id="gallery-prev" aria-label="Anterior"><i class="fas fa-chevron-left"></i></button>
+                <img id="modal-image" src="" alt="Project Screenshot" />
+                <button class="gallery-next portfolio-btn" id="gallery-next" aria-label="Siguiente"><i class="fas fa-chevron-right"></i></button>
+            </div>
         </div>
     </div>
     <script src="https://js.hsforms.net/forms/embed/49346124.js" defer></script>
