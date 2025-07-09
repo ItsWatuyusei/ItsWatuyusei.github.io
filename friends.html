@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Qué tanto te gustan los hombres - ¡Trolleo Total!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff69b4, #9370db, #ff1493, #00ff00, #ff4500);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            position: relative;
+            overflow-x: hidden;
+            padding: 10px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .floating-hearts {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 15px;
+            animation: float 6s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10%, 90% { opacity: 0.7; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        .container {
+            background: rgba(0,0,0,0.9);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            max-width: 600px;
+            width: 100%;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.7);
+            border: 3px solid #ff69b4;
+            position: relative;
+            z-index: 10;
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff69b4, #9370db, #00ff00);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 4px;
+        }
+
+        .question-counter {
+            font-size: 1em;
+            margin: 8px 0;
+            color: #ff69b4;
+            font-weight: bold;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 15px;
+            background: linear-gradient(45deg, #ff69b4, #9370db, #00ff00, #ff4500);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: rainbow 3s linear infinite;
+        }
+
+        .game-area {
+            margin: 15px 0;
+        }
+
+        .question {
+            font-size: 1.2em;
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(255,105,180,0.3);
+            border-radius: 12px;
+            border: 2px solid #ff69b4;
+            box-shadow: 0 4px 12px rgba(255,105,180,0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+        }
+
+        .options {
+            display: grid;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .option {
+            background: linear-gradient(45deg, #9370db, #ff69b4, #00ff00);
+            background-size: 200% 200%;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .option:hover {
+            transform: scale(1.05) rotate(1deg);
+            box-shadow: 0 6px 20px rgba(255,105,180,0.6);
+            animation: buttonGlow 1s ease-in-out infinite alternate;
+        }
+
+        .option:active {
+            transform: scale(0.95);
+        }
+
+        @keyframes buttonGlow {
+            from { box-shadow: 0 6px 20px rgba(255,105,180,0.6); }
+            to { box-shadow: 0 6px 20px rgba(255,105,180,1), 0 0 25px rgba(255,105,180,0.8); }
+        }
+
+        .result {
+            font-size: 1.1em;
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 12px;
+            display: none;
+            animation: slideIn 0.5s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .gay-result {
+            background: linear-gradient(45deg, #ff69b4, #ff1493, #ff4500);
+            border: 3px solid #ff69b4;
+            box-shadow: 0 8px 25px rgba(255,105,180,0.5);
+        }
+
+        .straight-result {
+            background: linear-gradient(45deg, #4169e1, #1e90ff, #00bfff);
+            border: 3px solid #4169e1;
+            box-shadow: 0 8px 25px rgba(65,105,225,0.5);
+        }
+
+        .score {
+            font-size: 1.5em;
+            margin: 20px 0;
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            border: 2px solid #ff69b4;
+        }
+
+        .restart {
+            background: linear-gradient(45deg, #ff4500, #ff6347, #ff8c00);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1em;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .restart:hover {
+            transform: scale(1.05) rotate(-1deg);
+            box-shadow: 0 8px 25px rgba(255,69,0,0.6);
+        }
+
+        .rainbow-text {
+            animation: rainbow 3s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { color: #ff0000; }
+            16% { color: #ff8000; }
+            33% { color: #ffff00; }
+            50% { color: #00ff00; }
+            66% { color: #0080ff; }
+            83% { color: #8000ff; }
+            100% { color: #ff0000; }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .final-result {
+            font-size: 1.8em;
+            margin: 25px 0;
+            padding: 20px;
+            border-radius: 15px;
+            animation: bounce 1.5s infinite, glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 15px rgba(255,105,180,0.5); }
+            to { box-shadow: 0 0 30px rgba(255,105,180,1), 0 0 45px rgba(255,105,180,0.8); }
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(0,0,0,0.8);
+            padding: 10px;
+            text-align: center;
+            border-top: 2px solid #ff69b4;
+            z-index: 100;
+            font-size: 0.9em;
+        }
+
+        .footer a {
+            color: #ff69b4;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: #00ff00;
+            text-shadow: 0 0 10px #00ff00;
+        }
+
+        .confetti {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            background: #ff69b4;
+            animation: confetti-fall 3s linear infinite;
+            z-index: 5;
+        }
+
+        @keyframes confetti-fall {
+            0% { transform: translateY(-100vh) rotate(0deg); }
+            100% { transform: translateY(100vh) rotate(360deg); }
+        }
+
+        .gay-meter {
+            width: 100%;
+            height: 25px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 12px;
+            margin: 15px 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .gay-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4169e1, #9370db, #ff69b4, #ff1493, #ff4500);
+            width: 0%;
+            transition: width 0.8s ease;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .gay-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .secret-message {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0,0,0,0.95);
+            padding: 25px;
+            border-radius: 15px;
+            border: 3px solid #ff4500;
+            z-index: 1000;
+            display: none;
+            animation: secretPulse 1s infinite;
+            max-width: 400px;
+        }
+
+        @keyframes secretPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.03); }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-hearts" id="hearts"></div>
+    
+    <div class="container">
+        <h1 class="rainbow-text">🎭 Qué tanto te gustan los hombres 🎭</h1>
+        <p style="font-size: 1.1em; margin-bottom: 15px;">¿Qué tan gay eres realmente? Descúbrelo aquí... (Y prepárate para la verdad)</p>
+        
+        <div class="question-counter" id="questionCounter">Pregunta 1 de 20</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        
+        <div class="gay-meter">
+            <div class="gay-fill" id="gayFill"></div>
+        </div>
+        
+        <div id="gameArea" class="game-area">
+            <div id="question" class="question">
+                ¿Qué prefieres hacer en tu tiempo libre?
+            </div>
+            
+            <div class="options">
+                <button class="option" onclick="selectOption(1)">Ver fútbol con los compas</button>
+                <button class="option" onclick="selectOption(2)">Ir de compras al mall</button>
+                <button class="option" onclick="selectOption(3)">Jugar videojuegos</button>
+                <button class="option" onclick="selectOption(4)">Ver telenovelas y llorar</button>
+            </div>
+        </div>
+
+        <div id="result" class="result"></div>
+        <div id="score" class="score hidden">Puntuación: <span id="scoreValue">0</span>/80</div>
+        <button id="restartBtn" class="restart hidden" onclick="restartGame()">🎮 Jugar de Nuevo 🎮</button>
+        <div id="restartMessage" class="result" style="background: linear-gradient(45deg, #ff4500, #ff6347); border: 2px solid #ff4500; font-size: 1.2em; margin: 15px 0; display: none;">¡Viste que sí te gustan los hombres! 😏</div>
+    </div>
+
+    <div class="footer">
+        Copyright © 2025 <a href="https://ItsWatuyusei.com" target="_blank">ItsWatuyusei</a>
+    </div>
+
+    <div class="secret-message" id="secretMessage">
+        <h2>🎭 ¡SECRETO REVELADO! 🎭</h2>
+        <p>¡Eres más gay que un unicornio en una discoteca de arcoíris! 🌈</p>
+        <button onclick="closeSecret()" style="background: #ff4500; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; margin-top: 12px;">Cerrar</button>
+    </div>
+
+    <script>
+        let currentQuestion = 0;
+        let score = 0;
+        let secretTriggered = false;
+        
+        const questions = [
+            {
+                question: "¿Qué prefieres hacer en tu tiempo libre?",
+                options: ["Ver fútbol con los compas", "Ir de compras al mall", "Jugar videojuegos", "Ver telenovelas y llorar"],
+                gayPoints: [1, 3, 2, 4]
+            },
+            {
+                question: "¿Cómo te gusta tu café?",
+                options: ["Negro, como mi alma", "Con mucha leche y azúcar", "Cappuccino con dibujos", "Solo lo tomo en Starbucks"],
+                gayPoints: [1, 2, 4, 3]
+            },
+            {
+                question: "¿Qué música escuchas?",
+                options: ["Rock pesado y metal", "Reggaeton y trap", "Pop y música electrónica", "Solo escucho a Britney y Madonna"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Cómo te vistes normalmente?",
+                options: ["Camisa y jeans básicos", "Ropa deportiva", "Me gusta combinar colores", "Solo uso ropa de marca y accesorios"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Qué harías si tu amigo te dice que es gay?",
+                options: ["Me alejo inmediatamente", "Lo apoyo pero me incomoda", "Lo acepto y lo apoyo", "¡Finalmente alguien con quien hablar de chicos!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Cómo reaccionas cuando ves a alguien atractivo?",
+                options: ["No me fijo en esas cosas", "Lo noto pero no digo nada", "Le doy una mirada discreta", "¡Dios mío, qué hermoso! ¡Necesito su Instagram!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Qué prefieres en una fiesta?",
+                options: ["Beber cerveza y hablar de deportes", "Bailar un poco", "Bailar mucho y conocer gente", "¡Es mi momento de brillar! ¡Que suene la música!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Cómo te sientes sobre el rosa?",
+                options: ["Es un color normal", "Me gusta en pequeñas dosis", "Es un color muy bonito", "¡Es mi color favorito! ¡Todo debería ser rosa!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Qué opinas de las telenovelas?",
+                options: ["Son una pérdida de tiempo", "Algunas están bien", "Me gustan bastante", "¡Son mi vida! ¡Conozco todos los chismes!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Cómo te defines a ti mismo?",
+                options: ["Soy muy masculino", "Soy normal", "Soy sensible y empático", "¡Soy fabuloso y lo sabes!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Qué harías si te invitan a una fiesta gay?",
+                options: ["Me excuso inmediatamente", "Voy pero me siento incómodo", "Voy y me divierto", "¡Es mi tipo de fiesta! ¡Voy a brillar!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Cómo te sientes sobre los abrazos entre hombres?",
+                options: ["Me incomoda mucho", "Solo con familia cercana", "Me gustan los abrazos", "¡Los abrazos son vida! ¡Más abrazos!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Qué opinas de la moda?",
+                options: ["No me interesa para nada", "Me gusta vestir bien", "Me encanta la moda", "¡La moda es mi pasión! ¡Soy un fashionista!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Cómo reaccionas a los chistes gay?",
+                options: ["Me ofendo y me enojo", "Los tolero pero no me río", "Me río si son graciosos", "¡Los amo! ¡Soy el rey de los chistes gay!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Qué harías si te dicen que pareces gay?",
+                options: ["Me enojo y lo niego furiosamente", "Me incomoda pero lo ignoro", "No me molesta, es solo un comentario", "¡Gracias! ¡Es un cumplido!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Qué tipo de películas prefieres?",
+                options: ["Acción y violencia", "Comedias románticas", "Dramas emocionales", "¡Solo veo películas con chicos guapos!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Cómo te sientes sobre el maquillaje en hombres?",
+                options: ["Es completamente inaceptable", "Cada quien hace lo que quiere", "Puede verse bien en algunos", "¡Me encanta! ¡Quiero aprender a maquillarme!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Qué harías si tu crush te invita a salir?",
+                options: ["Me excuso, no salgo con hombres", "Voy pero me siento nervioso", "Voy y disfruto la cita", "¡Sí! ¡Es mi momento de brillar!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Cómo te sientes sobre las uñas pintadas?",
+                options: ["Es de maricas", "No me gusta pero respeto", "Puede verse bien", "¡Me encanta! ¡Quiero pintarme las uñas!"],
+                gayPoints: [1, 2, 3, 4]
+            },
+            {
+                question: "¿Qué opinas de los hombres que bailan?",
+                options: ["Solo los maricas bailan", "Está bien si es en privado", "Me gusta verlos bailar", "¡Los hombres que bailan son súper sexys!"],
+                gayPoints: [1, 2, 3, 4]
+            }
+        ];
+
+        const hearts = ['💖', '💕', '💗', '💓', '💝'];
+        const colors = ['#ff69b4', '#9370db', '#00ff00', '#ff4500', '#ff1493'];
+
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts');
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heartsContainer.appendChild(heart);
+                
+                setTimeout(() => heart.remove(), 6000);
+            }, 400);
+        }
+
+        function createConfetti() {
+            for (let i = 0; i < 30; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 3 + 's';
+                confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(confetti);
+                
+                setTimeout(() => confetti.remove(), 3000);
+            }
+        }
+
+        function selectOption(optionIndex) {
+            score += questions[currentQuestion].gayPoints[optionIndex - 1];
+            currentQuestion++;
+            
+            updateProgress();
+            updateGayMeter();
+            
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                showFinalResult();
+            }
+        }
+
+        function updateProgress() {
+            const progress = (currentQuestion / questions.length) * 100;
+            document.getElementById('progressFill').style.width = progress + '%';
+            document.getElementById('questionCounter').textContent = `Pregunta ${currentQuestion} de ${questions.length}`;
+        }
+
+        function updateGayMeter() {
+            const maxScore = questions.length * 4;
+            const gayPercentage = (score / maxScore) * 100;
+            document.getElementById('gayFill').style.width = gayPercentage + '%';
+        }
+
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            document.getElementById('question').textContent = question.question;
+            
+            const options = document.querySelectorAll('.option');
+            question.options.forEach((option, index) => {
+                options[index].textContent = option;
+            });
+        }
+
+        function showFinalResult() {
+            document.getElementById('gameArea').classList.add('hidden');
+            document.getElementById('score').classList.remove('hidden');
+            document.getElementById('scoreValue').textContent = score;
+            document.getElementById('restartBtn').classList.remove('hidden');
+
+            const resultDiv = document.getElementById('result');
+            resultDiv.classList.remove('hidden');
+
+            let resultText = '';
+            let resultClass = '';
+
+            if (score <= 25) {
+                resultText = '🏈 ¡Eres súper hetero! (O al menos eso crees...) Pero... ¿estás seguro? 🤔';
+                resultClass = 'straight-result';
+            } else if (score <= 45) {
+                resultText = '🤔 Hmm... Tienes algunas tendencias sospechosas... ¿Algo que quieras contarnos? 😏';
+                resultClass = 'gay-result';
+            } else if (score <= 65) {
+                resultText = '🌈 ¡Definitivamente tienes algo de gay en ti! ¡Acepta tu verdad! ¡Embrace it! 💅';
+                resultClass = 'gay-result';
+            } else if (score <= 75) {
+                resultText = '👑 ¡REINA! ¡Eres más gay que un arcoíris en una discoteca! ¡Fabulous! ✨';
+                resultClass = 'gay-result';
+            } else {
+                resultText = '🌟 ¡LEGEND! ¡Eres más gay que la bandera LGBT en el mes del orgullo! ¡ICONIC! 🏆';
+                resultClass = 'gay-result';
+                if (!secretTriggered) {
+                    setTimeout(() => {
+                        document.getElementById('secretMessage').style.display = 'block';
+                        secretTriggered = true;
+                    }, 2000);
+                }
+            }
+
+            resultDiv.textContent = resultText;
+            resultDiv.className = `result final-result ${resultClass}`;
+            
+            createConfetti();
+        }
+
+        function closeSecret() {
+            document.getElementById('secretMessage').style.display = 'none';
+        }
+
+        function restartGame() {
+            document.getElementById('restartMessage').style.display = 'block';
+            document.getElementById('gameArea').classList.add('hidden');
+            document.getElementById('result').classList.add('hidden');
+            document.getElementById('score').classList.add('hidden');
+            document.getElementById('restartBtn').classList.add('hidden');
+            
+            setTimeout(() => {
+                currentQuestion = 0;
+                score = 0;
+                secretTriggered = false;
+                document.getElementById('gameArea').classList.remove('hidden');
+                document.getElementById('restartMessage').style.display = 'none';
+                document.getElementById('secretMessage').style.display = 'none';
+                updateProgress();
+                updateGayMeter();
+                showQuestion();
+            }, 2000);
+        }
+
+        createHearts();
+        showQuestion();
+        updateProgress();
+        updateGayMeter();
+
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'g') {
+                score = 80;
+                showFinalResult();
+            }
+        });
+    </script>
+</body>
+</html>
