@@ -497,6 +497,31 @@
                 question: "¿Qué opinas de los hombres que bailan?",
                 options: ["Solo los maricas bailan", "Está bien si es en privado", "Me gusta verlos bailar", "¡Los hombres que bailan son súper sexys!"],
                 gayPoints: [getRandomPoints(), getRandomPoints(), getRandomPoints(), getRandomPoints()]
+            },
+            {
+                question: "¿Qué superpoder te gustaría tener?",
+                options: ["Volar para huir de los problemas", "Leer la mente de los chicos guapos", "Ser invisible en las fiestas", "Convertir todo en arcoíris"],
+                gayPoints: [getRandomPoints(), getRandomPoints(), getRandomPoints(), getRandomPoints()]
+            },
+            {
+                question: "¿Qué emoji usas más seguido?",
+                options: ["😂", "😍", "🙄", "💅"],
+                gayPoints: [getRandomPoints(), getRandomPoints(), getRandomPoints(), getRandomPoints()]
+            },
+            {
+                question: "¿Qué harías si te ganas la lotería?",
+                options: ["Comprar una casa para mi mamá", "Viajar a Ibiza con amigos", "Ir a un desfile de moda", "¡Ir al Pride mundial!"],
+                gayPoints: [getRandomPoints(), getRandomPoints(), getRandomPoints(), getRandomPoints()]
+            },
+            {
+                question: "¿Cuál es tu app favorita?",
+                options: ["WhatsApp", "Instagram", "TikTok", "Grindr"],
+                gayPoints: [getRandomPoints(), getRandomPoints(), getRandomPoints(), getRandomPoints()]
+            },
+            {
+                question: "¿Qué harías si fueras famoso?",
+                options: ["Ser futbolista", "Ser influencer de moda", "Tener un canal de maquillaje", "¡Salir en RuPaul's Drag Race!"],
+                gayPoints: [getRandomPoints(), getRandomPoints(), getRandomPoints(), getRandomPoints()]
             }
         ];
 
@@ -615,6 +640,27 @@
             document.getElementById('secretMessage').style.display = 'none';
         }
 
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        function shuffleQuestions() {
+            questions.forEach(q => {
+                const optionsWithPoints = q.options.map((option, index) => ({
+                    option: option,
+                    points: q.gayPoints[index]
+                }));
+                shuffleArray(optionsWithPoints);
+                q.options = optionsWithPoints.map(item => item.option);
+                q.gayPoints = optionsWithPoints.map(item => item.points);
+            });
+            shuffleArray(questions);
+        }
+
         function restartGame() {
             document.getElementById('restartMessage').style.display = 'block';
             document.getElementById('gameArea').classList.add('hidden');
@@ -626,16 +672,18 @@
                 currentQuestion = 0;
                 score = 0;
                 secretTriggered = false;
+                shuffleQuestions();
                 document.getElementById('gameArea').classList.remove('hidden');
                 document.getElementById('restartMessage').style.display = 'none';
                 document.getElementById('secretMessage').style.display = 'none';
                 updateProgress();
                 updateGayMeter();
                 showQuestion();
-            }, 2000);
+            }, 2500);
         }
 
         createHearts();
+        shuffleQuestions();
         showQuestion();
         updateProgress();
         updateGayMeter();
