@@ -10,7 +10,135 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+class EnhancedLazyLoader {
+    constructor() {
+        this.imageObserver = null;
+        this.contentObserver = null;
+        this.preloadQueue = [];
+        this.init();
+    }
+
+    init() {
+        this.setupImageObserver();
+        this.setupContentObserver();
+        this.setupPreloadQueue();
+    }
+
+    setupImageObserver() {
+        this.imageObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.loadImage(entry.target);
+                    this.imageObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            rootMargin: '50px 0px',
+            threshold: 0.01
+        });
+
+        const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+        lazyImages.forEach(img => this.imageObserver.observe(img));
+    }
+
+    setupContentObserver() {
+        this.contentObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    this.loadContent(entry.target);
+                    this.contentObserver.unobserve(entry.target);
+                }
+            });
+        }, {
+            rootMargin: '100px 0px',
+            threshold: 0.1
+        });
+
+        const contentElements = document.querySelectorAll('.project-card, .skill, .tech-stack-logos img');
+        contentElements.forEach(el => this.contentObserver.observe(el));
+    }
+
+    setupPreloadQueue() {
+        const criticalImages = [
+            'https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115',
+            'https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra00.png?updatedAt=1752006146778'
+        ];
+
+        criticalImages.forEach(src => {
+            const link = document.createElement('link');
+            link.rel = 'preload';
+            link.as = 'image';
+            link.href = src;
+            document.head.appendChild(link);
+        });
+    }
+
+    loadImage(img) {
+        if (img.dataset.src) {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+        }
+        
+        img.style.opacity = '0';
+        img.style.transform = 'scale(0.95)';
+        img.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        
+        img.onload = () => {
+            img.style.opacity = '1';
+            img.style.transform = 'scale(1)';
+        };
+
+        img.onerror = () => {
+            img.style.opacity = '1';
+            img.style.transform = 'scale(1)';
+            console.warn('Failed to load image:', img.src);
+        };
+    }
+
+    loadContent(element) {
+        element.style.opacity = '0';
+        element.style.transform = 'translateY(20px)';
+        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        
+        requestAnimationFrame(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+        });
+    }
+
+    preloadImage(src) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = src;
+        });
+    }
+
+    addToPreloadQueue(src) {
+        if (!this.preloadQueue.includes(src)) {
+            this.preloadQueue.push(src);
+            this.processPreloadQueue();
+        }
+    }
+
+    async processPreloadQueue() {
+        if (this.preloadQueue.length === 0) return;
+        
+        const src = this.preloadQueue.shift();
+        try {
+            await this.preloadImage(src);
+        } catch (error) {
+            console.warn('Failed to preload image:', src);
+        }
+        
+        setTimeout(() => this.processPreloadQueue(), 100);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', function() {
+    const lazyLoader = new EnhancedLazyLoader();
+
     const typewriterText = document.querySelector('.typewriter-text');
     const typewriterRole = document.querySelector('.typewriter-text-role');
     const fullText = typewriterText.getAttribute('data-text');
@@ -18,6 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentIndex = 0;
     let roleIndex = 0;
     typewriterRole.classList.remove('typing');
+    
     function typeWriter() {
         if (currentIndex < fullText.length) {
             typewriterText.textContent += fullText.charAt(currentIndex);
@@ -34,6 +163,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 500);
         }
     }
+    
     function typeWriterRole() {
         if (roleIndex < roleText.length) {
             typewriterRole.textContent += roleText.charAt(roleIndex);
@@ -44,22 +174,37 @@ document.addEventListener('DOMContentLoaded', function() {
             typewriterRole.classList.add('completed');
         }
     }
+    
     setTimeout(() => {
         typewriterText.classList.add('typing');
         typeWriter();
     }, 2000);
+
     const fadeEls = document.querySelectorAll('.fadein-group .project-card');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('fadein-visible');
+                const projectImages = entry.target.querySelectorAll('img[data-images]');
+                projectImages.forEach(img => {
+                    try {
+                        const images = JSON.parse(img.getAttribute('data-images'));
+                        images.forEach(src => lazyLoader.addToPreloadQueue(src));
+                    } catch (e) {
+                    }
+                });
             }
         });
-    }, { threshold: 0.1 });
+    }, { 
+        threshold: 0.1,
+        rootMargin: '50px 0px'
+    });
+    
     fadeEls.forEach(el => {
         el.classList.add('fadein');
         observer.observe(el);
     });
+
     const contactLink = document.getElementById('contact-link');
     const contactModal = document.getElementById('contact-modal');
     const contactModalClose = document.getElementById('contact-modal-close');
@@ -398,68 +543,43 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         const projectsContainer = document.getElementById('projects-container');
         let noProjectsMessage = projectsContainer.querySelector('.no-projects-message');
-        if (visibleProjects === 0 && searchTerm.length > 0) {
-            if (!noProjectsMessage) {
-                noProjectsMessage = document.createElement('div');
-                noProjectsMessage.className = 'no-projects-message';
-                noProjectsMessage.innerHTML = `
-                    <i class="fas fa-search"></i>
-                    <h3>No Projects Found</h3>
-                    <p>No projects match your search criteria.</p>
-                    <div class="filter-suggestion">Try different keywords or browse all projects.</div>
-                `;
-                projectsContainer.appendChild(noProjectsMessage);
-            }
-            noProjectsMessage.style.display = 'block';
-        } else {
-            if (noProjectsMessage) {
-                noProjectsMessage.style.display = 'none';
-            }
+        if (visibleProjects === 0 && !noProjectsMessage) {
+            noProjectsMessage = document.createElement('div');
+            noProjectsMessage.className = 'no-projects-message';
+            noProjectsMessage.innerHTML = '<p>No projects found matching your search.</p>';
+            projectsContainer.appendChild(noProjectsMessage);
+        } else if (visibleProjects > 0 && noProjectsMessage) {
+            noProjectsMessage.remove();
         }
     });
     filterBtns.forEach(btn => {
         btn.addEventListener('click', function() {
-            const filter = this.getAttribute('data-filter');
             filterBtns.forEach(b => b.classList.remove('active'));
             this.classList.add('active');
+            const filter = this.getAttribute('data-filter');
             let visibleProjects = 0;
             projectCards.forEach(card => {
-                const technologies = card.getAttribute('data-technologies');
-                if (filter === 'all') {
-                    card.style.display = 'block';
-                    visibleProjects++;
-                } else if (technologies && technologies.includes(filter)) {
-                    card.style.display = 'block';
-                    visibleProjects++;
-                } else {
-                    card.style.display = 'none';
-                }
+                const technologies = card.getAttribute('data-technologies') || '';
+                const matches = filter === 'all' || technologies.includes(filter);
+                card.style.display = matches ? 'block' : 'none';
+                if (matches) visibleProjects++;
             });
             const projectsContainer = document.getElementById('projects-container');
             let noProjectsMessage = projectsContainer.querySelector('.no-projects-message');
-            if (visibleProjects === 0) {
-                if (!noProjectsMessage) {
-                    noProjectsMessage = document.createElement('div');
-                    noProjectsMessage.className = 'no-projects-message';
-                    noProjectsMessage.innerHTML = `
-                        <i class="fas fa-search"></i>
-                        <h3>No Projects Available</h3>
-                        <p>No projects found with the selected technology filter.</p>
-                        <div class="filter-suggestion">Try selecting a different filter or browse all projects.</div>
-                    `;
-                    projectsContainer.appendChild(noProjectsMessage);
-                }
-                noProjectsMessage.style.display = 'block';
-            } else {
-                if (noProjectsMessage) {
-                    noProjectsMessage.style.display = 'none';
-                }
+            if (visibleProjects === 0 && !noProjectsMessage) {
+                noProjectsMessage = document.createElement('div');
+                noProjectsMessage.className = 'no-projects-message';
+                noProjectsMessage.innerHTML = '<p>No projects found in this category.</p>';
+                projectsContainer.appendChild(noProjectsMessage);
+            } else if (visibleProjects > 0 && noProjectsMessage) {
+                noProjectsMessage.remove();
             }
         });
     });
     const quickSearchModal = document.getElementById('quick-search-modal');
     const quickSearchInput = document.getElementById('quick-search-input');
     const quickSearchClose = document.getElementById('quick-search-close');
+    const quickSearchResults = document.getElementById('quick-search-results');
     const sectionsResults = document.getElementById('sections-results');
     const projectsResults = document.getElementById('projects-results');
     const skillsResults = document.getElementById('skills-results');
@@ -469,116 +589,82 @@ document.addEventListener('DOMContentLoaded', function() {
             quickSearchModal.style.display = 'flex';
             quickSearchInput.focus();
         }
-        if (e.key === 'Escape' && quickSearchModal.style.display === 'flex') {
-            quickSearchModal.style.display = 'none';
-        }
     });
     quickSearchClose.addEventListener('click', function() {
         quickSearchModal.style.display = 'none';
     });
-    quickSearchModal.addEventListener('click', function(e) {
-        if (e.target === this) {
-            this.style.display = 'none';
+    window.addEventListener('click', function(e) {
+        if (e.target === quickSearchModal) {
+            quickSearchModal.style.display = 'none';
         }
     });
     quickSearchInput.addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
         if (searchTerm.length < 2) {
-            sectionsResults.innerHTML = '';
-            projectsResults.innerHTML = '';
-            skillsResults.innerHTML = '';
+            quickSearchResults.style.display = 'none';
             return;
         }
+        quickSearchResults.style.display = 'block';
         const sections = [
-            { title: 'Skills', desc: 'View my technical skills', href: '#skills' },
-            { title: 'Projects', desc: 'Browse my projects', href: '#projects' },
-            { title: 'Tech Stack', desc: 'See my technology stack', href: '#tech-stack' }
+            { name: 'Skills', id: 'skills' },
+            { name: 'Projects', id: 'projects' },
+            { name: 'Tech Stack', id: 'tech-stack' }
         ];
         const projects = Array.from(projectCards).map(card => ({
-            title: card.querySelector('.project-title').textContent,
-            desc: card.querySelector('.project-desc').textContent,
-            href: '#projects'
+            name: card.querySelector('.project-title')?.textContent || '',
+            id: card.querySelector('.project-title')?.getAttribute('data-images') || ''
         }));
         const skills = Array.from(document.querySelectorAll('.skill')).map(skill => ({
-            title: skill.textContent,
-            desc: 'Technical skill',
-            href: '#skills'
+            name: skill.textContent || '',
+            id: skill.textContent || ''
         }));
-        const filteredSections = sections.filter(s => 
-            s.title.toLowerCase().includes(searchTerm) || s.desc.toLowerCase().includes(searchTerm)
+        const filteredSections = sections.filter(section => 
+            section.name.toLowerCase().includes(searchTerm)
         );
-        const filteredProjects = projects.filter(p => 
-            p.title.toLowerCase().includes(searchTerm) || p.desc.toLowerCase().includes(searchTerm)
+        const filteredProjects = projects.filter(project => 
+            project.name.toLowerCase().includes(searchTerm)
         );
-        const filteredSkills = skills.filter(s => 
-            s.title.toLowerCase().includes(searchTerm)
+        const filteredSkills = skills.filter(skill => 
+            skill.name.toLowerCase().includes(searchTerm)
         );
-        sectionsResults.innerHTML = filteredSections.map(s => `
-            <div class="search-item" onclick="document.querySelector('${s.href}').scrollIntoView({behavior: 'smooth'}); quickSearchModal.style.display='none';">
-                <div class="search-item-title">${s.title}</div>
-                <div class="search-item-desc">${s.desc}</div>
-            </div>
-        `).join('');
-        projectsResults.innerHTML = filteredProjects.map(p => `
-            <div class="search-item" onclick="document.querySelector('${p.href}').scrollIntoView({behavior: 'smooth'}); quickSearchModal.style.display='none';">
-                <div class="search-item-title">${p.title}</div>
-                <div class="search-item-desc">${p.desc}</div>
-            </div>
-        `).join('');
-        skillsResults.innerHTML = filteredSkills.map(s => `
-            <div class="search-item" onclick="document.querySelector('${s.href}').scrollIntoView({behavior: 'smooth'}); quickSearchModal.style.display='none';">
-                <div class="search-item-title">${s.title}</div>
-                <div class="search-item-desc">${s.desc}</div>
-            </div>
-        `).join('');
+        sectionsResults.innerHTML = filteredSections.map(section => 
+            `<div class="search-item" onclick="document.getElementById('${section.id}').scrollIntoView({behavior: 'smooth'}); quickSearchModal.style.display='none';">${section.name}</div>`
+        ).join('');
+        projectsResults.innerHTML = filteredProjects.map(project => 
+            `<div class="search-item">${project.name}</div>`
+        ).join('');
+        skillsResults.innerHTML = filteredSkills.map(skill => 
+            `<div class="search-item">${skill.name}</div>`
+        ).join('');
     });
-    const navLinksMobile = document.querySelectorAll('.nav-link');
-    navLinksMobile.forEach(link => {
-        link.addEventListener('click', function() {
-            if (window.innerWidth <= 900) {
-                hamburgerMenu.classList.remove('active');
-                mobileNavLinks.classList.remove('active');
+    const projectsPerPage = 6;
+    let currentPage = 1;
+    const totalProjects = projectCards.length;
+    const totalPages = Math.ceil(totalProjects / projectsPerPage);
+    function renderProjectsPage(page) {
+        const startIndex = (page - 1) * projectsPerPage;
+        const endIndex = startIndex + projectsPerPage;
+        projectCards.forEach((card, index) => {
+            if (index >= startIndex && index < endIndex) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
             }
         });
-    });
-    const projectsContainer = document.getElementById('projects-container');
-    const paginationContainer = document.getElementById('projects-pagination');
-    let allProjectCards = Array.from(document.querySelectorAll('.project-card'));
-    let currentPage = 1;
-    const projectsPerPage = 6;
-
-    function renderProjectsPage(page) {
-        const totalProjects = allProjectCards.length;
-        const totalPages = Math.ceil(totalProjects / projectsPerPage);
-        allProjectCards.forEach(card => card.style.display = 'none');
-        const start = (page - 1) * projectsPerPage;
-        const end = start + projectsPerPage;
-        allProjectCards.slice(start, end).forEach(card => card.style.display = 'block');
-        if (totalProjects > projectsPerPage) {
-            let pagHtml = '';
-            for (let i = 1; i <= totalPages; i++) {
-                pagHtml += `<button class="pagination-btn${i === page ? ' active' : ''}" data-page="${i}">${i}</button>`;
-            }
-            paginationContainer.innerHTML = pagHtml;
-            paginationContainer.style.display = '';
-            Array.from(paginationContainer.querySelectorAll('.pagination-btn')).forEach(btn => {
-                btn.onclick = function(e) {
-                    e.preventDefault();
-                    currentPage = parseInt(this.getAttribute('data-page'));
-                    renderProjectsPage(currentPage);
-                };
-            });
-        } else {
-            paginationContainer.innerHTML = '';
-            paginationContainer.style.display = 'none';
+    }
+    function updateProjectsPagination() {
+        const pagination = document.getElementById('projects-pagination');
+        if (totalPages <= 1) {
+            pagination.style.display = 'none';
+            return;
         }
+        pagination.style.display = 'flex';
+        let paginationHTML = '';
+        for (let i = 1; i <= totalPages; i++) {
+            paginationHTML += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="currentPage = ${i}; renderProjectsPage(${i}); updateProjectsPagination();">${i}</button>`;
+        }
+        pagination.innerHTML = paginationHTML;
     }
     renderProjectsPage(currentPage);
-    function updateProjectsPagination() {
-        allProjectCards = Array.from(document.querySelectorAll('.project-card')).filter(card => card.style.display !== 'none');
-        currentPage = 1;
-        renderProjectsPage(currentPage);
-    }
-    projectSearch.addEventListener('input', updateProjectsPagination);
-    filterBtns.forEach(btn => btn.addEventListener('click', updateProjectsPagination));
+    updateProjectsPagination();
 }); 
