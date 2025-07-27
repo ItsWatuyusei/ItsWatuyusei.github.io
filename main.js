@@ -632,6 +632,46 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentPage = 1;
     let filteredProjects = [];
 
+    function updateFilterButtonsVisibility() {
+    // Get all available technologies from all projects
+    const availableTechnologies = new Set();
+    
+    projectCards.forEach(card => {
+        const technologies = card.getAttribute('data-technologies') || '';
+        if (technologies) {
+            technologies.split(',').forEach(tech => {
+                availableTechnologies.add(tech.trim());
+            });
+        }
+    });
+
+    // Show/hide filter buttons based on available technologies
+    filterBtns.forEach(btn => {
+        const filterValue = btn.getAttribute('data-filter');
+        
+        // Always show "All" button
+        if (filterValue === 'all') {
+            btn.classList.remove('hidden');
+            return;
+        }
+        
+        // Show button only if there are projects with this technology
+        if (availableTechnologies.has(filterValue)) {
+            btn.classList.remove('hidden');
+        } else {
+            btn.classList.add('hidden');
+            
+            // If this button was active, switch to "All"
+            if (btn.classList.contains('active')) {
+                const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
+                if (allBtn) {
+                    allBtn.classList.add('active');
+                }
+            }
+        }
+    });
+}
+
     function getVisibleProjects() {
         const searchTerm = projectSearch.value.toLowerCase();
         const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
@@ -691,6 +731,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update pagination
         updateProjectsPagination(totalPages);
+
+        // Update filter buttons visibility
+        updateFilterButtonsVisibility();
     }
 
     function renderProjectsPage(page) {
@@ -723,6 +766,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Update pagination
         updateProjectsPagination(totalPages);
+
+        // Update filter buttons visibility
+        updateFilterButtonsVisibility();
     }
 
     // Make functions globally accessible for onclick handlers
@@ -771,6 +817,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Initialize pagination
+    // Initialize pagination and filter buttons
     updateProjectVisibility();
+    updateFilterButtonsVisibility();
 }); 
