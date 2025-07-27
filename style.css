@@ -730,6 +730,7 @@ body {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     cursor: pointer;
+    will-change: transform, box-shadow;
 }
 
 .project-card::before {
@@ -749,8 +750,8 @@ body {
 }
 
 .project-card:hover {
-    box-shadow: 0 12px 40px rgba(26,35,126,0.15);
-    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 40px rgba(26,35,126,0.15) !important;
+    transform: translateY(-8px) scale(1.05) !important;
 }
 
 .project-image {
@@ -1006,13 +1007,11 @@ body {
 
 .fadein {
     opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.7s cubic-bezier(.4,0,.2,1), transform 0.7s cubic-bezier(.4,0,.2,1);
+    transition: opacity 0.7s cubic-bezier(.4,0,.2,1);
 }
 
 .fadein-visible {
     opacity: 1;
-    transform: none;
 }
 
 @media (max-width: 900px) {
@@ -1164,6 +1163,16 @@ body {
         border: none;
         box-shadow: 0 1px 8px rgba(26,35,126,0.05);
     }
+    
+    .project-card:hover {
+        box-shadow: 0 8px 25px rgba(26,35,126,0.12) !important;
+        transform: translateY(-4px) scale(1.03) !important;
+    }
+    
+    .dark .project-card:hover {
+        box-shadow: 0 8px 25px rgba(26,35,126,0.25) !important;
+        transform: translateY(-4px) scale(1.03) !important;
+    }
     .project-image {
         height: 70px;
         font-size: 1.2rem;
@@ -1299,7 +1308,7 @@ body {
     max-width: 520px;
     width: 90vw;
     max-height: 90vh;
-    padding: 24px;
+    padding: 24px 0;
     box-shadow: 0 8px 32px rgba(26,35,126,0.18);
     position: relative;
     animation: modalIn 0.3s cubic-bezier(.4,0,.2,1);
@@ -1344,7 +1353,7 @@ body {
 @media (max-width: 600px) {
     .image-modal-content {
         max-width: 95vw;
-        padding: 12px;
+        padding: 12px 0;
     }
 }
 
@@ -1506,6 +1515,11 @@ body {
 .dark .project-card {
     background: #23243a;
     color: var(--text);
+}
+
+.dark .project-card:hover {
+    box-shadow: 0 12px 40px rgba(26,35,126,0.25) !important;
+    transform: translateY(-8px) scale(1.05) !important;
 }
 
 .dark .project-title, .dark .section-title {
@@ -1760,7 +1774,7 @@ body {
     border-radius: 50%;
     box-shadow: 0 4px 16px rgba(0,0,0,0.15);
     border: none;
-    margin: 0 12px;
+    margin: 0 4px;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
@@ -1783,7 +1797,7 @@ body {
     max-width: 70vw;
     max-height: 55vh;
     border-radius: 12px;
-    margin: 0 8px;
+    margin: 0 2px;
     box-shadow: 0 8px 32px rgba(0,0,0,0.2);
     background: #fff;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1825,7 +1839,7 @@ body {
         width: 40px;
         height: 40px;
         font-size: 1.3rem;
-        margin: 0 4px;
+        margin: 0 2px;
     }
 }
 
