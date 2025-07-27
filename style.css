@@ -324,6 +324,7 @@ body {
     flex-wrap: wrap;
     gap: 8px;
     align-items: center;
+    min-height: 22px;
 }
 
 .filter-btn {
@@ -339,10 +340,12 @@ body {
     margin: 0;
     display: inline-block;
     cursor: pointer;
-    transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+    transition: background 0.2s, color 0.2s, box-shadow 0.2s, opacity 0.3s ease, transform 0.3s ease;
     outline: none;
     height: 22px;
     line-height: 16px;
+    opacity: 1;
+    transform: scale(1);
 }
 
 .filter-btn.active, .filter-btn:focus {
@@ -357,6 +360,15 @@ body {
     color: #1a233e;
     box-shadow: 0 2px 8px 0 rgba(79,140,255,0.10);
     transform: translateY(-1px) scale(1.03);
+}
+
+/* Hidden filter buttons */
+.filter-btn.hidden {
+    opacity: 0 !important;
+    transform: scale(0.8) !important;
+    pointer-events: none !important;
+    position: absolute;
+    visibility: hidden;
 }
 
 .project-tech {
@@ -838,6 +850,40 @@ body {
     color: #1a233e;
     box-shadow: 0 2px 8px 0 rgba(79,140,255,0.10);
     transform: translateY(-1px) scale(1.03);
+}
+
+.pagination-ellipsis {
+    color: #7a7a7a;
+    font-weight: 500;
+    padding: 0 4px;
+    user-select: none;
+}
+
+.pagination-btn:first-child,
+.pagination-btn:last-child {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 1px 6px;
+}
+
+.dark .pagination-btn {
+    background: #2a2a3a;
+    color: #e0e0e0;
+}
+
+.dark .pagination-btn.active, 
+.dark .pagination-btn:focus {
+    background: #4a5a8a;
+    color: #fff;
+}
+
+.dark .pagination-btn:hover:not(.active) {
+    background: #3a3a4a;
+    color: #e0e0e0;
+}
+
+.dark .pagination-ellipsis {
+    color: #a0a0a0;
 }
 
 .footer {
