@@ -139,7 +139,6 @@ class EnhancedLazyLoader {
 document.addEventListener('DOMContentLoaded', function() {
     const lazyLoader = new EnhancedLazyLoader();
 
-    // Typewriter functionality
     const typewriterText = document.querySelector('.typewriter-text');
     const typewriterRole = document.querySelector('.typewriter-text-role');
     const fullText = typewriterText.getAttribute('data-text');
@@ -181,7 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
         typeWriter();
     }, 2000);
 
-    // Fade in animations
     const fadeEls = document.querySelectorAll('.fadein-group .project-card');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -207,7 +205,6 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(el);
     });
 
-    // Modal management
     const contactLink = document.getElementById('contact-link');
     const navContactLink = document.getElementById('nav-contact-link');
     const contactModal = document.getElementById('contact-modal');
@@ -227,7 +224,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = '';
     }
 
-    // Contact modal events
     [contactLink, navContactLink].forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -237,26 +233,65 @@ document.addEventListener('DOMContentLoaded', function() {
 
     contactModalClose.addEventListener('click', () => closeModal(contactModal));
 
-    // Image gallery functionality
     const projectTitles = document.querySelectorAll('.project-title[data-images]');
     const modalImage = document.getElementById('modal-image');
     const galleryPrev = document.getElementById('gallery-prev');
     const galleryNext = document.getElementById('gallery-next');
     let galleryImages = [];
     let galleryIndex = 0;
+    let isTransitioning = false;
+    let touchStartX = 0;
+    let touchEndX = 0;
 
     function showGalleryImage(idx, animate = true) {
-        if (!galleryImages.length) return;
+        if (!galleryImages.length || isTransitioning) return;
+        
+        isTransitioning = true;
         galleryIndex = ((idx % galleryImages.length) + galleryImages.length) % galleryImages.length;
+        
         if (animate) {
-            modalImage.classList.remove('fadein-img');
-            void modalImage.offsetWidth;
-            modalImage.classList.add('fadein-img');
+            modalImage.classList.remove('image-transition-enter', 'image-transition-enter-active', 'image-transition-exit', 'image-transition-exit-active', 'loading');
+            
+            modalImage.classList.add('image-transition-exit');
+            
+            requestAnimationFrame(() => {
+                modalImage.classList.add('image-transition-exit-active');
+            });
+            
+            setTimeout(() => {
+                modalImage.classList.add('loading');
+                modalImage.src = galleryImages[galleryIndex];
+                
+                modalImage.onload = () => {
+                    modalImage.classList.remove('loading');
+                    modalImage.classList.remove('image-transition-exit', 'image-transition-exit-active');
+                    modalImage.classList.add('image-transition-enter');
+                    
+                    requestAnimationFrame(() => {
+                        modalImage.classList.add('image-transition-enter-active');
+                    });
+                    
+                    setTimeout(() => {
+                        modalImage.classList.remove('image-transition-enter', 'image-transition-enter-active');
+                        isTransitioning = false;
+                        preloadGalleryImages();
+                    }, 400);
+                };
+                
+                modalImage.onerror = () => {
+                    modalImage.classList.remove('loading', 'image-transition-exit', 'image-transition-exit-active');
+                    isTransitioning = false;
+                };
+            }, 400);
+        } else {
+            modalImage.classList.remove('image-transition-enter', 'image-transition-enter-active', 'image-transition-exit', 'image-transition-exit-active', 'loading');
+            modalImage.src = galleryImages[galleryIndex];
+            isTransitioning = false;
         }
-        modalImage.src = galleryImages[galleryIndex];
+        
         const showNav = galleryImages.length > 1;
-        galleryPrev.style.display = showNav ? 'inline-block' : 'none';
-        galleryNext.style.display = showNav ? 'inline-block' : 'none';
+        galleryPrev.style.display = showNav ? 'flex' : 'none';
+        galleryNext.style.display = showNav ? 'flex' : 'none';
     }
 
     projectTitles.forEach(title => {
@@ -270,6 +305,10 @@ document.addEventListener('DOMContentLoaded', function() {
             galleryIndex = 0;
             openModal(imageModal);
             showGalleryImage(0, false);
+            
+            setTimeout(() => {
+                preloadGalleryImages();
+            }, 100);
         });
     });
 
@@ -277,17 +316,52 @@ document.addEventListener('DOMContentLoaded', function() {
     galleryNext.addEventListener('mousedown', e => { e.preventDefault(); e.stopPropagation(); });
     galleryPrev.addEventListener('click', e => {
         e.preventDefault(); e.stopPropagation();
-        if (galleryImages.length > 1) showGalleryImage(galleryIndex - 1, true);
+        if (galleryImages.length > 1 && !isTransitioning) showGalleryImage(galleryIndex - 1, true);
     });
     galleryNext.addEventListener('click', e => {
         e.preventDefault(); e.stopPropagation();
-        if (galleryImages.length > 1) showGalleryImage(galleryIndex + 1, true);
+        if (galleryImages.length > 1 && !isTransitioning) showGalleryImage(galleryIndex + 1, true);
     });
 
+    imageModal.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    imageModal.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = touchStartX - touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold && !isTransitioning) {
+            if (diff > 0) {
+                if (galleryImages.length > 1) showGalleryImage(galleryIndex + 1, true);
+            } else {
+                if (galleryImages.length > 1) showGalleryImage(galleryIndex - 1, true);
+            }
+        }
+    }
+
+    function preloadGalleryImages() {
+        if (galleryImages.length <= 1) return;
+        
+        const nextIndex = (galleryIndex + 1) % galleryImages.length;
+        const prevIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length;
+        
+        const nextImg = new Image();
+        const prevImg = new Image();
+        
+        nextImg.src = galleryImages[nextIndex];
+        prevImg.src = galleryImages[prevIndex];
+    }
+
     imageModal.addEventListener('keydown', function(e) {
-        if (e.key === 'ArrowLeft') {
+        if (e.key === 'ArrowLeft' && !isTransitioning) {
             showGalleryImage(galleryIndex - 1);
-        } else if (e.key === 'ArrowRight') {
+        } else if (e.key === 'ArrowRight' && !isTransitioning) {
             showGalleryImage(galleryIndex + 1);
         }
     });
@@ -298,7 +372,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     imageModalClose.addEventListener('click', () => closeModal(imageModal));
 
-    // Quick search modal
     const quickSearchInput = document.getElementById('quick-search-input');
     const quickSearchResults = document.getElementById('quick-search-results');
     const sectionsResults = document.getElementById('sections-results');
@@ -355,7 +428,6 @@ document.addEventListener('DOMContentLoaded', function() {
         ).join('');
     });
 
-    // Global modal close events
     window.addEventListener('click', function(e) {
         if (e.target === contactModal) closeModal(contactModal);
         if (e.target === imageModal) closeModal(imageModal);
@@ -370,7 +442,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Dark mode functionality
     const darkToggle = document.getElementById('darkmode-toggle');
     const navDarkToggle = document.getElementById('nav-darkmode-toggle');
     const root = document.documentElement;
@@ -395,7 +466,6 @@ document.addEventListener('DOMContentLoaded', function() {
         updateMoon();
     }
 
-    // Initialize dark mode
     if (localStorage.getItem('theme') === 'dark') {
         root.classList.add('dark');
         darkToggle.checked = true;
@@ -403,14 +473,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     updateMoon();
 
-    // Dark mode event listeners
     [darkToggle, navDarkToggle].forEach(toggle => {
         toggle.addEventListener('change', function() {
             toggleDarkMode(this.checked);
         });
     });
 
-    // Progress bar functionality
     const progressBar = document.getElementById('progress-bar');
     function updateProgressBar() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
@@ -428,7 +496,6 @@ document.addEventListener('DOMContentLoaded', function() {
         progressBar.style.width = clampedPercent + '%';
     }
 
-    // Back to top functionality
     const backToTopBtn = document.getElementById('back-to-top');
     function updateBackToTop() {
         if (window.pageYOffset > 300) {
@@ -445,7 +512,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Sticky navigation functionality
     const stickyNav = document.getElementById('sticky-nav');
     const stickyFooter = document.querySelector('.sticky-footer');
     let lastScrollTop = 0;
@@ -454,27 +520,22 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateStickyElements() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
-        // Update progress bar
         updateProgressBar();
         
-        // Update back to top button
         updateBackToTop();
         
-        // Update sticky navigation
         if (scrollTop > 200) {
             stickyNav.classList.add('visible');
         } else {
             stickyNav.classList.remove('visible');
         }
         
-        // Update scroll direction
         if (scrollTop > lastScrollTop) {
             scrollDirection = 'down';
         } else {
             scrollDirection = 'up';
         }
         
-        // Update sticky footer
         if (scrollDirection === 'down' && scrollTop > 300) {
             stickyFooter.classList.add('visible');
         } else if (scrollDirection === 'up' || scrollTop < 300) {
@@ -484,11 +545,9 @@ document.addEventListener('DOMContentLoaded', function() {
         lastScrollTop = scrollTop;
     }
 
-    // Consolidated scroll event listener
     window.addEventListener('scroll', updateStickyElements, { passive: true });
     window.addEventListener('resize', updateProgressBar, { passive: true });
 
-    // Keyboard navigation
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Tab') {
             document.body.classList.add('keyboard-navigation');
@@ -522,7 +581,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.remove('keyboard-navigation');
     });
 
-    // Smooth scrolling for navigation links
     const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -539,7 +597,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Section animations
     const observerOptions = {
         threshold: 0.1,
         rootMargin: '0px 0px -50px 0px'
@@ -561,7 +618,6 @@ document.addEventListener('DOMContentLoaded', function() {
         sectionObserver.observe(section);
     });
 
-    // Skills animations
     const skillObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -579,7 +635,6 @@ document.addEventListener('DOMContentLoaded', function() {
         skillObserver.observe(skill);
     });
 
-    // Tech stack animations
     const techStackObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -596,7 +651,6 @@ document.addEventListener('DOMContentLoaded', function() {
         logo.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
         techStackObserver.observe(logo);
         
-        // Logo click animations
         const animateLogo = () => {
             logo.classList.remove('clicked');
             void logo.offsetWidth;
@@ -614,7 +668,6 @@ document.addEventListener('DOMContentLoaded', function() {
         logo.setAttribute('aria-label', logo.alt || 'Tech icon');
     });
 
-    // Mobile navigation
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const mobileNavLinks = document.getElementById('nav-links');
     hamburgerMenu.addEventListener('click', function() {
@@ -622,18 +675,15 @@ document.addEventListener('DOMContentLoaded', function() {
         mobileNavLinks.classList.toggle('active');
     });
 
-    // Project search and filtering
     const projectSearch = document.getElementById('project-search');
     const projectCards = document.querySelectorAll('.project-card');
     const filterBtns = document.querySelectorAll('.filter-btn');
 
-    // Pagination functionality
     const projectsPerPage = 6;
     let currentPage = 1;
     let filteredProjects = [];
 
     function updateFilterButtonsVisibility() {
-    // Get all available technologies from all projects
     const availableTechnologies = new Set();
     
     projectCards.forEach(card => {
@@ -645,23 +695,19 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Show/hide filter buttons based on available technologies
     filterBtns.forEach(btn => {
         const filterValue = btn.getAttribute('data-filter');
         
-        // Always show "All" button
         if (filterValue === 'all') {
             btn.classList.remove('hidden');
             return;
         }
         
-        // Show button only if there are projects with this technology
         if (availableTechnologies.has(filterValue)) {
             btn.classList.remove('hidden');
         } else {
             btn.classList.add('hidden');
             
-            // If this button was active, switch to "All"
             if (btn.classList.contains('active')) {
                 const allBtn = document.querySelector('.filter-btn[data-filter="all"]');
                 if (allBtn) {
@@ -692,21 +738,16 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateProjectVisibility() {
-        // Hide all projects first
         projectCards.forEach(card => {
             card.style.display = 'none';
         });
 
-        // Get filtered projects
         filteredProjects = getVisibleProjects();
         
-        // Reset to first page when filtering
         currentPage = 1;
-        
-        // Calculate pagination
+
         const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
         
-        // Show projects for current page
         const startIndex = (currentPage - 1) * projectsPerPage;
         const endIndex = startIndex + projectsPerPage;
         
@@ -716,7 +757,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Show/hide no projects message
         const projectsContainer = document.getElementById('projects-container');
         let noProjectsMessage = projectsContainer.querySelector('.no-projects-message');
         
@@ -729,32 +769,25 @@ document.addEventListener('DOMContentLoaded', function() {
             noProjectsMessage.remove();
         }
 
-        // Update pagination
         updateProjectsPagination(totalPages);
 
-        // Update filter buttons visibility
         updateFilterButtonsVisibility();
     }
 
     function renderProjectsPage(page) {
-        // Hide all projects first
         projectCards.forEach(card => {
             card.style.display = 'none';
         });
 
-        // Get current filtered projects
         filteredProjects = getVisibleProjects();
         
-        // Calculate pagination
         const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
-        
-        // Ensure page is within valid range
+
         if (page < 1) page = 1;
         if (page > totalPages) page = totalPages;
         
         currentPage = page;
         
-        // Show projects for current page
         const startIndex = (currentPage - 1) * projectsPerPage;
         const endIndex = startIndex + projectsPerPage;
         
@@ -764,14 +797,11 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
 
-        // Update pagination
         updateProjectsPagination(totalPages);
 
-        // Update filter buttons visibility
         updateFilterButtonsVisibility();
     }
 
-    // Make functions globally accessible for onclick handlers
     window.renderProjectsPage = renderProjectsPage;
 
     function updateProjectsPagination(totalPages) {
@@ -785,12 +815,10 @@ document.addEventListener('DOMContentLoaded', function() {
         pagination.style.display = 'flex';
         let paginationHTML = '';
         
-        // Add previous button
         if (currentPage > 1) {
             paginationHTML += `<button class="pagination-btn" onclick="renderProjectsPage(${currentPage - 1})">‹</button>`;
         }
         
-        // Add page numbers
         for (let i = 1; i <= totalPages; i++) {
             if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
                 paginationHTML += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="renderProjectsPage(${i})">${i}</button>`;
@@ -799,7 +827,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Add next button
         if (currentPage < totalPages) {
             paginationHTML += `<button class="pagination-btn" onclick="renderProjectsPage(${currentPage + 1})">›</button>`;
         }
@@ -817,7 +844,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Initialize pagination and filter buttons
     updateProjectVisibility();
     updateFilterButtonsVisibility();
 }); 
