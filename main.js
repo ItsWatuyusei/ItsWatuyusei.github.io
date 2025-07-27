@@ -60,8 +60,7 @@ class EnhancedLazyLoader {
 
     setupPreloadQueue() {
         const criticalImages = [
-            'https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115',
-            'https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra00.png?updatedAt=1752006146778'
+            'https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115'
         ];
 
         criticalImages.forEach(src => {
