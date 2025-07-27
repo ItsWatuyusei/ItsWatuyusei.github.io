@@ -627,12 +627,16 @@ document.addEventListener('DOMContentLoaded', function() {
     const projectCards = document.querySelectorAll('.project-card');
     const filterBtns = document.querySelectorAll('.filter-btn');
 
-    function updateProjectVisibility() {
+    // Pagination functionality
+    const projectsPerPage = 6;
+    let currentPage = 1;
+    let filteredProjects = [];
+
+    function getVisibleProjects() {
         const searchTerm = projectSearch.value.toLowerCase();
         const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
-        let visibleProjects = 0;
-
-        projectCards.forEach(card => {
+        
+        return Array.from(projectCards).filter(card => {
             const title = card.querySelector('.project-title')?.textContent?.toLowerCase() || '';
             const desc = card.querySelector('.project-desc')?.textContent?.toLowerCase() || '';
             const tech = card.querySelector('.project-tech')?.textContent?.toLowerCase() || '';
@@ -643,23 +647,118 @@ document.addEventListener('DOMContentLoaded', function() {
                                 (tech && tech.includes(searchTerm));
             const matchesFilter = activeFilter === 'all' || technologies.includes(activeFilter);
             
-            const shouldShow = matchesSearch && matchesFilter;
-            card.style.display = shouldShow ? 'block' : 'none';
-            if (shouldShow) visibleProjects++;
+            return matchesSearch && matchesFilter;
+        });
+    }
+
+    function updateProjectVisibility() {
+        // Hide all projects first
+        projectCards.forEach(card => {
+            card.style.display = 'none';
+        });
+
+        // Get filtered projects
+        filteredProjects = getVisibleProjects();
+        
+        // Reset to first page when filtering
+        currentPage = 1;
+        
+        // Calculate pagination
+        const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+        
+        // Show projects for current page
+        const startIndex = (currentPage - 1) * projectsPerPage;
+        const endIndex = startIndex + projectsPerPage;
+        
+        filteredProjects.forEach((card, index) => {
+            if (index >= startIndex && index < endIndex) {
+                card.style.display = 'block';
+            }
         });
 
         // Show/hide no projects message
         const projectsContainer = document.getElementById('projects-container');
         let noProjectsMessage = projectsContainer.querySelector('.no-projects-message');
         
-        if (visibleProjects === 0 && !noProjectsMessage) {
+        if (filteredProjects.length === 0 && !noProjectsMessage) {
             noProjectsMessage = document.createElement('div');
             noProjectsMessage.className = 'no-projects-message';
             noProjectsMessage.innerHTML = '<p>No projects found matching your criteria.</p>';
             projectsContainer.appendChild(noProjectsMessage);
-        } else if (visibleProjects > 0 && noProjectsMessage) {
+        } else if (filteredProjects.length > 0 && noProjectsMessage) {
             noProjectsMessage.remove();
         }
+
+        // Update pagination
+        updateProjectsPagination(totalPages);
+    }
+
+    function renderProjectsPage(page) {
+        // Hide all projects first
+        projectCards.forEach(card => {
+            card.style.display = 'none';
+        });
+
+        // Get current filtered projects
+        filteredProjects = getVisibleProjects();
+        
+        // Calculate pagination
+        const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
+        
+        // Ensure page is within valid range
+        if (page < 1) page = 1;
+        if (page > totalPages) page = totalPages;
+        
+        currentPage = page;
+        
+        // Show projects for current page
+        const startIndex = (currentPage - 1) * projectsPerPage;
+        const endIndex = startIndex + projectsPerPage;
+        
+        filteredProjects.forEach((card, index) => {
+            if (index >= startIndex && index < endIndex) {
+                card.style.display = 'block';
+            }
+        });
+
+        // Update pagination
+        updateProjectsPagination(totalPages);
+    }
+
+    // Make functions globally accessible for onclick handlers
+    window.renderProjectsPage = renderProjectsPage;
+
+    function updateProjectsPagination(totalPages) {
+        const pagination = document.getElementById('projects-pagination');
+        
+        if (totalPages <= 1) {
+            pagination.style.display = 'none';
+            return;
+        }
+        
+        pagination.style.display = 'flex';
+        let paginationHTML = '';
+        
+        // Add previous button
+        if (currentPage > 1) {
+            paginationHTML += `<button class="pagination-btn" onclick="renderProjectsPage(${currentPage - 1})">‹</button>`;
+        }
+        
+        // Add page numbers
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                paginationHTML += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="renderProjectsPage(${i})">${i}</button>`;
+            } else if (i === currentPage - 2 || i === currentPage + 2) {
+                paginationHTML += `<span class="pagination-ellipsis">...</span>`;
+            }
+        }
+        
+        // Add next button
+        if (currentPage < totalPages) {
+            paginationHTML += `<button class="pagination-btn" onclick="renderProjectsPage(${currentPage + 1})">›</button>`;
+        }
+        
+        pagination.innerHTML = paginationHTML;
     }
 
     projectSearch.addEventListener('input', updateProjectVisibility);
@@ -672,38 +771,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Pagination functionality
-    const projectsPerPage = 6;
-    let currentPage = 1;
-    const totalProjects = projectCards.length;
-    const totalPages = Math.ceil(totalProjects / projectsPerPage);
-
-    function renderProjectsPage(page) {
-        const startIndex = (page - 1) * projectsPerPage;
-        const endIndex = startIndex + projectsPerPage;
-        projectCards.forEach((card, index) => {
-            if (index >= startIndex && index < endIndex) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
-    }
-
-    function updateProjectsPagination() {
-        const pagination = document.getElementById('projects-pagination');
-        if (totalPages <= 1) {
-            pagination.style.display = 'none';
-            return;
-        }
-        pagination.style.display = 'flex';
-        let paginationHTML = '';
-        for (let i = 1; i <= totalPages; i++) {
-            paginationHTML += `<button class="pagination-btn ${i === currentPage ? 'active' : ''}" onclick="currentPage = ${i}; renderProjectsPage(${i}); updateProjectsPagination();">${i}</button>`;
-        }
-        pagination.innerHTML = paginationHTML;
-    }
-
-    renderProjectsPage(currentPage);
-    updateProjectsPagination();
+    // Initialize pagination
+    updateProjectVisibility();
 }); 
