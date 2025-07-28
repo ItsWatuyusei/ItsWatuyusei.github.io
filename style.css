@@ -1589,9 +1589,33 @@ body {
     color: var(--text);
 }
 
+.dark .nav-links {
+    background: rgba(35, 36, 58, 0.98);
+    border-bottom-color: #23243a;
+}
+
 .dark .nav-darkmode-label:hover {
     color: var(--primary);
     background: rgba(138, 180, 248, 0.1);
+}
+
+.dark .image-modal {
+    background: rgba(0, 0, 0, 0.9);
+}
+
+.dark .image-modal-content {
+    background: #23243a;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+.dark .image-modal-close {
+    color: #fff;
+    background: rgba(35, 36, 58, 0.9);
+}
+
+.dark .image-modal-close:hover {
+    color: var(--accent);
+    background: #23243a;
 }
 
 .dark .sticky-footer {
