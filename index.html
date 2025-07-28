@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Portfolio | Full Stack Developer</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -286,10 +289,10 @@
                     </article>
                     <article class="project-card" data-technologies="php,javascript,css,cms">
                         <div class="project-image">
-                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/RafflesSystem00.png?updatedAt=1753733249256" alt="RafflesSystem Screenshot" class="project-img" />
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/RafflesSystem00.png?updatedAt=1753626310526" alt="RafflesSystem Screenshot" class="project-img" />
                         </div>
                         <div class="project-content">
-                            <h3 class="project-title" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/RafflesSystem00.png?updatedAt=1753733249256","https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/RafflesSystem01.png?updatedAt=1753626473144","https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/RafflesSystem02.png?updatedAt=1753690259209"]'>RafflesSystem</h3>
+                            <h3 class="project-title" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/RafflesSystem00.png?updatedAt=1753626310526","https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/RafflesSystem01.png?updatedAt=1753626473144","https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/RafflesSystem02.png?updatedAt=1753626473423"]'>RafflesSystem</h3>
                                                          <div class="project-desc">Raffle system with admin panel. User management, tickets and payments. (Fully functional beta version)</div>
                             <div class="project-tech">
                                 <span class="tech-tag">PHP</span>
@@ -364,6 +367,31 @@
     </div>
     <script src="https://js.hsforms.net/forms/embed/49346124.js" defer></script>
     
+    <script>
+        // Cache busting for CSS and JS files
+        function addCacheBuster() {
+            const timestamp = new Date().getTime();
+            
+            // Update CSS link
+            const cssLink = document.querySelector('link[href="style.css"]');
+            if (cssLink) {
+                cssLink.href = `style.css?v=${timestamp}`;
+            }
+            
+            // Update JS script
+            const jsScript = document.querySelector('script[src="main.js"]');
+            if (jsScript) {
+                jsScript.src = `main.js?v=${timestamp}`;
+            }
+        }
+        
+        // Run cache busting when DOM is loaded
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', addCacheBuster);
+        } else {
+            addCacheBuster();
+        }
+    </script>
     <script src="main.js" defer></script>
 </body>
 </html>
