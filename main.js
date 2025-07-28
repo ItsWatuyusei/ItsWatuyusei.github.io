@@ -1,6 +1,8 @@
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/sw.js')
+        // Add cache busting to service worker registration
+        const swUrl = '/sw.js?v=' + Date.now();
+        navigator.serviceWorker.register(swUrl)
             .then(function(registration) {
                 console.log('SW registered: ', registration);
             })
