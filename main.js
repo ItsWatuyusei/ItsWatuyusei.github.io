@@ -593,6 +593,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     behavior: 'smooth'
                 });
             }
+            
+            const hamburgerMenu = document.getElementById('hamburger-menu');
+            const mobileNavLinks = document.getElementById('nav-links');
+            hamburgerMenu.classList.remove('active');
+            mobileNavLinks.classList.remove('active');
         });
     });
 
