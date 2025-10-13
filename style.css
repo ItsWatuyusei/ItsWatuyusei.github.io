@@ -1963,3 +1963,47 @@ body {
         padding: 4px 10px;
     }
 }
+
+.contact-form {
+    text-align: center;
+    padding: 20px;
+}
+
+.contact-form h3 {
+    margin-bottom: 15px;
+    color: var(--primary);
+}
+
+.contact-form p {
+    margin-bottom: 25px;
+    color: var(--muted);
+}
+
+.contact-links {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.contact-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(26, 35, 126, 0.3);
+}
+
+.contact-link i {
+    font-size: 1.1em;
+}

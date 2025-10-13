@@ -25,6 +25,13 @@ self.addEventListener('fetch', function(event) {
     const url = new URL(event.request.url);
     const isNoCacheFile = noCacheFiles.some(file => url.pathname.includes(file));
     
+    // Skip HubSpot and external tracking resources
+    if (url.hostname.includes('hsforms.com') || 
+        url.hostname.includes('hubspot.com') ||
+        url.pathname.includes('counters.gif')) {
+        return;
+    }
+    
     // For CSS and JS files, always fetch fresh from network
     if (isNoCacheFile) {
         event.respondWith(
@@ -44,7 +51,11 @@ self.addEventListener('fetch', function(event) {
                 if (response) {
                     return response;
                 }
-                return fetch(event.request);
+                return fetch(event.request).catch(function(error) {
+                    // Silently handle fetch errors for external resources
+                    console.warn('Failed to fetch:', event.request.url);
+                    return new Response('', { status: 404 });
+                });
             }
         )
     );

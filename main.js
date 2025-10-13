@@ -1,13 +1,11 @@
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
         // Add cache busting to service worker registration
-        const swUrl = '/sw.js?v=' + Date.now();
+        const swUrl = './sw.js?v=' + Date.now();
         navigator.serviceWorker.register(swUrl)
             .then(function(registration) {
-                console.log('SW registered: ', registration);
             })
             .catch(function(registrationError) {
-                console.log('SW registration failed: ', registrationError);
             });
     });
 }
@@ -80,32 +78,40 @@ class EnhancedLazyLoader {
             img.removeAttribute('data-src');
         }
         
-        img.style.opacity = '0';
-        img.style.transform = 'scale(0.95)';
-        img.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        requestAnimationFrame(() => {
+            img.style.opacity = '0';
+            img.style.transform = 'scale(0.95)';
+            img.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        });
         
         img.onload = () => {
-            img.style.opacity = '1';
-            img.style.transform = 'scale(1)';
-            img.classList.add('loaded');
+            requestAnimationFrame(() => {
+                img.style.opacity = '1';
+                img.style.transform = 'scale(1)';
+                img.classList.add('loaded');
+            });
         };
 
         img.onerror = () => {
-            img.style.opacity = '1';
-            img.style.transform = 'scale(1)';
-            img.classList.add('loaded');
-            console.warn('Failed to load image:', img.src);
+            requestAnimationFrame(() => {
+                img.style.opacity = '1';
+                img.style.transform = 'scale(1)';
+                img.classList.add('loaded');
+                console.warn('Failed to load image:', img.src);
+            });
         };
     }
 
     loadContent(element) {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(20px)';
-        element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        
         requestAnimationFrame(() => {
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
+            element.style.opacity = '0';
+            element.style.transform = 'translateY(20px)';
+            element.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            
+            requestAnimationFrame(() => {
+                element.style.opacity = '1';
+                element.style.transform = 'translateY(0)';
+            });
         });
     }
 
@@ -500,20 +506,32 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const progressBar = document.getElementById('progress-bar');
+    let cachedDocumentHeight = 0;
+    let cachedWindowHeight = 0;
+    let lastScrollPercent = 0;
+    
     function updateProgressBar() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
-        const documentHeight = Math.max(
-            document.body.scrollHeight,
-            document.body.offsetHeight,
-            document.documentElement.clientHeight,
-            document.documentElement.scrollHeight,
-            document.documentElement.offsetHeight
-        );
-        const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-        const scrollableHeight = documentHeight - windowHeight;
+        
+        if (cachedDocumentHeight === 0 || cachedWindowHeight === 0) {
+            cachedDocumentHeight = Math.max(
+                document.body.scrollHeight,
+                document.body.offsetHeight,
+                document.documentElement.clientHeight,
+                document.documentElement.scrollHeight,
+                document.documentElement.offsetHeight
+            );
+            cachedWindowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+        }
+        
+        const scrollableHeight = cachedDocumentHeight - cachedWindowHeight;
         const scrollPercent = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
         const clampedPercent = Math.min(Math.max(scrollPercent, 0), 100);
-        progressBar.style.width = clampedPercent + '%';
+        
+        if (Math.abs(clampedPercent - lastScrollPercent) > 0.5) {
+            progressBar.style.width = clampedPercent + '%';
+            lastScrollPercent = clampedPercent;
+        }
     }
 
     const backToTopBtn = document.getElementById('back-to-top');
@@ -565,8 +583,25 @@ document.addEventListener('DOMContentLoaded', function() {
         lastScrollTop = scrollTop;
     }
 
-    window.addEventListener('scroll', updateStickyElements, { passive: true });
-    window.addEventListener('resize', updateProgressBar, { passive: true });
+    let scrollTimeout;
+    function throttledUpdateStickyElements() {
+        if (scrollTimeout) return;
+        scrollTimeout = setTimeout(() => {
+            updateStickyElements();
+            scrollTimeout = null;
+        }, 16);
+    }
+    
+    function invalidateCache() {
+        cachedDocumentHeight = 0;
+        cachedWindowHeight = 0;
+    }
+    
+    window.addEventListener('scroll', throttledUpdateStickyElements, { passive: true });
+    window.addEventListener('resize', () => {
+        invalidateCache();
+        updateProgressBar();
+    }, { passive: true });
 
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Tab') {
@@ -698,6 +733,13 @@ document.addEventListener('DOMContentLoaded', function() {
     hamburgerMenu.addEventListener('click', function() {
         this.classList.toggle('active');
         mobileNavLinks.classList.toggle('active');
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!hamburgerMenu.contains(e.target) && !mobileNavLinks.contains(e.target)) {
+            hamburgerMenu.classList.remove('active');
+            mobileNavLinks.classList.remove('active');
+        }
     });
 
     const projectSearch = document.getElementById('project-search');
