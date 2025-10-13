@@ -1,1 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuServerEasy - Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f8f9fa;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            padding: 40px 0;
+            background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+            color: white;
+            border-radius: 15px;
+            margin-bottom: 40px;
+        }
+        
+        .header h1 {
+            font-size: 3em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        
+        .nav {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border-left: 5px solid #3498db;
+        }
+        
+        .nav h3 {
+            color: #2980b9;
+            margin-bottom: 15px;
+        }
+        
+        .nav ul {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 10px;
+        }
+        
+        .nav a {
+            color: #555;
+            text-decoration: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            display: block;
+        }
+        
+        .nav a:hover {
+            background: #3498db;
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            border-left: 5px solid #3498db;
+        }
+        
+        .section h2 {
+            color: #2980b9;
+            margin-bottom: 20px;
+            font-size: 2em;
+            border-bottom: 2px solid #ecf0f1;
+            padding-bottom: 10px;
+        }
+        
+        .section h3 {
+            color: #34495e;
+            margin: 25px 0 15px 0;
+            font-size: 1.4em;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .feature-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+            transition: transform 0.3s ease;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card h4 {
+            color: #2980b9;
+            margin-bottom: 10px;
+        }
+        
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 15px 0;
+            overflow-x: auto;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #f39c12;
+        }
+        
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 5px solid #27ae60;
+        }
+        
+        .step-list {
+            counter-reset: step-counter;
+        }
+        
+        .step-list li {
+            counter-increment: step-counter;
+            margin-bottom: 15px;
+            padding-left: 40px;
+            position: relative;
+        }
+        
+        .step-list li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #3498db;
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 30px;
+            background: #34495e;
+            color: white;
+            border-radius: 10px;
+            margin-top: 40px;
+        }
+        
+        .footer a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1000;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #3498db 0%, #2980b9 100%);
+            z-index: 1001;
+            transition: width 0.1s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                padding: 15px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .nav ul {
+                grid-template-columns: 1fr;
+            }
+            
+            .back-to-top {
+                bottom: 20px;
+                right: 20px;
+                width: 45px;
+                height: 45px;
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    <div class="container">
+        <div class="header">
+            <h1>🎮 MuServerEasy</h1>
+            <p>Professional MuOnline Server Management Tool</p>
+        </div>
 
+        <div class="nav">
+            <h3>📋 Quick Navigation</h3>
+            <ul>
+                <li><a href="#overview">Overview</a></li>
+                <li><a href="#installation">Installation Guide</a></li>
+                <li><a href="#wizard">Installation Wizard</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+                <li><a href="#license">License Information</a></li>
+                <li><a href="#support">Support</a></li>
+            </ul>
+        </div>
+
+        <section id="overview" class="section">
+            <h2>🚀 Overview</h2>
+            <p><strong>MuServerEasy</strong> is a comprehensive, professional-grade tool designed to simplify the installation, configuration, and management of MuOnline game servers. Built with modern technologies and user-friendly interfaces, it streamlines the complex process of setting up and maintaining MuOnline servers.</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🎯 One-Click Installation</h4>
+                    <p>Automated server installation with intelligent file detection and configuration optimization.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🛠️ Advanced Tools</h4>
+                    <p>Comprehensive toolkit including database management, IP configuration, and server monitoring.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🌐 Multi-Language Support</h4>
+                    <p>Available in English, Spanish, and Portuguese with intuitive localization.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔒 Secure Licensing</h4>
+                    <p>Hardware-based licensing system with flexible license types and expiration management.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="installation" class="section">
+            <h2>📦 Installation Guide</h2>
+            
+            <h3>System Requirements</h3>
+            <ul>
+                <li><strong>Operating System:</strong> Windows 7 or higher (64-bit recommended)</li>
+                <li><strong>.NET Runtime:</strong> .NET 8.0 Desktop Runtime</li>
+                <li><strong>RAM:</strong> Minimum 1GB, Recommended 4GB+</li>
+                <li><strong>Storage:</strong> At least 2GB free space</li>
+                <li><strong>Database:</strong> SQL Server 2012 or higher</li>
+                <li><strong>Network:</strong> Internet connection for license validation</li>
+            </ul>
+
+            <h3>Installation Steps</h3>
+            <ol class="step-list">
+                <li>Ensure .NET 8.0 Desktop Runtime is installed on your system</li>
+                <li>Download the MuServerEasy installer from the official source</li>
+                <li>Run the installer as Administrator</li>
+                <li>Follow the installation wizard prompts</li>
+                <li>Launch MuServerEasy from the desktop shortcut</li>
+                <li>Enter your license information when prompted</li>
+            </ol>
+
+            <div class="warning">
+                <strong>⚠️ Important:</strong> Always run MuServerEasy as Administrator to ensure proper file access and system configuration.
+            </div>
+        </section>
+
+        <section id="wizard" class="section">
+            <h2>🧙‍♂️ Installation Wizard</h2>
+            
+            <p>The Installation Wizard guides you through the complete server setup process with the following steps:</p>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>1. System Verification</h4>
+                    <p>Automated system check ensuring all requirements are met before installation begins.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>2. MuServer Installation</h4>
+                    <p>Intelligent extraction and placement of server files with automatic directory detection.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>3. Database Creation</h4>
+                    <p>Automated database setup with backup and restore capabilities for existing installations.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>4. ODBC Configuration</h4>
+                    <p>Automatic ODBC connection setup for seamless database integration.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>5. IP Configuration</h4>
+                    <p>Smart IP detection and configuration for both local and network deployments.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>6. Server Configuration</h4>
+                    <p>Comprehensive server settings optimization based on system specifications.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>7. License Generation</h4>
+                    <p>Automatic license generation and validation for server authentication.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>8. Query Tools</h4>
+                    <p>Advanced SQL query execution tools for database management and maintenance.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="section">
+            <h2>⭐ Key Features</h2>
+            
+            <h3>🎮 Server Management</h3>
+            <ul>
+                <li><strong>Quick Install:</strong> One-click server installation from ZIP archives</li>
+                <li><strong>Multi-Server Support:</strong> Manage multiple server instances</li>
+                <li><strong>Auto-Detection:</strong> Intelligent server file detection and validation</li>
+                <li><strong>Backup & Restore:</strong> Automated backup system with easy restoration</li>
+            </ul>
+
+            <h3>🗄️ Database Tools</h3>
+            <ul>
+                <li><strong>Database Creation:</strong> Automated MuOnline database setup</li>
+                <li><strong>Query Execution:</strong> Execute SQL scripts with error handling</li>
+                <li><strong>Backup Management:</strong> Database backup and restore functionality</li>
+                <li><strong>Connection Testing:</strong> Verify database connectivity and configuration</li>
+            </ul>
+
+            <h3>🌐 Network Configuration</h3>
+            <ul>
+                <li><strong>IP Auto-Detection:</strong> Automatic local and external IP detection</li>
+                <li><strong>Port Configuration:</strong> Smart port assignment and conflict resolution</li>
+                <li><strong>Firewall Integration:</strong> Automatic firewall rule configuration</li>
+                <li><strong>Network Testing:</strong> Connection testing and validation tools</li>
+            </ul>
+
+            <h3>🔧 Advanced Tools</h3>
+            <ul>
+                <li><strong>File Management:</strong> Advanced file operations and validation</li>
+                <li><strong>Configuration Optimization:</strong> Automatic performance tuning</li>
+                <li><strong>Log Analysis:</strong> Server log parsing and error detection</li>
+                <li><strong>Update Management:</strong> Server update and patch management</li>
+            </ul>
+        </section>
+
+        <section id="troubleshooting" class="section">
+            <h2>🔧 Troubleshooting</h2>
+            
+            <h3>Common Issues</h3>
+            
+            <h4>Installation Problems</h4>
+            <div class="warning">
+                <strong>Issue:</strong> Application won't start or shows .NET error<br>
+                <strong>Solution:</strong> Install .NET 8.0 Desktop Runtime from Microsoft's official website
+            </div>
+            
+            <div class="warning">
+                <strong>Issue:</strong> Installation fails or hangs during setup<br>
+                <strong>Solution:</strong> Ensure you're running as Administrator and check antivirus software isn't blocking the installation
+            </div>
+
+            <h4>Database Connection Issues</h4>
+            <div class="warning">
+                <strong>Issue:</strong> Cannot connect to SQL Server<br>
+                <strong>Solution:</strong> Verify SQL Server is running and Windows Authentication is enabled. Check firewall settings.
+            </div>
+
+            <h4>License Validation Problems</h4>
+            <div class="warning">
+                <strong>Issue:</strong> License validation fails<br>
+                <strong>Solution:</strong> Ensure stable internet connection and verify hardware ID matches your license
+            </div>
+
+            <h3>Performance Optimization</h3>
+            <ul>
+                <li>Close unnecessary applications during installation</li>
+                <li>Ensure sufficient disk space (at least 2GB free)</li>
+                <li>Disable real-time antivirus scanning during installation</li>
+                <li>Use SSD storage for better performance</li>
+            </ul>
+
+            <h3>Getting Help</h3>
+            <p>If you encounter issues not covered in this documentation:</p>
+            <ul>
+                <li>Check the application logs in the installation directory</li>
+                <li>Verify system requirements are met</li>
+                <li>Contact support with detailed error information</li>
+                <li>Include hardware ID and license information when requesting support</li>
+            </ul>
+        </section>
+
+        <section id="license" class="section">
+            <h2>📄 License Information</h2>
+            
+            <p>MuServerEasy uses a hardware-based licensing system to protect against unauthorized distribution while providing flexible usage options.</p>
+
+            <h3>License Types</h3>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>🆓 Free License</h4>
+                    <p>Basic functionality with limited features. Perfect for testing and learning.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>⭐ Premium License</h4>
+                    <p>Full access to all features with priority support and updates.</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🏢 Commercial License</h4>
+                    <p>Extended support for commercial server operations with additional tools.</p>
+                </div>
+            </div>
+
+            <h3>Hardware ID</h3>
+            <p>Your Hardware ID is a unique identifier generated from your system configuration. This ID is used to:</p>
+            <ul>
+                <li>Bind your license to your specific machine</li>
+                <li>Prevent unauthorized license sharing</li>
+                <li>Enable license recovery in case of system changes</li>
+            </ul>
+
+            <div class="success">
+                <strong>💡 Tip:</strong> Keep your Hardware ID safe. You'll need it for license transfers or recovery.
+            </div>
+        </section>
+
+        <section id="support" class="section">
+            <h2>🆘 Support & Contact</h2>
+            
+            <h3>Getting Support</h3>
+            <p>We provide comprehensive support for all MuServerEasy users:</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h4>📚 Documentation</h4>
+                    <p>Complete documentation and guides available online</p>
+                </div>
+                <div class="feature-card">
+                    <h4>💬 Community Forum</h4>
+                    <p>Join our community for tips, tricks, and peer support</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🎫 Technical Support</h4>
+                    <p>Direct technical support for license holders</p>
+                </div>
+                <div class="feature-card">
+                    <h4>🔄 Regular Updates</h4>
+                    <p>Frequent updates with new features and improvements</p>
+                </div>
+            </div>
+
+            <h3>Contact Information</h3>
+            <ul>
+                <li><strong>Website:</strong> <a href="https://ItsWatuyusei.com">ItsWatuyusei.com</a></li>
+                <li><strong>Support Email:</strong> Available through the application</li>
+                <li><strong>Community Forum:</strong> Accessible via the About section</li>
+                <li><strong>Version Updates:</strong> Automatic update notifications</li>
+            </ul>
+
+            <div class="success">
+                <strong>✨ Thank you for using MuServerEasy!</strong><br>
+                We're committed to providing the best MuOnline server management experience.
+            </div>
+        </section>
+
+        <div class="footer">
+            <p>Copyright &copy; ItsWatuyusei</p>
+            <p>MuServerEasy - Professional MuOnline Server Management</p>
+            <p><a href="https://linktr.ee/ItsWatuyusei">Visit Our Website</a> | <a href="#support">Get Support</a></p>
+        </div>
+    </div>
+
+    <button class="back-to-top" onclick="scrollToTop()" title="Back to Top">↑</button>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('.header');
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            header.style.transform = `translateY(${rate}px)`;
+            
+            // Show/hide back to top button
+            const backToTop = document.querySelector('.back-to-top');
+            if (scrolled > 300) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+            
+            // Update progress bar
+            updateProgressBar();
+        });
+
+        // Progress bar functionality
+        function updateProgressBar() {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            document.getElementById("progressBar").style.width = scrolled + "%";
+        }
+
+        // Back to top function
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+    </script>
+</body>
+</html>
