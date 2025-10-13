@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <meta property="og:title" content="ItsWatuyusei | Full Stack Developer Portfolio">
-    <meta property="og:description" content=""Full Stack Developer specializing in Python, PHP, C++, React, WooCommerce, and modern web technologies. View my projects and get in touch.">
+    <meta property="og:description" content=""Full Stack Developer specializing in Python, PHP, C++, C#, .NET, React, WooCommerce, and modern web technologies. View my projects and get in touch.">
     <meta property="og:image" content="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115">
     <meta property="og:image:width" content="460">
     <meta property="og:image:height" content="460">
@@ -21,13 +21,13 @@
     
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="ItsWatuyusei | Full Stack Developer Portfolio">
-    <meta name="twitter:description" content="Full Stack Developer specializing in Python, PHP, C++, Flutter, WooCommerce, Shopify, PrestaShop, JavaScript and modern web technologies">
+    <meta name="twitter:description" content="Full Stack Developer specializing in Python, PHP, C++, C#, .NET, Flutter, WooCommerce, Shopify, PrestaShop, JavaScript and modern web technologies">
     <meta name="twitter:image" content="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115">
     <meta name="twitter:creator" content="@ItsWatuyusei">
     
-    <meta name="description" content="Full Stack Developer specializing in Python, PHP, C++, Flutter, WooCommerce, Shopify, PrestaShop, JavaScript and modern web technologies. View my projects and get in touch.">
+    <meta name="description" content="Full Stack Developer specializing in Python, PHP, C++, C#, .NET, Flutter, WooCommerce, Shopify, PrestaShop, JavaScript and modern web technologies. View my projects and get in touch.">
     <meta name="author" content="ItsWatuyusei">
-    <meta name="keywords" content="Full Stack Developer, Python Developer, React Developer, WooCommerce Developer, Web Developer, Frontend Developer, Backend Developer, CMS Developer, ECommerce Developer, ItsWatuyusei">
+    <meta name="keywords" content="Full Stack Developer, Python Developer, C# Developer, .NET Developer, React Developer, WooCommerce Developer, Web Developer, Frontend Developer, Backend Developer, CMS Developer, ECommerce Developer, ItsWatuyusei">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
     <meta name="revisit-after" content="7 days">
@@ -63,7 +63,7 @@
         "@type": "Person",
         "name": "ItsWatuyusei",
         "jobTitle": "Full Stack Developer",
-        "description": "Full Stack Developer specializing in Python, PHP, C++, Flutter, WooCommerce, Shopify, PrestaShop, JavaScript and modern web technologies.",
+        "description": "Full Stack Developer specializing in Python, PHP, C++, C#, .NET, Flutter, WooCommerce, Shopify, PrestaShop, JavaScript and modern web technologies.",
         "url": "https://ItsWatuyusei.com",
         "image": "https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115",
         "sameAs": [
@@ -82,7 +82,7 @@
             "https://www.twitch.tv/ItsWatuyusei"
         ],
         "knowsAbout": [
-            "Python", "React", "JavaScript", "PHP", "WooCommerce", "WordPress", "Node.js", "Flutter", "C++", ".NET"
+            "Python", "React", "JavaScript", "PHP", "WooCommerce", "WordPress", "Node.js", "Flutter", "C++", "C#", ".NET"
         ],
         "worksFor": {
             "@type": "Organization",
@@ -181,23 +181,24 @@
             <section class="section" id="skills">
                 <h2 class="section-title">Skills</h2>
                 <div class="skills">
-                    <div class="skill">HTML</div>
-                    <div class="skill">CSS</div>
-                    <div class="skill">JavaScript</div>
-                    <div class="skill">React</div>
-                    <div class="skill">Node.js</div>
-                    <div class="skill">Python</div>
-                    <div class="skill">PHP</div>
-                    <div class="skill">C++</div>
                     <div class="skill">.NET</div>
-                    <div class="skill">Flutter</div>
-                    <div class="skill">SQL</div>
-                    <div class="skill">Git</div>
                     <div class="skill">AWS</div>
-                    <div class="skill">WordPress</div>
-                    <div class="skill">WooCommerce</div>
-                    <div class="skill">Shopify</div>
+                    <div class="skill">C#</div>
+                    <div class="skill">C++</div>
+                    <div class="skill">CSS</div>
+                    <div class="skill">Flutter</div>
+                    <div class="skill">Git</div>
+                    <div class="skill">HTML</div>
+                    <div class="skill">JavaScript</div>
+                    <div class="skill">Node.js</div>
+                    <div class="skill">PHP</div>
                     <div class="skill">PrestaShop</div>
+                    <div class="skill">Python</div>
+                    <div class="skill">React</div>
+                    <div class="skill">Shopify</div>
+                    <div class="skill">SQL</div>
+                    <div class="skill">WooCommerce</div>
+                    <div class="skill">WordPress</div>
                 </div>
             </section>
             <hr class="section-separator" />
@@ -207,15 +208,19 @@
                     <div class="search-container">
                         <input type="text" id="project-search" placeholder="Search projects..." class="project-search">
                         <i class="fas fa-search search-icon"></i>
+                        <button type="button" id="clear-search" class="clear-search-btn" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
                     <div class="filter-container">
                         <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="python">Python</button>
-                        <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
-                        <button class="filter-btn" data-filter="javascript">JavaScript</button>
+                        <button class="filter-btn" data-filter="cpp">C++</button>
                         <button class="filter-btn" data-filter="cms">CMS</button>
                         <button class="filter-btn" data-filter="dotnet">.NET</button>
+                        <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
                         <button class="filter-btn" data-filter="flutter">Flutter</button>
+                        <button class="filter-btn" data-filter="javascript">JavaScript</button>
+                        <button class="filter-btn" data-filter="python">Python</button>
                     </div>
                 </div>
                 <div class="projects fadein-group" id="projects-container">
@@ -304,6 +309,54 @@
                             <a class="project-link" href="https://test.itswatuyusei.com/Raffles" target="_blank" rel="noopener noreferrer">View Project</a>
                         </div>
                     </article>
+                    <article class="project-card" data-technologies="dotnet">
+                        <div class="project-image">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">MuServerEasy</h3>
+                            <div class="project-desc">Professional Windows desktop application for MU Online server creation and configuration with pre-established files. Features dual licensing system, multi-theme support, multilingual interface, and advanced authentication with secure admin panel.</div>
+                            <div class="project-tech">
+                                <span class="tech-tag">C#</span>
+                                <span class="tech-tag">.NET 8.0</span>
+                                <span class="tech-tag">Windows Forms</span>
+                                <span class="tech-tag">SQL Server</span>
+                            </div>
+                            <a class="project-link" href="#" target="_blank" rel="noopener noreferrer">View Project</a>
+                        </div>
+                    </article>
+                    <article class="project-card" data-technologies="dotnet">
+                        <div class="project-image">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">LauncherMU</h3>
+                            <div class="project-desc">Advanced game launcher for MU Online with WebView2 integration, automatic update system with CRC32 file verification, encrypted configuration management, real-time server status checking, and customizable interface with drag & drop functionality.</div>
+                            <div class="project-tech">
+                                <span class="tech-tag">C#</span>
+                                <span class="tech-tag">WPF</span>
+                                <span class="tech-tag">.NET 4.8</span>
+                                <span class="tech-tag">WebView2</span>
+                            </div>
+                            <a class="project-link" href="#" target="_blank" rel="noopener noreferrer">View Project</a>
+                        </div>
+                    </article>
+                    <article class="project-card" data-technologies="cpp">
+                        <div class="project-image">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">MU Online Server Emulator</h3>
+                            <div class="project-desc">Custom Season 6 MMORPG server emulator with multi-language support. Features encrypted Lua scripting system, web-based server control panel, advanced health bar system, monster AI system, custom events, 3D camera, emoji system, guild management with logo display, and real-time online user tracking.</div>
+                            <div class="project-tech">
+                                <span class="tech-tag">C++</span>
+                                <span class="tech-tag">Lua</span>
+                                <span class="tech-tag">Visual Studio</span>
+                                <span class="tech-tag">SQL Server</span>
+                            </div>
+                            <a class="project-link" href="https://mega.nz/folder/ZeMCjJqa#hSOZERkU5mbuUwRJO5nK0g" target="_blank" rel="noopener noreferrer">View Project</a>
+                        </div>
+                    </article>
 
                 </div>
                 <div class="pagination" id="projects-pagination"></div>
@@ -320,6 +373,7 @@
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python" title="Python" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP" title="PHP" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++" title="C++" loading="lazy" />
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#" title="C#" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg" alt=".NET" title=".NET" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="Flutter" title="Flutter" loading="lazy" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL" title="MySQL" loading="lazy" />
@@ -336,7 +390,7 @@
     <footer class="sticky-footer">
         <div class="footer-content">
             <div class="footer-text">
-                <span>Copyright © 2025 <a href="https://linktr.ee/ItsWatuyusei" target="_blank">ItsWatuyusei</a></span>
+                <span>Copyright © 2025 <a href="https://ItsWatuyusei.com" target="_blank">ItsWatuyusei</a></span>
             </div>
             <div class="footer-links">
                 <a href="https://forum.ItsWatuyusei.com" target="_blank" rel="noopener noreferrer" aria-label="Forum"><i class="fas fa-comments"></i></a>
@@ -368,24 +422,20 @@
     <script src="https://js.hsforms.net/forms/embed/49346124.js" defer></script>
     
     <script>
-        // Cache busting for CSS and JS files
         function addCacheBuster() {
             const timestamp = new Date().getTime();
             
-            // Update CSS link
             const cssLink = document.querySelector('link[href="style.css"]');
             if (cssLink) {
                 cssLink.href = `style.css?v=${timestamp}`;
             }
             
-            // Update JS script
             const jsScript = document.querySelector('script[src="main.js"]');
             if (jsScript) {
                 jsScript.src = `main.js?v=${timestamp}`;
             }
         }
         
-        // Run cache busting when DOM is loaded
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', addCacheBuster);
         } else {

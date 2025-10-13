@@ -87,11 +87,13 @@ class EnhancedLazyLoader {
         img.onload = () => {
             img.style.opacity = '1';
             img.style.transform = 'scale(1)';
+            img.classList.add('loaded');
         };
 
         img.onerror = () => {
             img.style.opacity = '1';
             img.style.transform = 'scale(1)';
+            img.classList.add('loaded');
             console.warn('Failed to load image:', img.src);
         };
     }
@@ -139,6 +141,20 @@ class EnhancedLazyLoader {
 
 document.addEventListener('DOMContentLoaded', function() {
     const lazyLoader = new EnhancedLazyLoader();
+    
+    const projectImages = document.querySelectorAll('.project-img[src]');
+    projectImages.forEach(img => {
+        if (img.complete && img.naturalHeight !== 0) {
+            img.classList.add('loaded');
+        } else {
+            img.addEventListener('load', () => {
+                img.classList.add('loaded');
+            });
+            img.addEventListener('error', () => {
+                img.classList.add('loaded');
+            });
+        }
+    });
 
     const typewriterText = document.querySelector('.typewriter-text');
     const typewriterRole = document.querySelector('.typewriter-text-role');
@@ -476,7 +492,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     [darkToggle, navDarkToggle].forEach(toggle => {
         toggle.addEventListener('change', function() {
-            toggleDarkMode(this.checked);
+            const isChecked = this.checked;
+            toggleDarkMode(isChecked);
+            darkToggle.checked = isChecked;
+            navDarkToggle.checked = isChecked;
         });
     });
 
@@ -840,7 +859,27 @@ document.addEventListener('DOMContentLoaded', function() {
         pagination.innerHTML = paginationHTML;
     }
 
-    projectSearch.addEventListener('input', updateProjectVisibility);
+    const clearSearchBtn = document.getElementById('clear-search');
+    
+    function toggleClearButton() {
+        if (projectSearch.value.trim() !== '') {
+            clearSearchBtn.style.display = 'flex';
+        } else {
+            clearSearchBtn.style.display = 'none';
+        }
+    }
+    
+    clearSearchBtn.addEventListener('click', function() {
+        projectSearch.value = '';
+        projectSearch.focus();
+        updateProjectVisibility();
+        toggleClearButton();
+    });
+    
+    projectSearch.addEventListener('input', function() {
+        updateProjectVisibility();
+        toggleClearButton();
+    });
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', function() {
