@@ -867,6 +867,16 @@ document.addEventListener('DOMContentLoaded', function() {
         updateProjectsPagination(totalPages);
 
         updateFilterButtonsVisibility();
+        
+        // Scroll back to projects section
+        const projectsSection = document.getElementById('projects');
+        if (projectsSection) {
+            const offsetTop = projectsSection.offsetTop - 80;
+            window.scrollTo({
+                top: offsetTop,
+                behavior: 'smooth'
+            });
+        }
     }
 
     window.renderProjectsPage = renderProjectsPage;

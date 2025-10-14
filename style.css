@@ -1057,10 +1057,10 @@ body {
 
 @media (max-width: 900px) {
     .container {
-        padding: 18px 2vw 0 2vw;
+        padding: 24px 20px 0 20px;
     }
     .header-content {
-        padding: 28px 4vw 16px 4vw;
+        padding: 32px 24px 20px 24px;
     }
     .projects {
         grid-template-columns: 1fr 1fr;
@@ -1139,6 +1139,8 @@ body {
     .project-controls {
         flex-direction: column;
         gap: 16px;
+        margin-left: 4px;
+        margin-right: 4px;
     }
     
     .search-container {
@@ -1148,6 +1150,8 @@ body {
     .filter-container {
         flex-wrap: wrap;
         gap: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
     }
     
     .quick-search-content {
@@ -1170,10 +1174,10 @@ body {
         border-right: none;
     }
     .container {
-        padding: 10px 0 80px 0;
+        padding: 16px 16px 80px 16px;
     }
     .header-content {
-        padding: 18px 2vw 10px 2vw;
+        padding: 24px 20px 16px 20px;
     }
     .avatar {
         width: 70px;
@@ -1188,9 +1192,13 @@ body {
     }
     .section-title {
         font-size: 1.05rem;
+        margin-left: 4px;
+        margin-right: 4px;
     }
     .skills {
-        gap: 7px;
+        gap: 8px;
+        margin-left: 4px;
+        margin-right: 4px;
     }
     .skill {
         font-size: 0.85rem;
@@ -1219,7 +1227,7 @@ body {
         font-size: 1.2rem;
     }
     .project-content {
-        padding: 10px 8px 8px 8px;
+        padding: 16px 12px 12px 12px;
     }
     .footer {
         font-size: 0.9rem;
