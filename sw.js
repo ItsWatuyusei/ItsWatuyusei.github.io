@@ -5,7 +5,7 @@ const DYNAMIC_CACHE = `${CACHE_NAME}-dynamic-${CACHE_VERSION}`;
 
 const IS_DEVELOPMENT = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
 
-const FORCE_RELOAD_INTERVAL = 5000; // Check for updates every 5 seconds
+const FORCE_RELOAD_INTERVAL = 5000;
 
 const STATIC_ASSETS = IS_DEVELOPMENT ? [
     'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap',
@@ -119,7 +119,7 @@ async function handleRequest(request) {
         if (cachedResponse) {
             const cacheDate = cachedResponse.headers.get('sw-cache-date');
             const isImage = request.destination === 'image';
-            const maxAge = isImage ? 24 * 60 * 60 * 1000 : 60 * 60 * 1000; // 24h for images, 1h for others
+            const maxAge = isImage ? 24 * 60 * 60 * 1000 : 60 * 60 * 1000;
             
             if (cacheDate && (Date.now() - parseInt(cacheDate)) < maxAge) {
                 console.log('Serving Portfolio Hub from cache:', request.url);
@@ -182,11 +182,9 @@ function shouldCache(request) {
         return true;
     }
     
-    // Cache assets from trusted CDNs
     return DYNAMIC_PATTERNS.some(pattern => pattern.test(request.url));
 }
 
-// Background sync for analytics (if needed)
 self.addEventListener('sync', event => {
     if (event.tag === 'portfolio-hub-analytics') {
         event.waitUntil(
@@ -197,10 +195,8 @@ self.addEventListener('sync', event => {
 
 async function syncPortfolioHubAnalytics() {
     console.log('Syncing Portfolio Hub analytics data...');
-    // Implement analytics sync logic here
 }
 
-// Push notifications (for future use)
 self.addEventListener('push', event => {
     if (event.data) {
         const data = event.data.json();
@@ -231,7 +227,6 @@ self.addEventListener('push', event => {
     }
 });
 
-// Handle notification clicks
 self.addEventListener('notificationclick', event => {
     event.notification.close();
     
@@ -242,14 +237,12 @@ self.addEventListener('notificationclick', event => {
     }
 });
 
-// Performance monitoring
 self.addEventListener('message', event => {
     if (event.data && event.data.type === 'PORTFOLIO_HUB_PERFORMANCE') {
         console.log('Portfolio Hub performance metric:', event.data.metric);
     }
 });
 
-// Cache size management
 async function manageCacheSize() {
     const cacheNames = await caches.keys();
     
@@ -257,7 +250,6 @@ async function manageCacheSize() {
         const cache = await caches.open(cacheName);
         const keys = await cache.keys();
         
-        // If cache has more than 100 items, remove oldest 20
         if (keys.length > 100) {
             const keysToDelete = keys.slice(0, 20);
             await Promise.all(keysToDelete.map(key => cache.delete(key)));
@@ -266,10 +258,8 @@ async function manageCacheSize() {
     }
 }
 
-// Run cache cleanup periodically
-setInterval(manageCacheSize, 24 * 60 * 60 * 1000); // Every 24 hours
+setInterval(manageCacheSize, 24 * 60 * 60 * 1000);
 
-// Preload critical resources for Portfolio Hub
 self.addEventListener('install', event => {
     event.waitUntil(
         preloadPortfolioHubResources()
@@ -298,11 +288,9 @@ async function preloadPortfolioHubResources() {
     }
 }
 
-// Handle version-specific routing
 self.addEventListener('fetch', event => {
     const url = new URL(event.request.url);
     
-    // Handle version routing
     if (url.pathname === '/v1/' || url.pathname === '/v1') {
         event.respondWith(
             caches.match('/v1/index.html')
@@ -318,9 +306,7 @@ self.addEventListener('fetch', event => {
     }
 });
 
-// Development mode: Force reload system
 if (IS_DEVELOPMENT) {
-    // Development auto-reload disabled to prevent unwanted refreshes
 }
 
 console.log('Portfolio Hub 2025 Service Worker loaded successfully!');

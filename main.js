@@ -24,6 +24,8 @@ class PortfolioHub {
         this.setupAudioInitialization();
         this.setupProgressBar();
         this.setupBackToTop();
+        this.setupStickyNav();
+        this.setupStickyFooter();
     }
 
     setupLoadingScreen() {
@@ -74,9 +76,9 @@ class PortfolioHub {
         
         setTimeout(() => {
             if (loadingScreen) {
-                loadingScreen.style.transition = 'opacity 1s ease, transform 1s ease';
+                loadingScreen.style.transition = 'opacity 1.2s ease, transform 1.2s ease';
                 loadingScreen.style.opacity = '0';
-                loadingScreen.style.transform = 'scale(0.95)';
+                loadingScreen.style.transform = 'scale(0.95) translateY(-30px)';
             }
             
             setTimeout(() => {
@@ -87,8 +89,11 @@ class PortfolioHub {
                 if (mainContent) {
                     mainContent.style.display = 'block';
                     mainContent.style.opacity = '0';
-                    mainContent.style.transform = 'translateY(30px)';
-                    mainContent.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                    mainContent.style.transform = 'translateY(50px)';
+                    mainContent.style.transition = 'opacity 1s ease, transform 1s ease';
+                    mainContent.style.position = 'relative';
+                    mainContent.style.zIndex = '10';
+                    mainContent.style.minHeight = '100vh';
                 }
                 
                 setTimeout(() => {
@@ -101,9 +106,9 @@ class PortfolioHub {
                         if (loadingScreen) {
                             loadingScreen.remove();
                         }
-                    }, 300);
-                }, 200);
-            }, 1000);
+                    }, 500);
+                }, 400);
+            }, 1200);
         }, 500);
         
         if (this.soundEnabled && this.audioInitialized) {
@@ -190,18 +195,22 @@ class PortfolioHub {
     playSound(type) {
         if (!this.soundEnabled) return;
         
-        try {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            
-            if (audioContext.state === 'suspended') {
-                audioContext.resume().then(() => {
-                    this.createSoundEffect(audioContext, type);
-                }).catch(() => {
-                });
-            } else {
-                this.createSoundEffect(audioContext, type);
+        if (!this.audioContext) {
+            try {
+                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                this.audioInitialized = true;
+            } catch (error) {
+                return;
             }
-        } catch (error) {
+        }
+        
+        if (this.audioContext.state === 'suspended') {
+            this.audioContext.resume().then(() => {
+                this.createSoundEffect(this.audioContext, type);
+            }).catch(() => {
+            });
+        } else {
+            this.createSoundEffect(this.audioContext, type);
         }
     }
 
@@ -435,7 +444,6 @@ class PortfolioHub {
             }
         });
 
-        // Clean up old trail points
         setInterval(() => {
             const now = Date.now();
             mouseTrail = mouseTrail.filter(point => now - point.time < 1000);
@@ -467,7 +475,6 @@ class PortfolioHub {
     }
 
     handleMouseMove(e) {
-        // Add subtle parallax effect to version cards
         const versionCards = document.querySelectorAll('.version-card');
         versionCards.forEach((card, index) => {
             const rect = card.getBoundingClientRect();
@@ -484,18 +491,15 @@ class PortfolioHub {
 
     setupKeyboardShortcuts() {
         document.addEventListener('keydown', (e) => {
-            // Escape key to reset animations
             if (e.key === 'Escape') {
                 this.resetAnimations();
             }
             
-            // Arrow keys for navigation
             if (e.key === 'ArrowDown') {
                 e.preventDefault();
                 this.scrollToSection('features-section');
             }
             
-            // Number keys for version selection
             if (e.key === '1') {
                 document.querySelector('[data-version="v1"]')?.click();
             }
@@ -516,7 +520,6 @@ class PortfolioHub {
     }
 
     resetAnimations() {
-        // Reset all animations and effects
         document.querySelectorAll('.version-card').forEach(card => {
             card.style.transform = '';
         });
@@ -527,9 +530,7 @@ class PortfolioHub {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
                     .then(registration => {
-                        // Development mode setup
                         if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-                            // Auto-update disabled to prevent unwanted refreshes
                         }
                     })
                     .catch(registrationError => {
@@ -540,30 +541,11 @@ class PortfolioHub {
     }
 
     setupDevelopmentReload(registration) {
-        // Development reload disabled to prevent auto-refresh
     }
 
     setupAudioInitialization() {
-        // Initialize audio context on first user interaction
-        const initAudio = () => {
-            if (this.audioInitialized) return;
-            
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-                this.audioInitialized = true;
-            } catch (error) {
-                console.log('Audio context initialization failed');
-            }
-        };
-
-        // Add event listeners for user interaction
-        const events = ['click', 'touchstart', 'keydown'];
-        events.forEach(event => {
-            document.addEventListener(event, initAudio, { once: true, passive: true });
-        });
+        this.audioContext = null;
+        this.audioInitialized = false;
     }
 
     setupProgressBar() {
@@ -613,6 +595,69 @@ class PortfolioHub {
         toggleBackToTop();
     }
 
+    setupStickyNav() {
+        const stickyNav = document.getElementById('sticky-nav');
+        const navDarkmodeToggle = document.getElementById('nav-darkmode-toggle');
+        
+        if (!stickyNav) return;
+
+        const toggleStickyNav = () => {
+            const scrollTop = window.pageYOffset;
+            
+            if (scrollTop > 100) {
+                stickyNav.classList.add('visible');
+            } else {
+                stickyNav.classList.remove('visible');
+            }
+        };
+
+        const handleNavDarkmodeToggle = () => {
+            if (navDarkmodeToggle) {
+                const isDark = navDarkmodeToggle.checked;
+                this.currentTheme = isDark ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', this.currentTheme);
+                localStorage.setItem('theme', this.currentTheme);
+                this.updateThemeIcon();
+                this.animateThemeTransition();
+                
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('toggle');
+                }
+            }
+        };
+
+        window.addEventListener('scroll', this.throttle(toggleStickyNav, 16));
+        
+        if (navDarkmodeToggle) {
+            navDarkmodeToggle.addEventListener('change', handleNavDarkmodeToggle);
+            navDarkmodeToggle.checked = this.currentTheme === 'dark';
+        }
+        
+        toggleStickyNav();
+    }
+
+    setupStickyFooter() {
+        const stickyFooter = document.getElementById('sticky-footer');
+        
+        if (!stickyFooter) return;
+
+        const toggleStickyFooter = () => {
+            const scrollTop = window.pageYOffset;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            
+            if (scrollTop + windowHeight >= documentHeight - 100) {
+                stickyFooter.classList.add('visible');
+            } else {
+                stickyFooter.classList.remove('visible');
+            }
+        };
+
+        window.addEventListener('scroll', this.throttle(toggleStickyFooter, 16));
+        
+        toggleStickyFooter();
+    }
+
     throttle(func, limit) {
         let inThrottle;
         return function() {
@@ -639,23 +684,19 @@ class PortfolioHub {
     }
 
     handleKeyboard(e) {
-        // Global keyboard handling
         if (e.key === 'Tab') {
             document.body.classList.add('keyboard-navigation');
         }
     }
 
     handleResize() {
-        // Handle responsive adjustments
         this.updateResponsiveLayout();
     }
 
     updateResponsiveLayout() {
-        // Adjust layout for different screen sizes
         const isMobile = window.innerWidth <= 768;
         
         if (isMobile) {
-            // Mobile-specific adjustments
             document.querySelectorAll('.version-card').forEach(card => {
                 card.style.transform = '';
             });

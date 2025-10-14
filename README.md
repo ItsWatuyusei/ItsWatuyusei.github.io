@@ -240,5 +240,5 @@ Contributions are welcome! Please feel free to submit a Pull Request. For major 
 
 <div align="center">
   <p>Made with ❤️ by <strong>ItsWatuyusei</strong></p>
-  <p>© 2025 ItsWatuyusei. All rights reserved.</p>
+  <p>Copyright © ItsWatuyusei</p>
 </div>

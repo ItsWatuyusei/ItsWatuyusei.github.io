@@ -84,7 +84,6 @@
     <meta name="theme-color" content="#0a0a0a">
 </head>
 <body>
-    <!-- Progress Bar -->
     <div class="progress-bar" id="progress-bar">
         <div class="progress-fill" id="progress-fill"></div>
     </div>
@@ -139,13 +138,15 @@
         </div>
     </div>
 
-    <!-- Sticky Navigation -->
     <nav class="sticky-nav" id="sticky-nav">
         <div class="nav-container">
             <div class="nav-logo">
                 <a href="#top" class="nav-logo-link">
                     <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" class="nav-avatar">
-                    <span class="nav-name">ItsWatuyusei</span>
+                    <div class="nav-info">
+                        <span class="nav-name">ItsWatuyusei</span>
+                        <span class="nav-title">Full Stack Developer</span>
+                    </div>
                 </a>
             </div>
             <div class="nav-links" id="nav-links">
@@ -182,7 +183,7 @@
                         </p>
                     </div>
                     
-                    <div class="version-selector">
+                    <div class="version-selector" id="versions">
                         <div class="version-card" data-version="v1">
                             <div class="version-preview">
                                 <div class="preview-image v1-preview">
@@ -319,11 +320,16 @@
 
     </main>
     
-    <!-- Sticky Footer -->
     <footer class="sticky-footer" id="sticky-footer">
         <div class="footer-content">
-            <div class="footer-text">
-                <span>Copyright © <a href="https://itswatuyusei.com" target="_blank">ItsWatuyusei</a></span>
+            <div class="footer-brand">
+                <div class="footer-avatar">
+                    <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" />
+                </div>
+                <div class="footer-info">
+                    <h3>ItsWatuyusei</h3>
+                    <p>Full Stack Developer</p>
+                </div>
             </div>
             <div class="footer-links">
                 <a href="https://forum.ItsWatuyusei.com" target="_blank" rel="noopener noreferrer" aria-label="Forum"><i class="fas fa-comments"></i></a>
@@ -331,9 +337,11 @@
                 <a href="https://facebook.com/ItsWatuyusei" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
             </div>
         </div>
+        <div class="footer-bottom">
+            <p>Copyright © <a href="https://itswatuyusei.com" target="_blank">ItsWatuyusei</a></p>
+        </div>
     </footer>
 
-    <!-- Back to Top Button -->
     <button class="back-to-top" id="back-to-top" aria-label="Back to top">
         <i class="fas fa-chevron-up"></i>
     </button>
