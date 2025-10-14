@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate, max-age=0, private">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta http-equiv="Last-Modified" content="0">
+    <meta http-equiv="ETag" content="0">
     <title>ItsWatuyusei | Portfolio Hub</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,7 +16,7 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=20250102">
     
     <meta property="og:title" content="ItsWatuyusei | Portfolio Hub">
     <meta property="og:description" content="Modern Portfolio Hub - Choose between classic and cutting-edge versions. Experience innovation in web development.">
@@ -138,29 +139,35 @@
         </div>
     </div>
 
-    <main class="main-content" id="main-content">
-        <header class="header-section">
-            <div class="header-container">
-                <div class="header-brand">
-                    <div class="brand-avatar">
-                        <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" />
-                    </div>
-                    <div class="brand-info">
-                        <h1 class="brand-name">ItsWatuyusei</h1>
-                        <p class="brand-title">Full Stack Developer</p>
-                    </div>
-                </div>
-                
-                <div class="header-controls">
-                    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                    <button class="sound-toggle" id="sound-toggle" aria-label="Toggle sound">
-                        <i class="fas fa-volume-up"></i>
-                    </button>
-                </div>
+    <!-- Sticky Navigation -->
+    <nav class="sticky-nav" id="sticky-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="#top" class="nav-logo-link">
+                    <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" class="nav-avatar">
+                    <span class="nav-name">ItsWatuyusei</span>
+                </a>
             </div>
-        </header>
+            <div class="nav-links" id="nav-links">
+                <a href="#features" class="nav-link">Features</a>
+                <a href="#versions" class="nav-link">Versions</a>
+                <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" class="nav-link nav-links-btn">Links</a>
+            </div>
+            <div class="nav-controls">
+                <div class="nav-darkmode">
+                    <input type="checkbox" id="nav-darkmode-toggle" aria-label="Toggle dark mode">
+                    <label for="nav-darkmode-toggle" class="nav-darkmode-label"><i class="fas fa-moon"></i></label>
+                </div>
+                <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content" id="main-content">
 
         <section class="hero-section">
             <div class="hero-container">
@@ -267,7 +274,7 @@
             </div>
         </section>
 
-        <section class="features-section">
+        <section class="features-section" id="features">
             <div class="features-container">
                 <div class="section-header">
                     <h2 class="section-title">Why Choose This Hub?</h2>
@@ -310,42 +317,27 @@
             </div>
         </section>
 
-        <footer class="footer-section">
-            <div class="footer-container">
-                <div class="footer-content">
-                    <a href="https://itswatuyusei.com" target="_blank" rel="noopener noreferrer" class="footer-brand">
-                        <div class="footer-avatar">
-                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" />
-                        </div>
-                        <div class="footer-info">
-                            <h3>ItsWatuyusei</h3>
-                            <p>Full Stack Developer</p>
-                        </div>
-                    </a>
-                    
-                    <div class="footer-links">
-                        <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" aria-label="All Links">
-                            <i class="fas fa-link"></i>
-                        </a>
-                        <a href="https://forum.ItsWatuyusei.com" target="_blank" rel="noopener noreferrer" aria-label="Forum">
-                            <i class="fas fa-comments"></i>
-                        </a>
-                        <a href="https://instagram.com/ItsWatuyusei" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://facebook.com/ItsWatuyusei" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                            <i class="fab fa-facebook"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="footer-bottom">
-                    <p>Copyright &copy; ItsWatuyusei</p>
-                </div>
-            </div>
-        </footer>
     </main>
+    
+    <!-- Sticky Footer -->
+    <footer class="sticky-footer" id="sticky-footer">
+        <div class="footer-content">
+            <div class="footer-text">
+                <span>Copyright © <a href="https://itswatuyusei.com" target="_blank">ItsWatuyusei</a></span>
+            </div>
+            <div class="footer-links">
+                <a href="https://forum.ItsWatuyusei.com" target="_blank" rel="noopener noreferrer" aria-label="Forum"><i class="fas fa-comments"></i></a>
+                <a href="https://instagram.com/ItsWatuyusei" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://facebook.com/ItsWatuyusei" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+            </div>
+        </div>
+    </footer>
 
-    <script src="main.js" defer></script>
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="back-to-top" aria-label="Back to top">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <script src="main.js?v=20250102" defer></script>
 </body>
 </html>

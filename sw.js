@@ -1,13 +1,12 @@
-// Modern Service Worker for Portfolio Hub 2025
 const CACHE_NAME = 'portfolio-hub-2025';
 const CACHE_VERSION = '1.0.0';
 const STATIC_CACHE = `${CACHE_NAME}-static-${CACHE_VERSION}`;
 const DYNAMIC_CACHE = `${CACHE_NAME}-dynamic-${CACHE_VERSION}`;
 
-// Development mode detection
 const IS_DEVELOPMENT = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
 
-// Static assets to cache (only external resources in development)
+const FORCE_RELOAD_INTERVAL = 5000; // Check for updates every 5 seconds
+
 const STATIC_ASSETS = IS_DEVELOPMENT ? [
     'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css',
@@ -23,7 +22,6 @@ const STATIC_ASSETS = IS_DEVELOPMENT ? [
     'https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115'
 ];
 
-// Dynamic assets patterns
 const DYNAMIC_PATTERNS = [
     /^https:\/\/ik\.imagekit\.io\/ItsWatuyusei\/Image\//,
     /^https:\/\/fonts\.googleapis\.com\/css/,
@@ -31,7 +29,6 @@ const DYNAMIC_PATTERNS = [
     /^https:\/\/fonts\.gstatic\.com/
 ];
 
-// Install event - cache static assets
 self.addEventListener('install', event => {
     console.log('Portfolio Hub Service Worker installing...');
     
@@ -49,9 +46,12 @@ self.addEventListener('install', event => {
                 console.error('Failed to cache Portfolio Hub static assets:', error);
             })
     );
+    
+    if (IS_DEVELOPMENT) {
+        self.skipWaiting();
+    }
 });
 
-// Activate event - clean up old caches
 self.addEventListener('activate', event => {
     console.log('Portfolio Hub Service Worker activating...');
     
@@ -78,17 +78,14 @@ self.addEventListener('activate', event => {
     );
 });
 
-// Fetch event - serve from cache with network fallback
 self.addEventListener('fetch', event => {
     const request = event.request;
     const url = new URL(request.url);
     
-    // Skip non-GET requests
     if (request.method !== 'GET') {
         return;
     }
     
-    // Skip chrome-extension and other non-http requests
     if (!request.url.startsWith('http')) {
         return;
     }
@@ -102,7 +99,6 @@ async function handleRequest(request) {
     const url = new URL(request.url);
     const cache = await caches.open(DYNAMIC_CACHE);
     
-    // In development, skip cache for local files
     if (IS_DEVELOPMENT && (url.origin === location.origin)) {
         try {
             console.log('Development mode: fetching from network:', request.url);
@@ -118,11 +114,9 @@ async function handleRequest(request) {
     }
     
     try {
-        // Try to serve from cache first
         const cachedResponse = await cache.match(request);
         
         if (cachedResponse) {
-            // Check if cache is still fresh (less than 24 hours for images, 1 hour for others)
             const cacheDate = cachedResponse.headers.get('sw-cache-date');
             const isImage = request.destination === 'image';
             const maxAge = isImage ? 24 * 60 * 60 * 1000 : 60 * 60 * 1000; // 24h for images, 1h for others
@@ -133,16 +127,12 @@ async function handleRequest(request) {
             }
         }
         
-        // Fetch from network
         console.log('Fetching Portfolio Hub from network:', request.url);
         const networkResponse = await fetch(request);
         
-        // Clone response for caching
         const responseClone = networkResponse.clone();
         
-        // Cache successful responses
         if (networkResponse.ok && shouldCache(request)) {
-            // Add cache timestamp
             const headers = new Headers(responseClone.headers);
             headers.set('sw-cache-date', Date.now().toString());
             
@@ -161,19 +151,16 @@ async function handleRequest(request) {
     } catch (error) {
         console.error('Network request failed for Portfolio Hub:', request.url, error);
         
-        // Return cached version if available
         const cachedResponse = await cache.match(request);
         if (cachedResponse) {
             console.log('Serving stale Portfolio Hub cache for:', request.url);
             return cachedResponse;
         }
         
-        // Return offline page for navigation requests
         if (request.destination === 'document') {
             return caches.match('/index.html');
         }
         
-        // Return a generic offline response
         return new Response('Portfolio Hub is offline', {
             status: 503,
             statusText: 'Service Unavailable',
@@ -187,12 +174,10 @@ async function handleRequest(request) {
 function shouldCache(request) {
     const url = new URL(request.url);
     
-    // Cache images and fonts
     if (request.destination === 'image' || request.destination === 'font') {
         return true;
     }
     
-    // Cache assets from our domain
     if (url.origin === location.origin) {
         return true;
     }
@@ -332,5 +317,10 @@ self.addEventListener('fetch', event => {
         return;
     }
 });
+
+// Development mode: Force reload system
+if (IS_DEVELOPMENT) {
+    // Development auto-reload disabled to prevent unwanted refreshes
+}
 
 console.log('Portfolio Hub 2025 Service Worker loaded successfully!');

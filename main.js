@@ -23,6 +23,7 @@ class PortfolioHub {
         this.setupServiceWorker();
         this.setupAudioInitialization();
         this.setupProgressBar();
+        this.setupBackToTop();
     }
 
     setupLoadingScreen() {
@@ -46,7 +47,6 @@ class PortfolioHub {
                 progressFill.style.width = `${this.loadingProgress}%`;
             }
             
-            // Update loading stats
             const stepIndex = Math.floor((this.loadingProgress / 100) * this.loadingSteps.length);
             if (stepIndex < this.loadingSteps.length && stepIndex !== this.currentStep) {
                 this.currentStep = stepIndex;
@@ -72,80 +72,74 @@ class PortfolioHub {
         const loadingScreen = document.getElementById('loading-screen');
         const mainContent = document.getElementById('main-content');
         
-        // Add completion animation
         setTimeout(() => {
             if (loadingScreen) {
+                loadingScreen.style.transition = 'opacity 1s ease, transform 1s ease';
                 loadingScreen.style.opacity = '0';
                 loadingScreen.style.transform = 'scale(0.95)';
-                loadingScreen.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
             }
             
-            // Wait for loading screen to fade out completely
             setTimeout(() => {
                 if (loadingScreen) {
                     loadingScreen.style.display = 'none';
-                    loadingScreen.remove();
                 }
                 
-                // Show main content after loading screen is completely gone
                 if (mainContent) {
                     mainContent.style.display = 'block';
                     mainContent.style.opacity = '0';
-                    mainContent.style.transform = 'translateY(20px)';
-                    mainContent.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-                    
-                    // Trigger animation
-                    setTimeout(() => {
+                    mainContent.style.transform = 'translateY(30px)';
+                    mainContent.style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+                }
+                
+                setTimeout(() => {
+                    if (mainContent) {
                         mainContent.style.opacity = '1';
                         mainContent.style.transform = 'translateY(0)';
-                    }, 50);
-                }
-            }, 800);
+                    }
+                    
+                    setTimeout(() => {
+                        if (loadingScreen) {
+                            loadingScreen.remove();
+                        }
+                    }, 300);
+                }, 200);
+            }, 1000);
         }, 500);
         
-        // Play completion sound if enabled and audio is initialized
         if (this.soundEnabled && this.audioInitialized) {
             this.playSound('complete');
         }
     }
 
     setupEventListeners() {
-        // Theme toggle
         const themeToggle = document.getElementById('theme-toggle');
         themeToggle?.addEventListener('click', () => this.toggleTheme());
 
-        // Sound toggle
         const soundToggle = document.getElementById('sound-toggle');
         soundToggle?.addEventListener('click', () => this.toggleSound());
 
-        // Version links
         document.querySelectorAll('.version-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 this.handleVersionNavigation(e);
             });
         });
 
-        // Scroll events
         window.addEventListener('scroll', this.throttle(() => {
             this.handleScroll();
         }, 16));
 
-        // Resize events
         window.addEventListener('resize', this.debounce(() => {
             this.handleResize();
         }, 250));
 
-        // Keyboard events
         document.addEventListener('keydown', (e) => this.handleKeyboard(e));
 
-        // Mouse events for particle effects
         document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
     }
 
     setupTheme() {
         document.documentElement.setAttribute('data-theme', this.currentTheme);
         this.updateThemeIcon();
-        console.log('Theme initialized to:', this.currentTheme);
     }
 
     toggleTheme() {
@@ -154,8 +148,6 @@ class PortfolioHub {
         localStorage.setItem('theme', this.currentTheme);
         this.updateThemeIcon();
         this.animateThemeTransition();
-        
-        console.log('Theme changed to:', this.currentTheme);
         
         if (this.soundEnabled && this.audioInitialized) {
             this.playSound('toggle');
@@ -199,26 +191,21 @@ class PortfolioHub {
         if (!this.soundEnabled) return;
         
         try {
-            // Create audio context for sound effects
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
             
-            // Check if context is suspended and resume if needed
             if (audioContext.state === 'suspended') {
                 audioContext.resume().then(() => {
                     this.createSoundEffect(audioContext, type);
                 }).catch(() => {
-                    // Silently fail if audio context cannot be resumed
                 });
             } else {
                 this.createSoundEffect(audioContext, type);
             }
         } catch (error) {
-            // Silently fail if audio context cannot be created
         }
     }
 
     createSoundEffect(audioContext, type) {
-        // Different frequencies for different sounds
         const frequencies = {
             'toggle': [440, 554],
             'complete': [523, 659, 784],
@@ -245,7 +232,6 @@ class PortfolioHub {
                         osc.start(audioContext.currentTime);
                         osc.stop(audioContext.currentTime + 0.3);
                     } catch (error) {
-                        // Silently fail if oscillator cannot be created
                     }
                 }, index * 100);
             });
@@ -257,7 +243,6 @@ class PortfolioHub {
         const link = e.currentTarget;
         const version = link.dataset.version;
         
-        // Add click animation
         link.style.transform = 'scale(0.95)';
         setTimeout(() => {
             link.style.transform = '';
@@ -267,7 +252,6 @@ class PortfolioHub {
             this.playSound('hover');
         }
         
-        // Add loading effect
         this.showVersionTransition(version, link.href);
     }
 
@@ -287,7 +271,6 @@ class PortfolioHub {
             </div>
         `;
         
-        // Add transition styles
         const transitionStyle = document.createElement('style');
         transitionStyle.textContent = `
             .version-transition {
@@ -376,7 +359,6 @@ class PortfolioHub {
         document.head.appendChild(transitionStyle);
         document.body.appendChild(transitionOverlay);
         
-        // Navigate after animation
         setTimeout(() => {
             window.location.href = url;
         }, 2500);
@@ -416,7 +398,6 @@ class PortfolioHub {
     }
 
     setupScrollAnimations() {
-        // Add fade-in class to elements
         document.querySelectorAll('.feature-card, .version-card, .stat-item').forEach(el => {
             el.classList.add('fade-in');
         });
@@ -430,7 +411,6 @@ class PortfolioHub {
     createFloatingParticles() {
         const shapes = document.querySelectorAll('.shape');
         shapes.forEach((shape, index) => {
-            // Add random movement
             setInterval(() => {
                 const randomX = (Math.random() - 0.5) * 20;
                 const randomY = (Math.random() - 0.5) * 20;
@@ -450,7 +430,6 @@ class PortfolioHub {
                 mouseTrail.shift();
             }
 
-            // Create trail effect
             if (Math.random() > 0.8) {
                 this.createMouseTrailDot(e.clientX, e.clientY);
             }
@@ -548,9 +527,9 @@ class PortfolioHub {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js')
                     .then(registration => {
-                        // Clear cache on development
+                        // Development mode setup
                         if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-                            registration.update();
+                            // Auto-update disabled to prevent unwanted refreshes
                         }
                     })
                     .catch(registrationError => {
@@ -558,6 +537,10 @@ class PortfolioHub {
                     });
             });
         }
+    }
+
+    setupDevelopmentReload(registration) {
+        // Development reload disabled to prevent auto-refresh
     }
 
     setupAudioInitialization() {
@@ -596,11 +579,38 @@ class PortfolioHub {
             progressFill.style.width = Math.min(scrollPercent, 100) + '%';
         };
 
-        // Update progress bar on scroll
         window.addEventListener('scroll', this.throttle(updateProgressBar, 16));
         
-        // Initial update
         updateProgressBar();
+    }
+
+    setupBackToTop() {
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        if (!backToTopButton) return;
+
+        const toggleBackToTop = () => {
+            const scrollTop = window.pageYOffset;
+            const windowHeight = window.innerHeight;
+            
+            if (scrollTop > windowHeight) {
+                backToTopButton.classList.add('visible');
+            } else {
+                backToTopButton.classList.remove('visible');
+            }
+        };
+
+        const scrollToTop = () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        };
+
+        window.addEventListener('scroll', this.throttle(toggleBackToTop, 16));
+        backToTopButton.addEventListener('click', scrollToTop);
+        
+        toggleBackToTop();
     }
 
     throttle(func, limit) {
@@ -737,3 +747,4 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
