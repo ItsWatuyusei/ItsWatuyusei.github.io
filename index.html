@@ -16,7 +16,7 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     
-    <link rel="stylesheet" href="style.css?v=20250102">
+    <link rel="stylesheet" href="style.css?v=20250105">
     
     <meta property="og:title" content="ItsWatuyusei | Portfolio Hub">
     <meta property="og:description" content="Modern Portfolio Hub - Choose between classic and cutting-edge versions. Experience innovation in web development.">
@@ -153,12 +153,16 @@
                 <a href="#features" class="nav-link">Features</a>
                 <a href="#versions" class="nav-link">Versions</a>
                 <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" class="nav-link nav-links-btn">Links</a>
+                <a href="#" id="nav-contact-link" class="nav-link nav-contact-btn">Contact</a>
             </div>
             <div class="nav-controls">
                 <div class="nav-darkmode">
                     <input type="checkbox" id="nav-darkmode-toggle" aria-label="Toggle dark mode">
                     <label for="nav-darkmode-toggle" class="nav-darkmode-label"><i class="fas fa-moon"></i></label>
                 </div>
+                <button class="nav-sound-toggle" id="nav-sound-toggle" aria-label="Toggle sound">
+                    <i class="fas fa-volume-up"></i>
+                </button>
                 <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
                     <span></span>
                     <span></span>
@@ -173,6 +177,20 @@
         <section class="hero-section">
             <div class="hero-container">
                 <div class="hero-content">
+                    <div class="hero-logo">
+                        <div class="logo-container">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" class="logo-image">
+                            <div class="logo-ring"></div>
+                            <div class="logo-particles">
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                                <div class="particle"></div>
+                            </div>
+                        </div>
+                        <h1 class="logo-name">ItsWatuyusei</h1>
+                    </div>
                     <div class="hero-text">
                         <h2 class="hero-title">
                             <span class="title-line">Choose Your</span>
@@ -248,7 +266,7 @@
                                 <i class="fas fa-code"></i>
                             </div>
                             <div class="stat-content">
-                                <span class="stat-number">8+</span>
+                                <span class="stat-number">15+</span>
                                 <span class="stat-label">Technologies</span>
                             </div>
                         </div>
@@ -257,7 +275,7 @@
                                 <i class="fas fa-project-diagram"></i>
                             </div>
                             <div class="stat-content">
-                                <span class="stat-number">25+</span>
+                                <span class="stat-number">20+</span>
                                 <span class="stat-label">Projects</span>
                             </div>
                         </div>
@@ -266,7 +284,7 @@
                                 <i class="fas fa-clock"></i>
                             </div>
                             <div class="stat-content">
-                                <span class="stat-number">3+</span>
+                                <span class="stat-number">8+</span>
                                 <span class="stat-label">Years Experience</span>
                             </div>
                         </div>
@@ -346,6 +364,14 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
-    <script src="main.js?v=20250102" defer></script>
+    <div id="contact-modal" class="contact-modal">
+        <div class="contact-modal-content">
+            <button class="contact-modal-close" id="contact-modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
+            <div class="hs-form-frame" data-region="na1" data-form-id="16683cb4-cb65-4421-ba88-58a310b3ac2f" data-portal-id="49346124"></div>
+        </div>
+    </div>
+
+    <script src="https://js.hsforms.net/forms/embed/49346124.js" defer></script>
+    <script src="main.js?v=20250104" defer></script>
 </body>
 </html>

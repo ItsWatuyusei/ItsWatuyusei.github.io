@@ -572,7 +572,6 @@
             const rate = scrolled * -0.5;
             header.style.transform = `translateY(${rate}px)`;
             
-            // Show/hide back to top button
             const backToTop = document.querySelector('.back-to-top');
             if (scrolled > 300) {
                 backToTop.classList.add('visible');
@@ -580,11 +579,9 @@
                 backToTop.classList.remove('visible');
             }
             
-            // Update progress bar
             updateProgressBar();
         });
 
-        // Progress bar functionality
         function updateProgressBar() {
             const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
             const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -592,7 +589,6 @@
             document.getElementById("progressBar").style.width = scrolled + "%";
         }
 
-        // Back to top function
         function scrollToTop() {
             window.scrollTo({
                 top: 0,

@@ -30,16 +30,13 @@ const DYNAMIC_PATTERNS = [
 ];
 
 self.addEventListener('install', event => {
-    console.log('Portfolio Hub Service Worker installing...');
     
     event.waitUntil(
         caches.open(STATIC_CACHE)
             .then(cache => {
-                console.log('Caching static assets for Portfolio Hub...');
                 return cache.addAll(STATIC_ASSETS);
             })
             .then(() => {
-                console.log('Portfolio Hub static assets cached successfully');
                 return self.skipWaiting();
             })
             .catch(error => {
@@ -53,7 +50,6 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('activate', event => {
-    console.log('Portfolio Hub Service Worker activating...');
     
     event.waitUntil(
         caches.keys()
@@ -66,13 +62,11 @@ self.addEventListener('activate', event => {
                                    cacheName !== DYNAMIC_CACHE;
                         })
                         .map(cacheName => {
-                            console.log('Deleting old Portfolio Hub cache:', cacheName);
                             return caches.delete(cacheName);
                         })
                 );
             })
             .then(() => {
-                console.log('Portfolio Hub Service Worker activated');
                 return self.clients.claim();
             })
     );
@@ -101,7 +95,6 @@ async function handleRequest(request) {
     
     if (IS_DEVELOPMENT && (url.origin === location.origin)) {
         try {
-            console.log('Development mode: fetching from network:', request.url);
             const networkResponse = await fetch(request);
             return networkResponse;
         } catch (error) {
@@ -122,12 +115,10 @@ async function handleRequest(request) {
             const maxAge = isImage ? 24 * 60 * 60 * 1000 : 60 * 60 * 1000;
             
             if (cacheDate && (Date.now() - parseInt(cacheDate)) < maxAge) {
-                console.log('Serving Portfolio Hub from cache:', request.url);
                 return cachedResponse;
             }
         }
         
-        console.log('Fetching Portfolio Hub from network:', request.url);
         const networkResponse = await fetch(request);
         
         const responseClone = networkResponse.clone();
@@ -143,7 +134,6 @@ async function handleRequest(request) {
             });
             
             await cache.put(request, cachedResponse);
-            console.log('Cached Portfolio Hub response for:', request.url);
         }
         
         return networkResponse;
@@ -153,7 +143,6 @@ async function handleRequest(request) {
         
         const cachedResponse = await cache.match(request);
         if (cachedResponse) {
-            console.log('Serving stale Portfolio Hub cache for:', request.url);
             return cachedResponse;
         }
         
@@ -194,7 +183,6 @@ self.addEventListener('sync', event => {
 });
 
 async function syncPortfolioHubAnalytics() {
-    console.log('Syncing Portfolio Hub analytics data...');
 }
 
 self.addEventListener('push', event => {
@@ -239,7 +227,6 @@ self.addEventListener('notificationclick', event => {
 
 self.addEventListener('message', event => {
     if (event.data && event.data.type === 'PORTFOLIO_HUB_PERFORMANCE') {
-        console.log('Portfolio Hub performance metric:', event.data.metric);
     }
 });
 
@@ -253,7 +240,6 @@ async function manageCacheSize() {
         if (keys.length > 100) {
             const keysToDelete = keys.slice(0, 20);
             await Promise.all(keysToDelete.map(key => cache.delete(key)));
-            console.log(`Cleaned up ${keysToDelete.length} items from Portfolio Hub ${cacheName}`);
         }
     }
 }
@@ -280,7 +266,6 @@ async function preloadPortfolioHubResources() {
             const response = await fetch(resource);
             if (response.ok) {
                 await cache.put(resource, response);
-                console.log('Preloaded Portfolio Hub critical resource:', resource);
             }
         } catch (error) {
             console.warn('Failed to preload Portfolio Hub resource:', resource, error);
@@ -309,4 +294,3 @@ self.addEventListener('fetch', event => {
 if (IS_DEVELOPMENT) {
 }
 
-console.log('Portfolio Hub 2025 Service Worker loaded successfully!');

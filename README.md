@@ -16,12 +16,12 @@ Modern Full Stack Developer Portfolio showcasing diverse projects and technical 
 
 ## 🎯 About
 
-I'm a passionate Full Stack Developer with **3+ years of experience** specializing in modern web technologies, game development, and custom software solutions. I've worked on **25+ projects** spanning web applications, e-commerce platforms, game servers, and desktop applications.
+I'm a passionate Full Stack Developer with **7+ years of experience** specializing in modern web technologies, game development, and custom software solutions. I've worked on **20+ projects** spanning web applications, e-commerce platforms, game servers, and desktop applications.
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **HTML5** • **CSS3** • **JavaScript** • **React**
+- **HTML** • **CSS3** • **JavaScript** • **React**
 - **Responsive Design** • **Modern UI/UX**
 
 ### Backend

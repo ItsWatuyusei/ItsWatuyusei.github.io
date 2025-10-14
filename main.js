@@ -26,6 +26,8 @@ class PortfolioHub {
         this.setupBackToTop();
         this.setupStickyNav();
         this.setupStickyFooter();
+        this.setupHamburgerMenu();
+        this.setupContactModal();
     }
 
     setupLoadingScreen() {
@@ -123,6 +125,9 @@ class PortfolioHub {
         const soundToggle = document.getElementById('sound-toggle');
         soundToggle?.addEventListener('click', () => this.toggleSound());
 
+        const navSoundToggle = document.getElementById('nav-sound-toggle');
+        navSoundToggle?.addEventListener('click', () => this.toggleSound());
+
         document.querySelectorAll('.version-link').forEach(link => {
             link.addEventListener('click', (e) => {
                 this.handleVersionNavigation(e);
@@ -186,9 +191,15 @@ class PortfolioHub {
 
     updateSoundIcon() {
         const soundToggle = document.getElementById('sound-toggle');
-        const icon = soundToggle?.querySelector('i');
-        if (icon) {
-            icon.className = this.soundEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+        const soundIcon = soundToggle?.querySelector('i');
+        if (soundIcon) {
+            soundIcon.className = this.soundEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+        }
+
+        const navSoundToggle = document.getElementById('nav-sound-toggle');
+        const navIcon = navSoundToggle?.querySelector('i');
+        if (navIcon) {
+            navIcon.className = this.soundEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
         }
     }
 
@@ -646,7 +657,7 @@ class PortfolioHub {
             const windowHeight = window.innerHeight;
             const documentHeight = document.documentElement.scrollHeight;
             
-            if (scrollTop + windowHeight >= documentHeight - 100) {
+            if (documentHeight > windowHeight && scrollTop + windowHeight >= documentHeight - 100) {
                 stickyFooter.classList.add('visible');
             } else {
                 stickyFooter.classList.remove('visible');
@@ -656,6 +667,52 @@ class PortfolioHub {
         window.addEventListener('scroll', this.throttle(toggleStickyFooter, 16));
         
         toggleStickyFooter();
+    }
+
+    setupHamburgerMenu() {
+        const hamburgerMenu = document.getElementById('hamburger-menu');
+        const navLinks = document.getElementById('nav-links');
+        
+        if (!hamburgerMenu || !navLinks) return;
+
+        const toggleMenu = () => {
+            const isOpen = navLinks.classList.contains('active');
+            
+            if (isOpen) {
+                navLinks.classList.remove('active');
+                hamburgerMenu.classList.remove('active');
+            } else {
+                navLinks.classList.add('active');
+                hamburgerMenu.classList.add('active');
+            }
+        };
+
+        const closeMenu = () => {
+            navLinks.classList.remove('active');
+            hamburgerMenu.classList.remove('active');
+        };
+
+        hamburgerMenu.addEventListener('click', toggleMenu);
+        
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+
+        document.addEventListener('click', (event) => {
+            const isClickInsideNav = navLinks.contains(event.target);
+            const isClickOnHamburger = hamburgerMenu.contains(event.target);
+            const isMenuOpen = navLinks.classList.contains('active');
+            
+            if (isMenuOpen && !isClickInsideNav && !isClickOnHamburger) {
+                closeMenu();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
+        });
     }
 
     throttle(func, limit) {
@@ -699,6 +756,45 @@ class PortfolioHub {
         if (isMobile) {
             document.querySelectorAll('.version-card').forEach(card => {
                 card.style.transform = '';
+            });
+        }
+    }
+
+    setupContactModal() {
+        const contactLink = document.getElementById('nav-contact-link');
+        const contactModal = document.getElementById('contact-modal');
+        const contactModalClose = document.getElementById('contact-modal-close');
+
+        function openModal(modal) {
+            modal.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal(modal) {
+            modal.classList.remove('visible');
+            document.body.style.overflow = '';
+        }
+
+        if (contactLink && contactModal) {
+            contactLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                openModal(contactModal);
+            });
+        }
+
+        if (contactModalClose && contactModal) {
+            contactModalClose.addEventListener('click', () => closeModal(contactModal));
+        }
+
+        if (contactModal) {
+            window.addEventListener('click', function(e) {
+                if (e.target === contactModal) closeModal(contactModal);
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (contactModal.classList.contains('visible')) closeModal(contactModal);
+                }
             });
         }
     }
