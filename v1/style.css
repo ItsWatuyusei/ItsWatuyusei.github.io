@@ -1,6 +1,7 @@
 :root {
     --primary: #1a237e;
     --primary-light: #536dfe;
+    --primary-dark: #0d1533;
     --accent: #00c6ae;
     --bg: #e9ecf3;
     --box-bg: #fff;
@@ -643,10 +644,10 @@ body {
 }
 
 .footer-links a:hover {
-    background: var(--primary);
+    background: linear-gradient(90deg, #007BFF 0%, #00BCD4 100%);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
 }
 
 .main-box {
@@ -687,6 +688,12 @@ body {
     margin-bottom: 16px;
     box-shadow: 0 2px 12px rgba(0,0,0,0.08);
     border: 4px solid var(--accent);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.avatar:hover {
+    border-color: var(--primary);
+    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
 }
 
 .avatar img {
@@ -1549,6 +1556,11 @@ body {
     display: block;
     text-decoration: none;
     border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.avatar-link:hover {
+    transform: scale(1.05);
 }
 
 .avatar-link:focus {
@@ -1606,6 +1618,7 @@ body {
     --muted: #b0b0b0;
     --primary: #8ab4f8;
     --primary-light: #536dfe;
+    --primary-dark: #5a8ae8;
     --accent: #00c6ae;
     --border: #23243a;
     --shadow: 0 8px 32px rgba(0,198,174,0.10);
@@ -1762,9 +1775,9 @@ body {
 }
 
 .dark .footer-links a:hover {
-    background: var(--primary);
+    background: linear-gradient(90deg, #007BFF 0%, #00BCD4 100%);
     color: white;
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
 }
 
 .dark .tech-stack-logos img {
@@ -2155,4 +2168,23 @@ body {
 
 .contact-link i {
     font-size: 1.1em;
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(90deg, #00C8C8 0%, #007BFF 100%);
+    border-radius: var(--radius-full);
+}
+
+
+::selection {
+    background: var(--accent);
+    color: var(--text-inverse);
 }

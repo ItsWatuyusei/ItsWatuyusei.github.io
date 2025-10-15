@@ -26,8 +26,8 @@ class PortfolioHub {
         this.setupBackToTop();
         this.setupStickyNav();
         this.setupStickyFooter();
-        this.setupHamburgerMenu();
         this.setupContactModal();
+        this.setupHamburgerMenu();
         this.setupTypewriter();
     }
 
@@ -662,6 +662,7 @@ class PortfolioHub {
                 mobileNavLinks.classList.remove('active');
             });
         });
+
     }
 
     throttle(func, limit) {

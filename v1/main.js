@@ -528,7 +528,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const clampedPercent = Math.min(Math.max(scrollPercent, 0), 100);
         
         if (Math.abs(clampedPercent - lastScrollPercent) > 0.5) {
-            progressBar.style.width = clampedPercent + '%';
+            requestAnimationFrame(() => {
+                progressBar.style.width = clampedPercent + '%';
+            });
             lastScrollPercent = clampedPercent;
         }
     }
@@ -558,38 +560,41 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateStickyElements() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
-        updateProgressBar();
-        
-        updateBackToTop();
-        
-        if (scrollTop > 200) {
-            stickyNav.classList.add('visible');
-        } else {
-            stickyNav.classList.remove('visible');
-        }
-        
-        if (scrollTop > lastScrollTop) {
-            scrollDirection = 'down';
-        } else {
-            scrollDirection = 'up';
-        }
-        
-        if (scrollDirection === 'down' && scrollTop > 300) {
-            stickyFooter.classList.add('visible');
-        } else if (scrollDirection === 'up' || scrollTop < 300) {
-            stickyFooter.classList.remove('visible');
-        }
-        
-        lastScrollTop = scrollTop;
+        requestAnimationFrame(() => {
+            updateProgressBar();
+            updateBackToTop();
+            
+            if (scrollTop > 200) {
+                stickyNav.classList.add('visible');
+            } else {
+                stickyNav.classList.remove('visible');
+            }
+            
+            if (scrollTop > lastScrollTop) {
+                scrollDirection = 'down';
+            } else {
+                scrollDirection = 'up';
+            }
+            
+            if (scrollDirection === 'down' && scrollTop > 300) {
+                stickyFooter.classList.add('visible');
+            } else if (scrollDirection === 'up' || scrollTop < 300) {
+                stickyFooter.classList.remove('visible');
+            }
+            
+            lastScrollTop = scrollTop;
+        });
     }
 
     let scrollTimeout;
+    let isScrolling = false;
     function throttledUpdateStickyElements() {
-        if (scrollTimeout) return;
-        scrollTimeout = setTimeout(() => {
+        if (isScrolling) return;
+        isScrolling = true;
+        requestAnimationFrame(() => {
             updateStickyElements();
-            scrollTimeout = null;
-        }, 16);
+            isScrolling = false;
+        });
     }
     
     function invalidateCache() {
@@ -713,8 +718,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const animateLogo = () => {
             logo.classList.remove('clicked');
-            void logo.offsetWidth;
-            logo.classList.add('clicked');
+            requestAnimationFrame(() => {
+                logo.classList.add('clicked');
+            });
         };
         
         logo.addEventListener('click', animateLogo);

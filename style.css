@@ -208,12 +208,14 @@ body {
 }
 
 .loading-text {
-    margin: 0;
+    margin: 0 auto;
     text-align: center;
     width: 100%;
+    max-width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     flex-shrink: 0;
 }
 
@@ -221,10 +223,11 @@ body {
     font-size: clamp(1.8rem, 3.5vw, 2.5rem);
     font-weight: 900;
     line-height: 1.1;
-    margin: 0 0 var(--space-sm) 0;
+    margin: 0 auto var(--space-sm) auto;
     font-family: var(--font-secondary);
     text-align: center;
     width: 100%;
+    max-width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -275,7 +278,8 @@ body {
     animation: slideUpFade 0.8s ease 0.8s forwards;
     text-align: center;
     width: 100%;
-    margin: 0;
+    max-width: 100%;
+    margin: 0 auto;
 }
 
 .loading-progress {
@@ -307,8 +311,9 @@ body {
     align-items: center;
     font-size: 0.8rem;
     color: var(--text-muted);
-    margin: var(--space-sm) 0 0 0;
+    margin: var(--space-sm) auto 0 auto;
     width: 100%;
+    max-width: 300px;
     text-align: center;
     min-height: 1.5rem;
 }
@@ -320,6 +325,9 @@ body {
     transform: translateY(10px);
     width: 100%;
     text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .loading-stats .stat.active {
@@ -618,28 +626,6 @@ body {
     color: var(--text-secondary);
     line-height: 1.2;
 }
-    
-    .nav-links {
-        display: flex !important;
-        position: static !important;
-        background: transparent !important;
-        backdrop-filter: none !important;
-        flex-direction: row !important;
-        padding: 0 !important;
-        gap: 32px !important;
-        transform: none !important;
-        opacity: 1 !important;
-        visibility: visible !important;
-        box-shadow: none !important;
-        border-bottom: none !important;
-    }
-    
-    .hamburger-menu {
-        display: none !important;
-        visibility: hidden !important;
-        opacity: 0 !important;
-    }
-}
 
 
 .nav-name {
@@ -771,13 +757,7 @@ body {
     transform: rotate(-45deg) translate(6px, -6px);
 }
 
-@media (max-width: 768px) {
-    .hamburger-menu {
-        display: flex !important;
-        visibility: visible !important;
-        opacity: 1 !important;
-    }
-}
+
 
 .hero-section {
     min-height: 100vh;
@@ -1422,10 +1402,10 @@ body {
 }
 
 .footer-links a:hover {
-    background: var(--primary);
+    background: linear-gradient(90deg, #00C8C8 0%, #007BFF 100%);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 200, 200, 0.3);
 }
 
 .footer-bottom {
@@ -1497,12 +1477,13 @@ body {
         opacity: 1 !important;
     }
     
+    
     .back-to-top.footer-compact {
         bottom: 90px;
     }
     
     .back-to-top.footer-expanded {
-        bottom: 170px;
+        bottom: 150px;
     }
     
     body {
@@ -1532,6 +1513,21 @@ body {
         transform: translateY(0);
         opacity: 1;
         visibility: visible;
+    }
+    
+    .nav-controls {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        align-items: center;
+        gap: 16px;
+    }
+    
+    .nav-controls .nav-darkmode,
+    .nav-controls .nav-sound-toggle {
+        display: flex !important;
+        visibility: visible !important;
+        opacity: 1 !important;
     }
     
     .header-container {
@@ -1600,6 +1596,15 @@ body {
     .loading-stats {
         gap: var(--space-sm);
         font-size: 0.75rem;
+        max-width: 280px;
+        margin: var(--space-sm) auto 0 auto;
+    }
+    
+    .loading-stats .stat {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
     }
     
     .loading-logo .logo-ring {
@@ -1691,7 +1696,7 @@ body {
     }
     
     .back-to-top.footer-expanded {
-        bottom: 170px;
+        bottom: 150px;
     }
     
     body {
@@ -1701,7 +1706,7 @@ body {
 
 .back-to-top {
     position: fixed;
-    bottom: 160px;
+    bottom: 140px;
     right: 20px;
     width: 45px;
     height: 45px;
@@ -1741,7 +1746,7 @@ body {
 }
 
 .back-to-top.footer-expanded {
-    bottom: 160px;
+    bottom: 140px;
 }
 
 .back-to-top i {
@@ -1776,9 +1781,6 @@ body {
     border-radius: var(--radius-full);
 }
 
-::-webkit-scrollbar-thumb:hover {
-    background: var(--primary-dark);
-}
 
 ::selection {
     background: var(--primary);
