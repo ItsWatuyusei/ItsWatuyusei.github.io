@@ -27,13 +27,15 @@
     <link rel="icon" type="image/x-icon" href="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115">
 </head>
 <body>
-    <!-- Background Elements -->
+    <div class="progress-bar" id="progressBar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
     <div class="background-animation">
         <canvas id="particle-canvas"></canvas>
         <div class="gradient-overlay"></div>
     </div>
 
-    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
@@ -63,9 +65,8 @@
         </div>
     </nav>
 
-    <!-- Main Content -->
+
     <main class="main-content">
-        <!-- Hero Section -->
         <section class="hero" id="hero">
             <div class="hero-container">
                 <div class="hero-content">
@@ -138,7 +139,6 @@
             </div>
         </section>
 
-        <!-- About Section -->
         <section class="section about-section" id="about">
             <div class="container">
                 <div class="section-header">
@@ -219,7 +219,6 @@
             </div>
         </section>
 
-        <!-- Skills Section -->
         <section class="section skills-section" id="skills">
             <div class="container">
                 <div class="section-header">
@@ -366,7 +365,6 @@
             </div>
         </section>
 
-        <!-- Projects Section -->
         <section class="section projects-section" id="projects">
             <div class="container">
                 <div class="section-header">
@@ -392,7 +390,6 @@
                 </div>
                 
                 <div class="projects-grid" id="projectsGrid">
-                    <!-- BitelFibra -->
                     <div class="project-card" data-category="web ecommerce" data-technologies="html,php,woocommerce,wordpress">
                         <div class="project-image">
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra00.png?updatedAt=1752006146778" 
@@ -422,7 +419,6 @@
                         </div>
                     </div>
                     
-                    <!-- RafflesSystem -->
                     <div class="project-card" data-category="web" data-technologies="php,javascript,mysql,html,css">
                         <div class="project-image">
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem00.png?updatedAt=1758383651390" 
@@ -452,7 +448,6 @@
                         </div>
                     </div>
                     
-                    <!-- MU Online Emulator -->
                     <div class="project-card" data-category="desktop" data-technologies="c++,lua,directx,visual studio">
                         <div class="project-image">
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/MuEmulator/MuEmulator01.png?updatedAt=1760388198601" 
@@ -482,7 +477,6 @@
                         </div>
                     </div>
                     
-                    <!-- MuServerEasy -->
                     <div class="project-card" data-category="desktop" data-technologies="c#,.net,windows forms,sql server">
                         <div class="project-image">
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/MuServerEasy/MuServerEasy02.png?updatedAt=1760383658945" 
@@ -512,7 +506,6 @@
                         </div>
                     </div>
                     
-                    <!-- Custom CMS -->
                     <div class="project-card" data-category="web" data-technologies="php,mysql,javascript,html,css">
                         <div class="project-image">
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs00.png?updatedAt=1752643865011" 
@@ -542,7 +535,6 @@
                         </div>
                     </div>
                     
-                    <!-- LauncherMU -->
                     <div class="project-card" data-category="desktop" data-technologies="c#,wpf,.net,webview2">
                         <div class="project-image">
                             <div class="project-placeholder" data-project="launchermu">
@@ -570,38 +562,115 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="project-card" data-technologies="cms,javascript">
+                    <div class="project-overlay">
+                        <button class="project-btn" data-action="view" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/Forum.ItsWatuyusei/forum.itswatuyusei01.png?updatedAt=1752019307990","https://ik.imagekit.io/ItsWatuyusei/Image/Forum.ItsWatuyusei/forum.itswatuyusei02.png?updatedAt=1752019308165"]'>
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <a href="https://Forum.ItsWatuyusei.com" target="_blank" class="project-btn" data-action="visit">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <div class="project-image">
+                        <img src="https://ik.imagekit.io/ItsWatuyusei/Image/Forum.ItsWatuyusei/forum.itswatuyusei00.png?updatedAt=1752019308343" alt="ItsWatuyusei Programming Forum" loading="lazy" />
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Community Forum</div>
+                        <h3 class="project-title">ItsWatuyusei Forum</h3>
+                        <p class="project-description">
+                            Programming community forum for gamers/developers with user registration, 
+                            discussion boards, and file sharing capabilities.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">CSS</span>
+                            <span class="tech-tag">HTML</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">SMF</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card" data-technologies="php,javascript,css,cms">
+                    <div class="project-overlay">
+                        <button class="project-btn" data-action="view" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/RandomTickets/randomTickets01.png?updatedAt=1753553588754","https://ik.imagekit.io/ItsWatuyusei/Image/RandomTickets/randomTickets02.png?updatedAt=1753553588865","https://ik.imagekit.io/ItsWatuyusei/Image/RandomTickets/randomTickets03.png?updatedAt=1753553588698","https://ik.imagekit.io/ItsWatuyusei/Image/RandomTickets/randomTickets04.png?updatedAt=1753553588711","https://ik.imagekit.io/ItsWatuyusei/Image/RandomTickets/randomTickets00.png?updatedAt=1753553588729"]'>
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        <a href="#" class="project-btn" data-action="visit">
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    <div class="project-image">
+                        <img src="https://ik.imagekit.io/ItsWatuyusei/Image/RandomTickets/randomTickets01.png?updatedAt=1753553588754" alt="RandomTickets Platform" loading="lazy" />
+                    </div>
+                    <div class="project-content">
+                        <div class="project-category">Raffle Platform</div>
+                        <h3 class="project-title">RandomTickets</h3>
+                        <p class="project-description">
+                            Online raffle platform with user and admin panels. Supports multiple 
+                            payment methods and seamless ticket distribution.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">JavaScript</span>
+                            <span class="tech-tag">HTML</span>
+                            <span class="tech-tag">CSS</span>
+                            <span class="tech-tag">MySQL</span>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <i class="fas fa-code"></i>
-                        <span>ItsWatuyusei</span>
-                    </div>
-                    <p>Building the future of digital experiences</p>
+    <footer class="sticky-footer" id="stickyFooter">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="footer-avatar">
+                    <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" />
                 </div>
-                
-                <div class="footer-links">
-                    <a href="#hero">Home</a>
-                    <a href="#about">About</a>
-                    <a href="#skills">Skills</a>
-                    <a href="#projects">Projects</a>
+                <div class="footer-info">
+                    <h3>ItsWatuyusei</h3>
+                    <p>Full Stack Developer</p>
                 </div>
             </div>
             
-            <div class="footer-bottom">
-                <p>&copy; 2025 ItsWatuyusei. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="https://linktr.ee/ItsWatuyusei" target="_blank" class="footer-social-link">
+                    <i class="fas fa-link"></i>
+                    <span>All Links</span>
+                </a>
+                <a href="https://github.com/ItsWatuyusei" target="_blank" class="footer-social-link">
+                    <i class="fab fa-github"></i>
+                    <span>GitHub</span>
+                </a>
+                <a href="https://forum.ItsWatuyusei.com" target="_blank" class="footer-social-link">
+                    <i class="fas fa-comments"></i>
+                    <span>Forum</span>
+                </a>
+                <a href="https://instagram.com/ItsWatuyusei" target="_blank" class="footer-social-link">
+                    <i class="fab fa-instagram"></i>
+                    <span>Instagram</span>
+                </a>
             </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 ItsWatuyusei. All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Project Modal -->
+    <div id="contactModal" class="contact-modal">
+        <div class="contact-modal-content">
+            <button class="contact-modal-close" id="contactModalClose" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="hs-form-frame" data-region="na1" data-form-id="16683cb4-cb65-4421-ba88-58a310b3ac2f" data-portal-id="49346124"></div>
+        </div>
+    </div>
+
     <div class="modal" id="projectModal">
         <div class="modal-overlay" id="modalOverlay"></div>
         <div class="modal-container">
@@ -613,10 +682,8 @@
             </div>
             <div class="modal-content">
                 <div class="modal-gallery" id="modalGallery">
-                    <!-- Gallery images will be inserted here -->
                 </div>
                 <div class="modal-info" id="modalInfo">
-                    <!-- Project info will be inserted here -->
                 </div>
             </div>
             <div class="modal-navigation">
@@ -631,7 +698,7 @@
         </div>
     </div>
 
-    <!-- Scripts -->
+    <script src="https://js.hsforms.net/forms/embed/49346124.js" defer></script>
     <script src="main.js"></script>
 </body>
 </html>

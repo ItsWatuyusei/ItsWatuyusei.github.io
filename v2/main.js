@@ -17,6 +17,9 @@ class ProfessionalPortfolio {
         this.setupProjectFilter();
         this.setupCounterAnimations();
         this.setupModal();
+        this.setupContactModal();
+        this.setupStickyElements();
+        this.setupProgressBar();
         this.setupPerformanceOptimizations();
     }
 
@@ -714,6 +717,175 @@ class ProfessionalPortfolio {
             this.currentImageIndex++;
             this.updateNavigation();
         }
+    }
+
+    // ===== CONTACT MODAL =====
+    setupContactModal() {
+        this.contactModal = document.getElementById('contactModal');
+        this.contactModalClose = document.getElementById('contactModalClose');
+        
+        this.bindContactModalEvents();
+    }
+
+    bindContactModalEvents() {
+        // Open modal events
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.btn-secondary') && e.target.closest('.btn-secondary').textContent.includes('Get In Touch')) {
+                e.preventDefault();
+                this.openContactModal();
+            }
+        });
+        
+        // Close modal events
+        this.contactModalClose.addEventListener('click', () => this.closeContactModal());
+        this.contactModal.addEventListener('click', (e) => {
+            if (e.target === this.contactModal) {
+                this.closeContactModal();
+            }
+        });
+        
+        // Keyboard events
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.contactModal.style.display === 'flex') {
+                this.closeContactModal();
+            }
+        });
+    }
+
+    openContactModal() {
+        this.contactModal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    }
+
+    closeContactModal() {
+        this.contactModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    // ===== STICKY FOOTER =====
+    setupStickyElements() {
+        this.stickyFooter = document.getElementById('stickyFooter');
+        this.lastScrollTop = 0;
+        this.scrollDirection = 'up';
+        
+        this.setupStickyFooter();
+        this.bindScrollEvents();
+    }
+
+    setupStickyFooter() {
+        // Footer expansion logic
+        this.toggleFooterExpansion = () => {
+            const scrollTop = window.pageYOffset;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const footerHeight = this.stickyFooter.offsetHeight;
+            
+            // Show expanded footer when near bottom of page
+            if (documentHeight > windowHeight + footerHeight && scrollTop + windowHeight >= documentHeight - footerHeight - 20) {
+                this.stickyFooter.classList.add('expanded');
+                
+                setTimeout(() => {
+                    const footerLinks = this.stickyFooter.querySelector('.footer-links');
+                    const footerBottom = this.stickyFooter.querySelector('.footer-bottom');
+                    if (footerLinks) footerLinks.classList.add('visible');
+                    if (footerBottom) footerBottom.classList.add('visible');
+                }, 150);
+            } else {
+                this.stickyFooter.classList.remove('expanded');
+                
+                const footerLinks = this.stickyFooter.querySelector('.footer-links');
+                const footerBottom = this.stickyFooter.querySelector('.footer-bottom');
+                if (footerLinks) footerLinks.classList.remove('visible');
+                if (footerBottom) footerBottom.classList.remove('visible');
+            }
+        };
+    }
+
+    bindScrollEvents() {
+        let rafId = null;
+        let isScrolling = false;
+        
+        const updateStickyElements = () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            
+            // Sticky Footer Logic - more refined
+            const isScrollingDown = scrollTop > this.lastScrollTop;
+            const isNearBottom = scrollTop + windowHeight >= documentHeight - 100;
+            const shouldShowFooter = isScrollingDown && scrollTop > 300 && !isNearBottom;
+            
+            if (shouldShowFooter) {
+                this.stickyFooter.classList.add('visible');
+            } else if (isNearBottom) {
+                // Hide regular footer when near bottom, expanded footer will show
+                this.stickyFooter.classList.remove('visible');
+            } else {
+                this.stickyFooter.classList.remove('visible');
+            }
+            
+            // Update footer expansion
+            this.toggleFooterExpansion();
+            
+            this.lastScrollTop = scrollTop;
+        };
+        
+        const handleScroll = () => {
+            if (!isScrolling) {
+                requestAnimationFrame(() => {
+                    updateStickyElements();
+                    isScrolling = false;
+                });
+                isScrolling = true;
+            }
+        };
+        
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('resize', () => {
+            this.toggleFooterExpansion();
+        }, { passive: true });
+        
+        // Initial call
+        this.toggleFooterExpansion();
+    }
+
+    // ===== PROGRESS BAR =====
+    setupProgressBar() {
+        this.progressBar = document.getElementById('progressBar');
+        this.progressFill = document.getElementById('progressFill');
+        
+        if (!this.progressBar || !this.progressFill) return;
+        
+        this.bindProgressEvents();
+    }
+
+    bindProgressEvents() {
+        const updateProgress = () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / documentHeight) * 100;
+            
+            // Clamp between 0 and 100
+            const progress = Math.min(Math.max(scrollPercent, 0), 100);
+            
+            this.progressFill.style.width = `${progress}%`;
+        };
+
+        let rafId = null;
+        const handleScroll = () => {
+            if (rafId) return;
+            
+            rafId = requestAnimationFrame(() => {
+                updateProgress();
+                rafId = null;
+            });
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        window.addEventListener('resize', handleScroll, { passive: true });
+        
+        // Initial call
+        updateProgress();
     }
 
     // ===== COUNTER ANIMATIONS =====
