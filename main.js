@@ -579,17 +579,33 @@ class PortfolioHub {
 
     setupBackToTop() {
         const backToTopButton = document.getElementById('back-to-top');
+        const stickyFooter = document.getElementById('sticky-footer');
+        const footerBottom = document.getElementById('footer-bottom');
         
         if (!backToTopButton) return;
 
         const toggleBackToTop = () => {
             const scrollTop = window.pageYOffset;
             const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
             
             if (scrollTop > windowHeight) {
                 backToTopButton.classList.add('visible');
+                
+                // Ajustar posición según el estado del footer
+                if (documentHeight > windowHeight + 200 && scrollTop + windowHeight >= documentHeight - 50) {
+                    // Footer expandido
+                    backToTopButton.classList.add('footer-expanded');
+                    backToTopButton.classList.remove('footer-compact');
+                } else {
+                    // Footer compacto
+                    backToTopButton.classList.add('footer-compact');
+                    backToTopButton.classList.remove('footer-expanded');
+                }
             } else {
                 backToTopButton.classList.remove('visible');
+                backToTopButton.classList.remove('footer-expanded');
+                backToTopButton.classList.remove('footer-compact');
             }
         };
 
@@ -649,24 +665,30 @@ class PortfolioHub {
 
     setupStickyFooter() {
         const stickyFooter = document.getElementById('sticky-footer');
+        const footerLinks = document.getElementById('footer-links');
+        const footerBottom = document.getElementById('footer-bottom');
         
-        if (!stickyFooter) return;
+        if (!stickyFooter || !footerLinks || !footerBottom) return;
 
-        const toggleStickyFooter = () => {
+        const toggleFooterExpansion = () => {
             const scrollTop = window.pageYOffset;
             const windowHeight = window.innerHeight;
             const documentHeight = document.documentElement.scrollHeight;
             
-            if (documentHeight > windowHeight && scrollTop + windowHeight >= documentHeight - 100) {
-                stickyFooter.classList.add('visible');
+            if (documentHeight > windowHeight + 200 && scrollTop + windowHeight >= documentHeight - 50) {
+                stickyFooter.classList.add('expanded');
+                footerLinks.classList.add('visible');
+                footerBottom.classList.add('visible');
             } else {
-                stickyFooter.classList.remove('visible');
+                stickyFooter.classList.remove('expanded');
+                footerLinks.classList.remove('visible');
+                footerBottom.classList.remove('visible');
             }
         };
 
-        window.addEventListener('scroll', this.throttle(toggleStickyFooter, 16));
+        window.addEventListener('scroll', this.throttle(toggleFooterExpansion, 16));
         
-        toggleStickyFooter();
+        toggleFooterExpansion();
     }
 
     setupHamburgerMenu() {
