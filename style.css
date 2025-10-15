@@ -311,7 +311,7 @@ body {
     align-items: center;
     font-size: 0.8rem;
     color: var(--text-muted);
-    margin: 2px auto 0 auto;
+    margin: 0 auto;
     width: 100%;
     max-width: 300px;
     text-align: center;
@@ -1478,13 +1478,6 @@ body {
     }
     
     
-    .back-to-top.footer-compact {
-        bottom: 90px;
-    }
-    
-    .back-to-top.footer-expanded {
-        bottom: 150px;
-    }
     
     body {
         padding-bottom: 140px;
@@ -1597,7 +1590,7 @@ body {
         gap: var(--space-sm);
         font-size: 0.75rem;
         max-width: 280px;
-        margin: 2px auto 0 auto;
+        margin: 0 auto;
     }
     
     .loading-stats .stat {
@@ -1685,79 +1678,12 @@ body {
         padding: 6px 16px;
     }
     
-    .back-to-top {
-        right: 20px;
-        bottom: 30px;
-        width: 50px;
-        height: 50px;
-        font-size: 16px;
-    }
-    
-    .back-to-top.footer-compact {
-        bottom: 30px;
-    }
-    
-    .back-to-top.footer-expanded {
-        bottom: 90px;
-    }
     
     body {
         padding-bottom: 160px;
     }
 }
 
-.back-to-top {
-    position: fixed;
-    bottom: 140px;
-    right: 20px;
-    width: 45px;
-    height: 45px;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    border: none;
-    border-radius: 50%;
-    color: white;
-    font-size: 18px;
-    cursor: pointer;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(20px);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1001;
-    box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
-    backdrop-filter: blur(10px);
-}
-
-.back-to-top:hover {
-    background: linear-gradient(135deg, var(--secondary), var(--primary));
-    transform: translateY(-3px);
-    box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
-}
-
-.back-to-top:hover i {
-    transform: translateY(-2px);
-}
-
-.back-to-top.visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
-
-.back-to-top.footer-compact {
-    bottom: 90px;
-}
-
-.back-to-top.footer-expanded {
-    bottom: 140px;
-}
-
-.back-to-top i {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-}
 
 .fade-in {
     opacity: 0;

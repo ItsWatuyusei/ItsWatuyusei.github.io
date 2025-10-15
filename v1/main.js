@@ -413,10 +413,14 @@ document.addEventListener('DOMContentLoaded', function() {
     quickSearchInput.addEventListener('input', function() {
         const searchTerm = this.value.toLowerCase();
         if (searchTerm.length < 2) {
-            quickSearchResults.style.display = 'none';
+            requestAnimationFrame(() => {
+                quickSearchResults.style.display = 'none';
+            });
             return;
         }
-        quickSearchResults.style.display = 'block';
+        requestAnimationFrame(() => {
+            quickSearchResults.style.display = 'block';
+        });
         const sections = [
             { name: 'Skills', id: 'skills' },
             { name: 'Projects', id: 'projects' },
@@ -505,6 +509,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const progressBar = document.getElementById('progress-bar');
+    const progressFill = document.getElementById('progress-fill') || progressBar;
     let cachedDocumentHeight = 0;
     let cachedWindowHeight = 0;
     let lastScrollPercent = 0;
@@ -512,45 +517,40 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateProgressBar() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
         
+        // Only recalculate dimensions if not cached
         if (cachedDocumentHeight === 0 || cachedWindowHeight === 0) {
+            // Batch all DOM reads together
+            const bodyScrollHeight = document.body.scrollHeight;
+            const bodyOffsetHeight = document.body.offsetHeight;
+            const docClientHeight = document.documentElement.clientHeight;
+            const docScrollHeight = document.documentElement.scrollHeight;
+            const docOffsetHeight = document.documentElement.offsetHeight;
+            const windowHeight = window.innerHeight;
+            const bodyClientHeight = document.body.clientHeight;
+            
             cachedDocumentHeight = Math.max(
-                document.body.scrollHeight,
-                document.body.offsetHeight,
-                document.documentElement.clientHeight,
-                document.documentElement.scrollHeight,
-                document.documentElement.offsetHeight
+                bodyScrollHeight,
+                bodyOffsetHeight,
+                docClientHeight,
+                docScrollHeight,
+                docOffsetHeight
             );
-            cachedWindowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
+            cachedWindowHeight = windowHeight || docClientHeight || bodyClientHeight;
         }
         
         const scrollableHeight = cachedDocumentHeight - cachedWindowHeight;
         const scrollPercent = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
         const clampedPercent = Math.min(Math.max(scrollPercent, 0), 100);
         
+        // Only update if change is significant
         if (Math.abs(clampedPercent - lastScrollPercent) > 0.5) {
-            requestAnimationFrame(() => {
-                progressBar.style.width = clampedPercent + '%';
-            });
             lastScrollPercent = clampedPercent;
+            // Use transform instead of width for better performance
+            progressFill.style.transform = `scaleX(${clampedPercent / 100})`;
         }
     }
 
-    const backToTopBtn = document.getElementById('back-to-top');
-    function updateBackToTop() {
-        const stickyFooter = document.getElementById('sticky-footer');
-        if (stickyFooter && stickyFooter.classList.contains('expanded')) {
-            backToTopBtn.classList.add('visible');
-        } else {
-            backToTopBtn.classList.remove('visible');
-        }
-    }
 
-    backToTopBtn.addEventListener('click', function() {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
 
     const stickyNav = document.getElementById('sticky-nav');
     const stickyFooter = document.querySelector('.sticky-footer');
@@ -560,27 +560,31 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateStickyElements() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
+        // Batch all DOM reads first
+        const shouldShowNav = scrollTop > 200;
+        const isScrollingDown = scrollTop > lastScrollTop;
+        const shouldShowFooter = isScrollingDown && scrollTop > 300;
+        
+        // Update progress bar with throttling
+        updateProgressBar();
+        
+        // Batch all DOM writes in requestAnimationFrame
         requestAnimationFrame(() => {
-            updateProgressBar();
-            updateBackToTop();
-            
-            if (scrollTop > 200) {
+            // Update sticky nav
+            if (shouldShowNav) {
                 stickyNav.classList.add('visible');
             } else {
                 stickyNav.classList.remove('visible');
             }
             
-            if (scrollTop > lastScrollTop) {
-                scrollDirection = 'down';
-            } else {
-                scrollDirection = 'up';
-            }
-            
-            if (scrollDirection === 'down' && scrollTop > 300) {
+            // Update sticky footer
+            if (shouldShowFooter) {
                 stickyFooter.classList.add('visible');
-            } else if (scrollDirection === 'up' || scrollTop < 300) {
+            } else {
                 stickyFooter.classList.remove('visible');
             }
+            
+            // Back to top visibility is handled by toggleFooterExpansion
             
             lastScrollTop = scrollTop;
         });
@@ -591,10 +595,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function throttledUpdateStickyElements() {
         if (isScrolling) return;
         isScrolling = true;
-        requestAnimationFrame(() => {
-            updateStickyElements();
-            isScrolling = false;
-        });
+        
+        // Use a more aggressive throttle for better performance
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => {
+            requestAnimationFrame(() => {
+                updateStickyElements();
+                isScrolling = false;
+            });
+        }, 8); // 8ms throttle for ~120fps
     }
     
     function invalidateCache() {
@@ -667,12 +676,21 @@ document.addEventListener('DOMContentLoaded', function() {
         rootMargin: '0px 0px -50px 0px'
     };
     const sectionObserver = new IntersectionObserver((entries) => {
+        const elementsToAnimate = [];
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateY(0)';
+                elementsToAnimate.push(entry.target);
             }
         });
+        
+        if (elementsToAnimate.length > 0) {
+            requestAnimationFrame(() => {
+                elementsToAnimate.forEach(element => {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                });
+            });
+        }
     }, observerOptions);
 
     const sections = document.querySelectorAll('.section');
@@ -684,12 +702,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const skillObserver = new IntersectionObserver((entries) => {
+        const skillsToAnimate = [];
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'scale(1)';
+                skillsToAnimate.push(entry.target);
             }
         });
+        
+        if (skillsToAnimate.length > 0) {
+            requestAnimationFrame(() => {
+                skillsToAnimate.forEach(skill => {
+                    skill.style.opacity = '1';
+                    skill.style.transform = 'scale(1)';
+                });
+            });
+        }
     }, { threshold: 0.1 });
 
     const skills = document.querySelectorAll('.skill');
@@ -701,12 +728,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const techStackObserver = new IntersectionObserver((entries) => {
+        const logosToAnimate = [];
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'scale(1) rotate(0deg)';
+                logosToAnimate.push(entry.target);
             }
         });
+        
+        if (logosToAnimate.length > 0) {
+            requestAnimationFrame(() => {
+                logosToAnimate.forEach(logo => {
+                    logo.style.opacity = '1';
+                    logo.style.transform = 'scale(1) rotate(0deg)';
+                });
+            });
+        }
     }, { threshold: 0.1 });
 
     const techLogos = document.querySelectorAll('.tech-stack-logos img');
@@ -811,23 +847,35 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateProjectVisibility() {
-        projectCards.forEach(card => {
-            card.style.display = 'none';
-        });
-
+        // Batch DOM operations to prevent reflows
+        const cardsToHide = [];
+        const cardsToShow = [];
+        
         filteredProjects = getVisibleProjects();
-        
         currentPage = 1;
-
         const totalPages = Math.ceil(filteredProjects.length / projectsPerPage);
-        
         const startIndex = (currentPage - 1) * projectsPerPage;
         const endIndex = startIndex + projectsPerPage;
         
+        // Prepare all changes first
+        projectCards.forEach(card => {
+            cardsToHide.push(card);
+        });
+        
         filteredProjects.forEach((card, index) => {
             if (index >= startIndex && index < endIndex) {
-                card.style.display = 'block';
+                cardsToShow.push(card);
             }
+        });
+        
+        // Apply all changes in one RAF
+        requestAnimationFrame(() => {
+            cardsToHide.forEach(card => {
+                card.style.display = 'none';
+            });
+            cardsToShow.forEach(card => {
+                card.style.display = 'block';
+            });
         });
 
         const projectsContainer = document.getElementById('projects-container');
@@ -864,10 +912,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const startIndex = (currentPage - 1) * projectsPerPage;
         const endIndex = startIndex + projectsPerPage;
         
+        // Batch DOM operations
+        const cardsToShow = [];
         filteredProjects.forEach((card, index) => {
             if (index >= startIndex && index < endIndex) {
-                card.style.display = 'block';
+                cardsToShow.push(card);
             }
+        });
+        
+        requestAnimationFrame(() => {
+            cardsToShow.forEach(card => {
+                card.style.display = 'block';
+            });
         });
 
         updateProjectsPagination(totalPages);

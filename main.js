@@ -555,26 +555,8 @@ class PortfolioHub {
 
     setupBackToTop() {
         const backToTopButton = document.getElementById('back-to-top');
-        const stickyFooter = document.getElementById('sticky-footer');
-        const footerBottom = document.getElementById('footer-bottom');
         
         if (!backToTopButton) return;
-
-        const toggleBackToTop = () => {
-            const scrollTop = window.pageYOffset;
-            const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
-            
-            if (documentHeight > windowHeight + 200 && scrollTop + windowHeight >= documentHeight - 50) {
-                backToTopButton.classList.add('visible');
-                backToTopButton.classList.add('footer-expanded');
-                backToTopButton.classList.remove('footer-compact');
-            } else {
-                backToTopButton.classList.remove('visible');
-                backToTopButton.classList.remove('footer-expanded');
-                backToTopButton.classList.remove('footer-compact');
-            }
-        };
 
         const scrollToTop = () => {
             window.scrollTo({
@@ -583,10 +565,7 @@ class PortfolioHub {
             });
         };
 
-        window.addEventListener('scroll', this.throttle(toggleBackToTop, 16));
         backToTopButton.addEventListener('click', scrollToTop);
-        
-        toggleBackToTop();
     }
 
     setupStickyNav() {
@@ -634,6 +613,7 @@ class PortfolioHub {
         const stickyFooter = document.getElementById('sticky-footer');
         const footerLinks = document.getElementById('footer-links');
         const footerBottom = document.getElementById('footer-bottom');
+        const backToTopButton = document.getElementById('back-to-top');
         
         if (!stickyFooter || !footerLinks || !footerBottom) return;
 
@@ -646,10 +626,20 @@ class PortfolioHub {
                 stickyFooter.classList.add('expanded');
                 footerLinks.classList.add('visible');
                 footerBottom.classList.add('visible');
+                if (backToTopButton) {
+                    backToTopButton.classList.add('visible');
+                    backToTopButton.classList.add('footer-expanded');
+                    backToTopButton.classList.remove('footer-compact');
+                }
             } else {
                 stickyFooter.classList.remove('expanded');
                 footerLinks.classList.remove('visible');
                 footerBottom.classList.remove('visible');
+                if (backToTopButton) {
+                    backToTopButton.classList.remove('visible');
+                    backToTopButton.classList.remove('footer-expanded');
+                    backToTopButton.classList.remove('footer-compact');
+                }
             }
         };
 
