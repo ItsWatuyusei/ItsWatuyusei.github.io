@@ -27,9 +27,31 @@
     <link rel="icon" type="image/x-icon" href="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115">
 </head>
 <body>
+    <div id="top"></div>
+    
     <div class="progress-bar" id="progressBar">
         <div class="progress-fill" id="progressFill"></div>
     </div>
+
+    <nav class="sticky-nav" id="stickyNav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="#top" class="nav-logo-link">
+                    <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" class="nav-avatar">
+                    <span class="nav-name">ItsWatuyusei</span>
+                </a>
+            </div>
+            <div class="nav-links" id="navLinks">
+                <a href="#about" class="nav-link" data-section="about">About</a>
+                <a href="#skills" class="nav-link" data-section="skills">Skills</a>
+                <a href="#projects" class="nav-link" data-section="projects">Projects</a>
+                <button class="contact-btn" id="contactBtn">
+                    <i class="fas fa-envelope"></i>
+                    <span>Get In Touch</span>
+                </button>
+            </div>
+        </div>
+    </nav>
 
     <div class="background-animation">
         <canvas id="particle-canvas"></canvas>
@@ -91,10 +113,10 @@
                             <span>View Projects</span>
                             <i class="fas fa-arrow-right"></i>
                         </a>
-                        <a href="https://linktr.ee/ItsWatuyusei" target="_blank" class="btn btn-secondary">
+                        <button class="btn btn-secondary" id="heroContactBtn">
                             <span>Get In Touch</span>
-                            <i class="fas fa-external-link-alt"></i>
-                        </a>
+                            <i class="fas fa-envelope"></i>
+                        </button>
                     </div>
                     
                     <div class="hero-stats">
@@ -395,7 +417,7 @@
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra00.png?updatedAt=1752006146778" 
                                  alt="BitelFibra E-commerce Platform" loading="lazy" class="project-img" data-project="bitelfibra">
                             <div class="project-overlay">
-                                <button class="project-btn" data-action="view" data-project="bitelfibra">
+                                <button class="project-btn" data-action="view" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra00.png?updatedAt=1752006146778","https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra01.png?updatedAt=1752006146616","https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra02.png?updatedAt=1752006146072"]'>
                                     <i class="fas fa-eye"></i>
                                 </button>
                                 <a href="https://BitelFibra.com.pe" target="_blank" class="project-btn" data-action="visit">
@@ -424,7 +446,7 @@
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem00.png?updatedAt=1758383651390" 
                                  alt="RafflesSystem Platform" loading="lazy" class="project-img" data-project="raffles">
                             <div class="project-overlay">
-                                <button class="project-btn" data-action="view" data-project="raffles">
+                                <button class="project-btn" data-action="view" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem00.png?updatedAt=1758383651390","https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem01.png?updatedAt=1758383651224","https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem02.png?updatedAt=1758383651075","https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem03.png?updatedAt=1758383650871","https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem04.png?updatedAt=1758383650701"]'>
                                     <i class="fas fa-eye"></i>
                                 </button>
                                 <a href="https://test.itswatuyusei.com/Raffles" target="_blank" class="project-btn" data-action="visit">
@@ -453,7 +475,7 @@
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/MuEmulator/MuEmulator01.png?updatedAt=1760388198601" 
                                  alt="MU Online Emulator" loading="lazy" class="project-img" data-project="muemulator">
                             <div class="project-overlay">
-                                <button class="project-btn" data-action="view" data-project="muemulator">
+                                <button class="project-btn" data-action="view" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/MuEmulator/MuEmulator01.png?updatedAt=1760388198601","https://ik.imagekit.io/ItsWatuyusei/Image/MuEmulator/MuEmulator00.png?updatedAt=1760388198266"]'>
                                     <i class="fas fa-eye"></i>
                                 </button>
                                 <a href="https://mega.nz/folder/ZeMCjJqa#hSOZERkU5mbuUwRJO5nK0g" target="_blank" class="project-btn" data-action="visit">
@@ -482,7 +504,7 @@
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/MuServerEasy/MuServerEasy02.png?updatedAt=1760383658945" 
                                  alt="MuServerEasy Application" loading="lazy" class="project-img" data-project="muservereasy">
                             <div class="project-overlay">
-                                <button class="project-btn" data-action="view" data-project="muservereasy">
+                                <button class="project-btn" data-action="view" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/MuServerEasy/MuServerEasy02.png?updatedAt=1760383658945","https://ik.imagekit.io/ItsWatuyusei/Image/MuServerEasy/MuServerEasy00.png?updatedAt=1760383991150","https://ik.imagekit.io/ItsWatuyusei/Image/MuServerEasy/MuServerEasy01.png?updatedAt=1760383658952"]'>
                                     <i class="fas fa-eye"></i>
                                 </button>
                                 <button class="project-btn" data-action="info" data-project="muservereasy">
@@ -511,7 +533,7 @@
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs00.png?updatedAt=1752643865011" 
                                  alt="Custom CMS Platform" loading="lazy" class="project-img" data-project="cms">
                             <div class="project-overlay">
-                                <button class="project-btn" data-action="view" data-project="cms">
+                                <button class="project-btn" data-action="view" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs00.png?updatedAt=1752643865011","https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs01.png?updatedAt=1752643885082","https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs02.png?updatedAt=1752643898384","https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs04.png?updatedAt=1752724263116"]'>
                                     <i class="fas fa-eye"></i>
                                 </button>
                                 <button class="project-btn" data-action="info" data-project="cms">
@@ -658,7 +680,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2025 ItsWatuyusei. All rights reserved.</p>
+            <p>&copy; 2025 ItsWatuyusei</p>
         </div>
     </footer>
 

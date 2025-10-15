@@ -151,6 +151,167 @@ body {
     background: linear-gradient(90deg, var(--primary-light), var(--accent-light));
 }
 
+/* ===== STICKY NAVIGATION ===== */
+.sticky-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--gray-200);
+    z-index: 1001;
+    transform: translateY(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 20px rgba(37, 99, 235, 0.1);
+}
+
+.sticky-nav.visible {
+    transform: translateY(0);
+}
+
+.sticky-nav .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-lg);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+}
+
+.sticky-nav .nav-logo-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    text-decoration: none;
+    color: var(--gray-900);
+    font-weight: 600;
+    transition: color var(--transition-normal);
+}
+
+.sticky-nav .nav-logo-link:hover {
+    color: var(--primary);
+}
+
+.sticky-nav .nav-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+}
+
+.sticky-nav .nav-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.sticky-nav .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
+}
+
+.sticky-nav .nav-link {
+    color: var(--gray-700);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color var(--transition-normal);
+    padding: var(--space-xs) var(--space-sm);
+    border-radius: var(--radius-md);
+}
+
+.sticky-nav .nav-link:hover {
+    color: var(--primary);
+    background: rgba(37, 99, 235, 0.1);
+}
+
+.sticky-nav .contact-btn {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: var(--white);
+    border: none;
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-lg);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.sticky-nav .contact-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+[data-theme="dark"] .sticky-nav {
+    background: rgba(15, 23, 42, 0.95);
+    border-bottom-color: var(--dark-surface-elevated);
+}
+
+[data-theme="dark"] .sticky-nav .nav-logo-link {
+    color: var(--dark-text);
+}
+
+[data-theme="dark"] .sticky-nav .nav-logo-link:hover {
+    color: var(--primary-light);
+}
+
+[data-theme="dark"] .sticky-nav .nav-link {
+    color: var(--dark-text-muted);
+}
+
+[data-theme="dark"] .sticky-nav .nav-link:hover {
+    color: var(--primary-light);
+    background: rgba(37, 99, 235, 0.2);
+}
+
+@media (max-width: 768px) {
+    .sticky-nav .nav-links {
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+        border-bottom: 1px solid var(--gray-200);
+        flex-direction: column;
+        padding: var(--space-lg);
+        gap: var(--space-md);
+        transform: translateY(-100%);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 20px rgba(37, 99, 235, 0.1);
+    }
+
+    .sticky-nav .nav-links.active {
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .sticky-nav .nav-link {
+        padding: var(--space-md);
+        border-radius: var(--radius-lg);
+        text-align: center;
+        font-weight: 500;
+    }
+
+    .sticky-nav .contact-btn {
+        width: 100%;
+        justify-content: center;
+        padding: var(--space-md);
+    }
+
+    [data-theme="dark"] .sticky-nav .nav-links {
+        background: rgba(15, 23, 42, 0.98);
+        border-bottom-color: var(--dark-surface-elevated);
+    }
+}
+
 /* ===== BACKGROUND ANIMATION ===== */
 .background-animation {
     position: fixed;
@@ -386,6 +547,34 @@ body {
     margin-bottom: var(--space-xl);
     animation: slideInUp 0.8s ease-out;
     box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-badge:hover {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: var(--white);
+    border-color: transparent;
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 25px rgba(37, 99, 235, 0.3);
+}
+
+.hero-badge:hover i {
+    transform: rotate(15deg) scale(1.1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] .hero-badge {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.1);
+    color: var(--primary-light);
+}
+
+[data-theme="dark"] .hero-badge:hover {
+    background: linear-gradient(135deg, var(--primary-light), var(--secondary-light));
+    color: var(--white);
+    border-color: transparent;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.4);
 }
 
 .hero-title {
@@ -1632,10 +1821,6 @@ body {
     border: 1px solid var(--gray-200);
 }
 
-[data-theme="dark"] .contact-modal-content {
-    background: var(--dark-surface);
-    border-color: var(--dark-surface-elevated);
-}
 
 .contact-modal-close {
     position: absolute;
@@ -1663,9 +1848,6 @@ body {
     background: var(--gray-100);
 }
 
-[data-theme="dark"] .contact-modal-close:hover {
-    background: var(--dark-surface-elevated);
-}
 
 @keyframes modalIn {
     from { 
@@ -1688,9 +1870,6 @@ body {
     font-weight: 500 !important;
 }
 
-[data-theme="dark"] .hs-form .hs-form-field label {
-    color: var(--dark-text) !important;
-}
 
 .hs-form .hs-form-field input,
 .hs-form .hs-form-field textarea,
@@ -1702,13 +1881,6 @@ body {
     transition: border-color var(--transition-normal) !important;
 }
 
-[data-theme="dark"] .hs-form .hs-form-field input,
-[data-theme="dark"] .hs-form .hs-form-field textarea,
-[data-theme="dark"] .hs-form .hs-form-field select {
-    background: var(--dark-surface-elevated) !important;
-    border-color: var(--dark-surface-elevated) !important;
-    color: var(--dark-text) !important;
-}
 
 .hs-form .hs-form-field input:focus,
 .hs-form .hs-form-field textarea:focus,

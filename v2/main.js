@@ -19,6 +19,7 @@ class ProfessionalPortfolio {
         this.setupModal();
         this.setupContactModal();
         this.setupStickyElements();
+        this.setupStickyNav();
         this.setupProgressBar();
         this.setupPerformanceOptimizations();
     }
@@ -174,6 +175,14 @@ class ProfessionalPortfolio {
         });
 
         this.setupActiveNavigation();
+        
+        // Hero contact button
+        const heroContactBtn = document.getElementById('heroContactBtn');
+        if (heroContactBtn) {
+            heroContactBtn.addEventListener('click', () => {
+                this.openContactModal();
+            });
+        }
     }
 
     setupActiveNavigation() {
@@ -849,6 +858,71 @@ class ProfessionalPortfolio {
         this.toggleFooterExpansion();
     }
 
+    // ===== STICKY NAVIGATION =====
+    setupStickyNav() {
+        this.stickyNav = document.getElementById('stickyNav');
+        this.lastScrollTop = 0;
+        
+        if (!this.stickyNav) return;
+        
+        this.bindStickyNavEvents();
+    }
+
+    bindStickyNavEvents() {
+        const updateStickyNav = () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const shouldShowNav = scrollTop > 200;
+            
+            if (shouldShowNav) {
+                this.stickyNav.classList.add('visible');
+            } else {
+                this.stickyNav.classList.remove('visible');
+            }
+            
+            this.lastScrollTop = scrollTop;
+        };
+
+        let rafId = null;
+        let isScrolling = false;
+        
+        const handleScroll = () => {
+            if (!isScrolling) {
+                rafId = requestAnimationFrame(() => {
+                    updateStickyNav();
+                    isScrolling = false;
+                });
+                isScrolling = true;
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
+        
+        // Bind navigation links
+        const stickyNavLinks = this.stickyNav.querySelectorAll('.nav-link[href^="#"]');
+        stickyNavLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    const offsetTop = targetElement.offsetTop - 80;
+                    window.scrollTo({
+                        top: offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Bind contact button
+        const stickyContactBtn = this.stickyNav.querySelector('#contactBtn');
+        if (stickyContactBtn) {
+            stickyContactBtn.addEventListener('click', () => {
+                this.openContactModal();
+            });
+        }
+    }
+
     // ===== PROGRESS BAR =====
     setupProgressBar() {
         this.progressBar = document.getElementById('progressBar');
@@ -1224,10 +1298,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Performance monitoring
     if ('requestIdleCallback' in window) {
         requestIdleCallback(() => {
-            console.log('🚀 Professional Portfolio V2 - Systems Online!');
-            console.log('✨ Animations: Active');
-            console.log('🎨 Theme System: Operational');
-            console.log('📱 Responsive Design: Ready');
+            // Portfolio systems initialized
         });
     }
 });
@@ -1237,10 +1308,10 @@ if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
             .then(registration => {
-                console.log('🛡️ Service Worker: Registered');
+                // Service Worker registered
             })
             .catch(error => {
-                console.log('⚠️ Service Worker: Registration failed');
+                // Service Worker registration failed
             });
     });
 }
