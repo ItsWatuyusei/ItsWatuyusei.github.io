@@ -542,7 +542,7 @@ class PortfolioHub {
     }
 
     setupProgressBar() {
-        const progressFill = document.getElementById('progress-fill');
+        const progressFill = document.getElementById('progress-fill-main');
         
         if (!progressFill) return;
 
@@ -551,7 +551,7 @@ class PortfolioHub {
             const docHeight = document.documentElement.scrollHeight - window.innerHeight;
             const scrollPercent = (scrollTop / docHeight) * 100;
             
-            progressFill.style.width = Math.min(scrollPercent, 100) + '%';
+            progressFill.style.transform = `scaleX(${Math.min(scrollPercent, 100) / 100})`;
         };
 
         window.addEventListener('scroll', this.throttle(updateProgressBar, 16));

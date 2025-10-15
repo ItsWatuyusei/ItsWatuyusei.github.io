@@ -546,7 +546,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (Math.abs(clampedPercent - lastScrollPercent) > 0.5) {
             lastScrollPercent = clampedPercent;
-            progressFill.style.transform = `scaleX(${clampedPercent / 100})`;
+            requestAnimationFrame(() => {
+                progressFill.style.transform = `scaleX(${clampedPercent / 100})`;
+            });
         }
     }
 
@@ -586,17 +588,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let scrollTimeout;
     let isScrolling = false;
+    let rafId = null;
+    
     function throttledUpdateStickyElements() {
         if (isScrolling) return;
         isScrolling = true;
         
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => {
-            requestAnimationFrame(() => {
-                updateStickyElements();
-                isScrolling = false;
-            });
-        }, 8);
+        if (rafId) {
+            cancelAnimationFrame(rafId);
+        }
+        
+        rafId = requestAnimationFrame(() => {
+            updateStickyElements();
+            isScrolling = false;
+            rafId = null;
+        });
     }
     
     function invalidateCache() {
