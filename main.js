@@ -42,7 +42,7 @@ class PortfolioHub {
     }
 
     simulateLoading() {
-        const progressFill = document.getElementById('progress-fill');
+        const progressFill = document.getElementById('progress-fill-loading');
         const loadingStats = document.querySelectorAll('.loading-stats .stat');
         
         const loadingInterval = setInterval(() => {
@@ -61,7 +61,7 @@ class PortfolioHub {
             }
             
             if (progressFill) {
-                progressFill.style.width = `${this.loadingProgress}%`;
+                progressFill.style.transform = `scaleX(${this.loadingProgress / 100})`;
             }
             
             if (this.loadingSteps && this.loadingSteps.length > 0) {
@@ -134,6 +134,8 @@ class PortfolioHub {
                         mainContent.style.opacity = '1';
                         mainContent.style.transform = 'translateY(0)';
                     }
+                    
+                    this.setupProgressBar();
                     
                     setTimeout(() => {
                         if (loadingScreen) {
@@ -313,7 +315,7 @@ class PortfolioHub {
                 <div class="transition-logo">
                     <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" />
                 </div>
-                <h2>Loading ${version.toUpperCase()} Portfolio</h2>
+                <h2><span class="loading-text">Loading</span> <span class="portfolio-text">Portfolio ${version.toUpperCase()}</span></h2>
                 <div class="transition-progress">
                     <div class="transition-fill"></div>
                 </div>
@@ -364,27 +366,42 @@ class PortfolioHub {
                 font-size: 1.5rem;
                 font-weight: 700;
                 margin-bottom: var(--space-lg);
-                background: linear-gradient(135deg, var(--primary), var(--secondary));
+                display: inline-block;
+                white-space: nowrap;
+            }
+            
+            .loading-text {
+                color: #000000;
+                display: inline;
+            }
+            
+            .portfolio-text {
+                background: linear-gradient(135deg, var(--primary-light), var(--accent));
                 -webkit-background-clip: text;
                 -webkit-text-fill-color: transparent;
                 background-clip: text;
+                display: inline;
             }
             
             .transition-progress {
-                width: 100%;
+                width: 280px;
                 height: 4px;
-                background: var(--bg-glass);
-                border-radius: 2px;
+                background: rgba(99, 102, 241, 0.2);
+                border-radius: var(--radius-full);
                 overflow: hidden;
-                margin-bottom: var(--space-md);
+                margin: var(--space-md) auto;
+                position: relative;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             }
             
             .transition-fill {
                 height: 100%;
-                background: linear-gradient(90deg, var(--primary), var(--secondary));
-                border-radius: 2px;
-                width: 0%;
-                animation: progressFill 2s ease forwards;
+                background: linear-gradient(90deg, var(--primary-light), var(--accent));
+                border-radius: var(--radius-full);
+                width: 100%;
+                transform: scaleX(0);
+                transform-origin: left;
+                animation: progressFillScale 2s ease forwards;
             }
             
             .transition-content p {
@@ -401,8 +418,8 @@ class PortfolioHub {
                 50% { transform: scale(1.05); }
             }
             
-            @keyframes progressFill {
-                to { width: 100%; }
+            @keyframes progressFillScale {
+                to { transform: scaleX(1); }
             }
         `;
         
@@ -543,15 +560,43 @@ class PortfolioHub {
 
     setupProgressBar() {
         const progressFill = document.getElementById('progress-fill-main');
+        const progressBar = document.getElementById('progress-bar');
         
-        if (!progressFill) return;
+        if (!progressFill || !progressBar) {
+            console.log('Progress bar elements not found');
+            return;
+        }
+
+        progressBar.style.display = 'block';
+        progressBar.style.opacity = '1';
+        progressBar.style.visibility = 'visible';
+        progressFill.style.transform = 'scaleX(0)';
 
         const updateProgressBar = () => {
-            const scrollTop = window.pageYOffset;
-            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-            const scrollPercent = (scrollTop / docHeight) * 100;
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
             
-            progressFill.style.transform = `scaleX(${Math.min(scrollPercent, 100) / 100})`;
+            const bodyScrollHeight = document.body.scrollHeight;
+            const bodyOffsetHeight = document.body.offsetHeight;
+            const docClientHeight = document.documentElement.clientHeight;
+            const docScrollHeight = document.documentElement.scrollHeight;
+            const docOffsetHeight = document.documentElement.offsetHeight;
+            const windowHeight = window.innerHeight;
+            const bodyClientHeight = document.body.clientHeight;
+            
+            const documentHeight = Math.max(
+                bodyScrollHeight,
+                bodyOffsetHeight,
+                docClientHeight,
+                docScrollHeight,
+                docOffsetHeight
+            );
+            const windowHeightFinal = windowHeight || docClientHeight || bodyClientHeight;
+            
+            const scrollableHeight = documentHeight - windowHeightFinal;
+            const scrollPercent = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
+            const clampedPercent = Math.min(Math.max(scrollPercent, 0), 100);
+            
+            progressFill.style.transform = `scaleX(${clampedPercent / 100})`;
         };
 
         window.addEventListener('scroll', this.throttle(updateProgressBar, 16));

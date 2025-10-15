@@ -21,9 +21,9 @@
 :root {
     --primary: #6366f1;
     --primary-dark: #4f46e5;
-    --primary-light: #8b5cf6;
+    --primary-light: #536dfe;
     --secondary: #06b6d4;
-    --accent: #f59e0b;
+    --accent: #00c6ae;
     --success: #10b981;
     --warning: #f59e0b;
     --error: #ef4444;
@@ -290,33 +290,17 @@ body {
 
 .loading-progress-bar {
     width: 280px;
-    height: 3px;
-    background: var(--bg-glass);
+    height: 4px;
+    background: rgba(99, 102, 241, 0.2);
     border-radius: var(--radius-full);
     overflow: hidden;
     margin: var(--space-md) auto 0;
     position: relative;
     opacity: 0;
     animation: slideUpFade 0.8s ease 1.2s forwards;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.progress-bar {
-    width: 100%;
-    height: 4px;
-    background: var(--bg-glass);
-    border-radius: var(--radius-full);
-    overflow: hidden;
-    margin-bottom: var(--space-md);
-}
-
-.progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--primary), var(--secondary));
-    border-radius: var(--radius-full);
-    width: 0%;
-    transition: width 0.3s ease;
-    box-shadow: var(--shadow-glow);
-}
 
 .loading-stats {
     position: relative;
@@ -1110,7 +1094,6 @@ body {
     background: linear-gradient(90deg, var(--primary), var(--secondary));
 }
 
-/* Classic Portfolio Preview Styles */
 .preview-nav {
     display: flex;
     gap: 8px;
@@ -1148,7 +1131,6 @@ body {
     width: 60%;
 }
 
-/* Modern Portfolio Preview Styles */
 .preview-logo {
     width: 24px;
     height: 24px;
