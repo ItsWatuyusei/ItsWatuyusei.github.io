@@ -492,7 +492,11 @@ document.addEventListener('DOMContentLoaded', function() {
         updateMoon();
     }
 
-    if (localStorage.getItem('theme') === 'dark') {
+    const savedTheme = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const shouldUseDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+    
+    if (shouldUseDark) {
         root.classList.add('dark');
         darkToggle.checked = true;
         navDarkToggle.checked = true;
@@ -517,9 +521,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateProgressBar() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
         
-        // Only recalculate dimensions if not cached
         if (cachedDocumentHeight === 0 || cachedWindowHeight === 0) {
-            // Batch all DOM reads together
             const bodyScrollHeight = document.body.scrollHeight;
             const bodyOffsetHeight = document.body.offsetHeight;
             const docClientHeight = document.documentElement.clientHeight;
@@ -542,10 +544,8 @@ document.addEventListener('DOMContentLoaded', function() {
         const scrollPercent = scrollableHeight > 0 ? (scrollTop / scrollableHeight) * 100 : 0;
         const clampedPercent = Math.min(Math.max(scrollPercent, 0), 100);
         
-        // Only update if change is significant
         if (Math.abs(clampedPercent - lastScrollPercent) > 0.5) {
             lastScrollPercent = clampedPercent;
-            // Use transform instead of width for better performance
             progressFill.style.transform = `scaleX(${clampedPercent / 100})`;
         }
     }
@@ -560,31 +560,25 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateStickyElements() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
-        // Batch all DOM reads first
         const shouldShowNav = scrollTop > 200;
         const isScrollingDown = scrollTop > lastScrollTop;
         const shouldShowFooter = isScrollingDown && scrollTop > 300;
         
-        // Update progress bar with throttling
         updateProgressBar();
         
-        // Batch all DOM writes in requestAnimationFrame
         requestAnimationFrame(() => {
-            // Update sticky nav
             if (shouldShowNav) {
                 stickyNav.classList.add('visible');
             } else {
                 stickyNav.classList.remove('visible');
             }
             
-            // Update sticky footer
             if (shouldShowFooter) {
                 stickyFooter.classList.add('visible');
             } else {
                 stickyFooter.classList.remove('visible');
             }
             
-            // Back to top visibility is handled by toggleFooterExpansion
             
             lastScrollTop = scrollTop;
         });
@@ -596,14 +590,13 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isScrolling) return;
         isScrolling = true;
         
-        // Use a more aggressive throttle for better performance
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
             requestAnimationFrame(() => {
                 updateStickyElements();
                 isScrolling = false;
             });
-        }, 8); // 8ms throttle for ~120fps
+        }, 8);
     }
     
     function invalidateCache() {
@@ -847,7 +840,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function updateProjectVisibility() {
-        // Batch DOM operations to prevent reflows
         const cardsToHide = [];
         const cardsToShow = [];
         
@@ -857,7 +849,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const startIndex = (currentPage - 1) * projectsPerPage;
         const endIndex = startIndex + projectsPerPage;
         
-        // Prepare all changes first
         projectCards.forEach(card => {
             cardsToHide.push(card);
         });
@@ -868,7 +859,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        // Apply all changes in one RAF
         requestAnimationFrame(() => {
             cardsToHide.forEach(card => {
                 card.style.display = 'none';
@@ -912,7 +902,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const startIndex = (currentPage - 1) * projectsPerPage;
         const endIndex = startIndex + projectsPerPage;
         
-        // Batch DOM operations
         const cardsToShow = [];
         filteredProjects.forEach((card, index) => {
             if (index >= startIndex && index < endIndex) {
@@ -1010,9 +999,7 @@ function setupDynamicFooter() {
     const stickyFooter = document.getElementById('sticky-footer');
     const footerLinks = document.querySelector('.footer-links');
     const footerBottom = document.querySelector('.footer-bottom');
-    const backToTopBtn = document.getElementById('back-to-top');
-    
-    if (!stickyFooter || !footerLinks || !footerBottom || !backToTopBtn) return;
+    if (!stickyFooter || !footerLinks || !footerBottom) return;
 
     const toggleFooterExpansion = () => {
         const scrollTop = window.pageYOffset;
@@ -1023,12 +1010,10 @@ function setupDynamicFooter() {
             stickyFooter.classList.add('expanded');
             footerLinks.classList.add('visible');
             footerBottom.classList.add('visible');
-            backToTopBtn.classList.add('visible');
         } else {
             stickyFooter.classList.remove('expanded');
             footerLinks.classList.remove('visible');
             footerBottom.classList.remove('visible');
-            backToTopBtn.classList.remove('visible');
         }
     };
 
@@ -1047,12 +1032,6 @@ function setupDynamicFooter() {
 
     window.addEventListener('scroll', throttle(toggleFooterExpansion, 16));
     
-    backToTopBtn.addEventListener('click', () => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    });
     
     toggleFooterExpansion();
 }

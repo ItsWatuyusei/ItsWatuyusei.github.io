@@ -1,8 +1,8 @@
 class PortfolioHub {
     constructor() {
         this.init();
-        this.currentTheme = localStorage.getItem('theme') || 'light';
-        this.soundEnabled = localStorage.getItem('sound') === 'true';
+        this.currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        this.soundEnabled = localStorage.getItem('sound') !== 'false';
         this.loadingProgress = 0;
         this.loadingSteps = [
             'Initializing...',
@@ -23,7 +23,6 @@ class PortfolioHub {
         this.setupServiceWorker();
         this.setupAudioInitialization();
         this.setupProgressBar();
-        this.setupBackToTop();
         this.setupStickyNav();
         this.setupStickyFooter();
         this.setupContactModal();
@@ -51,8 +50,10 @@ class PortfolioHub {
             if (this.loadingProgress >= 100) {
                 this.loadingProgress = 100;
                 clearInterval(loadingInterval);
-                this.currentStep = this.loadingSteps.length - 1;
-                this.updateLoadingStats(loadingStats, this.loadingSteps[this.currentStep]);
+                if (this.loadingSteps && this.loadingSteps.length > 0) {
+                    this.currentStep = this.loadingSteps.length - 1;
+                    this.updateLoadingStats(loadingStats, this.loadingSteps[this.currentStep]);
+                }
                 setTimeout(() => {
                     this.completeLoading();
                 }, 1000);
@@ -62,10 +63,12 @@ class PortfolioHub {
                 progressFill.style.width = `${this.loadingProgress}%`;
             }
             
-            const stepIndex = Math.floor((this.loadingProgress / 100) * this.loadingSteps.length);
-            if (stepIndex < this.loadingSteps.length && stepIndex !== this.currentStep) {
-                this.currentStep = stepIndex;
-                this.updateLoadingStats(loadingStats, this.loadingSteps[this.currentStep]);
+            if (this.loadingSteps && this.loadingSteps.length > 0) {
+                const stepIndex = Math.floor((this.loadingProgress / 100) * this.loadingSteps.length);
+                if (stepIndex < this.loadingSteps.length && stepIndex !== this.currentStep) {
+                    this.currentStep = stepIndex;
+                    this.updateLoadingStats(loadingStats, this.loadingSteps[this.currentStep]);
+                }
             }
         }, 150);
     }
@@ -553,20 +556,6 @@ class PortfolioHub {
         updateProgressBar();
     }
 
-    setupBackToTop() {
-        const backToTopButton = document.getElementById('back-to-top');
-        
-        if (!backToTopButton) return;
-
-        const scrollToTop = () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        };
-
-        backToTopButton.addEventListener('click', scrollToTop);
-    }
 
     setupStickyNav() {
         const stickyNav = document.getElementById('sticky-nav');
@@ -613,8 +602,6 @@ class PortfolioHub {
         const stickyFooter = document.getElementById('sticky-footer');
         const footerLinks = document.getElementById('footer-links');
         const footerBottom = document.getElementById('footer-bottom');
-        const backToTopButton = document.getElementById('back-to-top');
-        
         if (!stickyFooter || !footerLinks || !footerBottom) return;
 
         const toggleFooterExpansion = () => {
@@ -626,20 +613,10 @@ class PortfolioHub {
                 stickyFooter.classList.add('expanded');
                 footerLinks.classList.add('visible');
                 footerBottom.classList.add('visible');
-                if (backToTopButton) {
-                    backToTopButton.classList.add('visible');
-                    backToTopButton.classList.add('footer-expanded');
-                    backToTopButton.classList.remove('footer-compact');
-                }
             } else {
                 stickyFooter.classList.remove('expanded');
                 footerLinks.classList.remove('visible');
                 footerBottom.classList.remove('visible');
-                if (backToTopButton) {
-                    backToTopButton.classList.remove('visible');
-                    backToTopButton.classList.remove('footer-expanded');
-                    backToTopButton.classList.remove('footer-compact');
-                }
             }
         };
 
