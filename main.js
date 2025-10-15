@@ -32,6 +32,12 @@ class PortfolioHub {
     }
 
     setupLoadingScreen() {
+        const loadingStats = document.querySelectorAll('.loading-stats .stat');
+        if (loadingStats.length > 0 && this.loadingSteps && this.loadingSteps.length > 0) {
+            this.currentStep = 0;
+            this.updateLoadingStats(loadingStats, this.loadingSteps[0]);
+        }
+        
         this.simulateLoading();
     }
 
@@ -45,16 +51,11 @@ class PortfolioHub {
             if (this.loadingProgress >= 100) {
                 this.loadingProgress = 100;
                 clearInterval(loadingInterval);
-                
-                if (this.currentStep < this.loadingSteps.length - 1) {
-                    this.currentStep = this.loadingSteps.length - 1;
-                    this.updateLoadingStats(loadingStats, this.loadingSteps[this.currentStep]);
-                    setTimeout(() => {
-                        this.completeLoading();
-                    }, 1000);
-                } else {
+                this.currentStep = this.loadingSteps.length - 1;
+                this.updateLoadingStats(loadingStats, this.loadingSteps[this.currentStep]);
+                setTimeout(() => {
                     this.completeLoading();
-                }
+                }, 1000);
             }
             
             if (progressFill) {
@@ -64,23 +65,30 @@ class PortfolioHub {
             const stepIndex = Math.floor((this.loadingProgress / 100) * this.loadingSteps.length);
             if (stepIndex < this.loadingSteps.length && stepIndex !== this.currentStep) {
                 this.currentStep = stepIndex;
-                this.updateLoadingStats(loadingStats, this.loadingSteps[stepIndex]);
+                this.updateLoadingStats(loadingStats, this.loadingSteps[this.currentStep]);
             }
         }, 150);
     }
 
     updateLoadingStats(stats, text) {
+        if (!stats || !text) return;
+        
         stats.forEach((stat, index) => {
+            if (!stat) return;
+            
             if (index === this.currentStep) {
                 stat.textContent = text;
                 stat.classList.add('active');
                 stat.style.opacity = '1';
                 stat.style.display = 'block';
+                stat.style.visibility = 'visible';
+                stat.style.position = 'relative';
+                stat.style.zIndex = '1';
             } else {
                 stat.classList.remove('active');
                 stat.style.opacity = '0';
                 stat.style.display = 'none';
-                stat.textContent = '';
+                stat.style.visibility = 'hidden';
             }
         });
     }
@@ -90,8 +98,10 @@ class PortfolioHub {
         const mainContent = document.getElementById('main-content');
         const loadingStats = document.querySelectorAll('.loading-stats .stat');
         
-        this.currentStep = this.loadingSteps.length - 1;
-        this.updateLoadingStats(loadingStats, this.loadingSteps[this.currentStep]);
+        if (this.loadingSteps && this.loadingSteps.length > 0) {
+            this.currentStep = this.loadingSteps.length - 1;
+            this.updateLoadingStats(loadingStats, this.loadingSteps[this.currentStep]);
+        }
         
         setTimeout(() => {
             if (loadingScreen) {
