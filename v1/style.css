@@ -33,42 +33,57 @@ body {
 
 .back-to-top {
     position: fixed;
-    bottom: 100px;
+    bottom: 140px;
     right: 20px;
     width: 45px;
     height: 45px;
     background: linear-gradient(135deg, var(--primary-light) 0%, var(--primary) 100%);
-    color: white;
     border: none;
     border-radius: 50%;
+    color: white;
+    font-size: 18px;
     cursor: pointer;
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1001;
     box-shadow: 0 4px 20px rgba(26, 35, 126, 0.3);
-    z-index: 1000;
+    backdrop-filter: blur(10px);
 }
 
-.back-to-top.show {
+.back-to-top.visible {
     opacity: 1;
     visibility: visible;
     transform: translateY(0);
 }
 
+.back-to-top.footer-compact {
+    bottom: 60px;
+}
+
+.back-to-top.footer-expanded {
+    bottom: 140px;
+}
+
 .back-to-top:hover {
     background: linear-gradient(135deg, var(--accent) 0%, var(--primary-light) 100%);
     transform: translateY(-3px);
-    box-shadow: 0 6px 25px rgba(26, 35, 126, 0.4);
-}
-
-.back-to-top i {
-    font-size: 18px;
-    transition: transform 0.3s ease;
+    box-shadow: 0 6px 25px rgba(99, 102, 241, 0.4);
 }
 
 .back-to-top:hover i {
     transform: translateY(-2px);
+}
+
+.back-to-top i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 18px;
+    transition: transform 0.3s ease;
 }
 
 .keyboard-navigation *:focus {
@@ -550,22 +565,32 @@ body {
     backdrop-filter: blur(10px);
     border-top: 1px solid var(--border);
     z-index: 1000;
-    box-shadow: 0 -2px 20px rgba(26, 35, 126, 0.1);
+    box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.1);
     transform: translateY(100%);
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .sticky-footer.visible {
     transform: translateY(0);
 }
 
+.sticky-footer.expanded {
+    box-shadow: 0 -4px 30px rgba(99, 102, 241, 0.2);
+}
+
 .footer-content {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 16px 24px;
+    padding: 12px 20px;
     display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 0;
+}
+
+.sticky-footer.expanded .footer-content {
     justify-content: space-between;
+    gap: 0;
 }
 
 .footer-text {
@@ -585,29 +610,43 @@ body {
 }
 
 .footer-links {
-    display: flex;
+    display: none;
     align-items: center;
     gap: 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+}
+
+.sticky-footer.expanded .footer-links {
+    display: flex;
+}
+
+.footer-links.visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .footer-links a {
-    color: var(--text);
-    font-size: 1.2rem;
-    transition: all 0.3s ease;
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--bg-glass);
+    color: var(--text-primary);
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 50%;
-    background: transparent;
+    text-decoration: none;
+    font-size: 1.1rem;
     transition: all 0.3s ease;
+    border: 1px solid var(--border);
 }
 
 .footer-links a:hover {
-    color: var(--primary);
-    background: rgba(26, 35, 126, 0.1);
+    background: var(--primary);
+    color: white;
     transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
 }
 
 .main-box {
@@ -948,7 +987,7 @@ body {
 }
 
 .footer a:hover {
-    color: #fff;
+    color: var(--primary);
     text-decoration: underline;
 }
 
@@ -1159,8 +1198,25 @@ body {
         margin: 20px;
     }
     
-    .sticky-footer {
-        padding-bottom: 20px;
+    .footer-content {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+    
+    .sticky-footer.expanded .footer-content {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+        padding: 8px 16px;
+    }
+    
+    .footer-brand {
+        justify-content: center;
+    }
+    
+    .footer-bottom {
+        padding: 6px 16px;
     }
     
     .tech-stack-section {
@@ -1682,8 +1738,9 @@ body {
 }
 
 .dark .sticky-footer {
-    background: rgba(35, 36, 58, 0.95);
-    border-top-color: #23243a;
+    background: rgba(17, 17, 17, 0.95);
+    border-top-color: rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
 }
 
 .dark .footer-text {
@@ -1699,12 +1756,15 @@ body {
 }
 
 .dark .footer-links a {
-    color: var(--text);
+    color: var(--text-primary);
+    background: var(--bg-glass);
+    border-color: var(--border);
 }
 
 .dark .footer-links a:hover {
-    color: var(--primary);
-    background: rgba(138, 180, 248, 0.1);
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
 }
 
 .dark .tech-stack-logos img {
@@ -2005,6 +2065,87 @@ body {
     border-radius: 8px;
     transition: all 0.3s ease;
     font-weight: 500;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+.footer-brand:hover {
+    transform: translateY(-2px);
+}
+
+.footer-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--primary);
+    transition: all 0.3s ease;
+}
+
+.footer-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.footer-info h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.footer-info p {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.2;
+}
+
+.footer-bottom {
+    display: none;
+    text-align: center;
+    padding: 8px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-glass);
+    margin-top: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sticky-footer.expanded .footer-bottom {
+    display: block;
+}
+
+.footer-bottom.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.footer-bottom p {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    margin: 0;
+}
+
+.footer-bottom a {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+.footer-bottom a:hover {
+    color: var(--secondary);
 }
 
 .contact-link:hover {

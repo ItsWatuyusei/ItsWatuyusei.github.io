@@ -6,7 +6,6 @@ const urlsToCache = [
     'https://avatars.githubusercontent.com/u/184704658?v=4'
 ];
 
-// Files that should never be cached (always fetch fresh)
 const noCacheFiles = [
     '/style.css',
     '/main.js'
@@ -25,26 +24,22 @@ self.addEventListener('fetch', function(event) {
     const url = new URL(event.request.url);
     const isNoCacheFile = noCacheFiles.some(file => url.pathname.includes(file));
     
-    // Skip HubSpot and external tracking resources
     if (url.hostname.includes('hsforms.com') || 
         url.hostname.includes('hubspot.com') ||
         url.pathname.includes('counters.gif')) {
         return;
     }
     
-    // For CSS and JS files, always fetch fresh from network
     if (isNoCacheFile) {
         event.respondWith(
             fetch(event.request)
                 .catch(function() {
-                    // Fallback to cache only if network fails
                     return caches.match(event.request);
                 })
         );
         return;
     }
     
-    // For other files, use cache-first strategy
     event.respondWith(
         caches.match(event.request)
             .then(function(response) {
@@ -52,7 +47,6 @@ self.addEventListener('fetch', function(event) {
                     return response;
                 }
                 return fetch(event.request).catch(function(error) {
-                    // Silently handle fetch errors for external resources
                     console.warn('Failed to fetch:', event.request.url);
                     return new Response('', { status: 404 });
                 });

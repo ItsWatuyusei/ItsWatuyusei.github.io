@@ -1,6 +1,5 @@
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', function() {
-        // Add cache busting to service worker registration
         const swUrl = './sw.js?v=' + Date.now();
         navigator.serviceWorker.register(swUrl)
             .then(function(registration) {
@@ -536,10 +535,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const backToTopBtn = document.getElementById('back-to-top');
     function updateBackToTop() {
-        if (window.pageYOffset > 300) {
-            backToTopBtn.classList.add('show');
+        const stickyFooter = document.getElementById('sticky-footer');
+        if (stickyFooter && stickyFooter.classList.contains('expanded')) {
+            backToTopBtn.classList.add('visible');
         } else {
-            backToTopBtn.classList.remove('show');
+            backToTopBtn.classList.remove('visible');
         }
     }
 
@@ -868,7 +868,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         updateFilterButtonsVisibility();
         
-        // Scroll back to projects section
         const projectsSection = document.getElementById('projects');
         if (projectsSection) {
             const offsetTop = projectsSection.offsetTop - 80;
@@ -943,4 +942,57 @@ document.addEventListener('DOMContentLoaded', function() {
 
     updateProjectVisibility();
     updateFilterButtonsVisibility();
-}); 
+});
+
+function setupDynamicFooter() {
+    const stickyFooter = document.getElementById('sticky-footer');
+    const footerLinks = document.querySelector('.footer-links');
+    const footerBottom = document.querySelector('.footer-bottom');
+    const backToTopBtn = document.getElementById('back-to-top');
+    
+    if (!stickyFooter || !footerLinks || !footerBottom || !backToTopBtn) return;
+
+    const toggleFooterExpansion = () => {
+        const scrollTop = window.pageYOffset;
+        const windowHeight = window.innerHeight;
+        const documentHeight = document.documentElement.scrollHeight;
+        
+        if (documentHeight > windowHeight + 200 && scrollTop + windowHeight >= documentHeight - 50) {
+            stickyFooter.classList.add('expanded');
+            footerLinks.classList.add('visible');
+            footerBottom.classList.add('visible');
+            backToTopBtn.classList.add('visible');
+        } else {
+            stickyFooter.classList.remove('expanded');
+            footerLinks.classList.remove('visible');
+            footerBottom.classList.remove('visible');
+            backToTopBtn.classList.remove('visible');
+        }
+    };
+
+    function throttle(func, limit) {
+        let inThrottle;
+        return function() {
+            const args = arguments;
+            const context = this;
+            if (!inThrottle) {
+                func.apply(context, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        }
+    }
+
+    window.addEventListener('scroll', throttle(toggleFooterExpansion, 16));
+    
+    backToTopBtn.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    toggleFooterExpansion();
+}
+
+setupDynamicFooter(); 

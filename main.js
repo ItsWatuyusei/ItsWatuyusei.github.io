@@ -28,6 +28,7 @@ class PortfolioHub {
         this.setupStickyFooter();
         this.setupHamburgerMenu();
         this.setupContactModal();
+        this.setupTypewriter();
     }
 
     setupLoadingScreen() {
@@ -39,12 +40,21 @@ class PortfolioHub {
         const loadingStats = document.querySelectorAll('.stat');
         
         const loadingInterval = setInterval(() => {
-            this.loadingProgress += Math.random() * 15;
+            this.loadingProgress += Math.random() * 8;
             
             if (this.loadingProgress >= 100) {
                 this.loadingProgress = 100;
                 clearInterval(loadingInterval);
-                this.completeLoading();
+                
+                if (this.currentStep < this.loadingSteps.length - 1) {
+                    this.currentStep = this.loadingSteps.length - 1;
+                    this.updateLoadingStats(loadingStats, this.loadingSteps[this.currentStep]);
+                    setTimeout(() => {
+                        this.completeLoading();
+                    }, 1000);
+                } else {
+                    this.completeLoading();
+                }
             }
             
             if (progressFill) {
@@ -56,7 +66,7 @@ class PortfolioHub {
                 this.currentStep = stepIndex;
                 this.updateLoadingStats(loadingStats, this.loadingSteps[stepIndex]);
             }
-        }, 100);
+        }, 150);
     }
 
     updateLoadingStats(stats, text) {
@@ -64,10 +74,13 @@ class PortfolioHub {
             if (index === this.currentStep) {
                 stat.textContent = text;
                 stat.classList.add('active');
-            } else if (index < this.currentStep) {
-                stat.classList.add('active');
+                stat.style.opacity = '1';
+                stat.style.display = 'block';
             } else {
                 stat.classList.remove('active');
+                stat.style.opacity = '0';
+                stat.style.display = 'none';
+                stat.textContent = '';
             }
         });
     }
@@ -144,7 +157,6 @@ class PortfolioHub {
 
         document.addEventListener('keydown', (e) => this.handleKeyboard(e));
 
-        document.addEventListener('mousemove', (e) => this.handleMouseMove(e));
     }
 
     setupTheme() {
@@ -425,7 +437,6 @@ class PortfolioHub {
 
     setupParticleEffects() {
         this.createFloatingParticles();
-        this.setupMouseTrail();
     }
 
     createFloatingParticles() {
@@ -439,66 +450,7 @@ class PortfolioHub {
         });
     }
 
-    setupMouseTrail() {
-        let mouseTrail = [];
-        const maxTrailLength = 8;
 
-        document.addEventListener('mousemove', (e) => {
-            mouseTrail.push({ x: e.clientX, y: e.clientY, time: Date.now() });
-            
-            if (mouseTrail.length > maxTrailLength) {
-                mouseTrail.shift();
-            }
-
-            if (Math.random() > 0.8) {
-                this.createMouseTrailDot(e.clientX, e.clientY);
-            }
-        });
-
-        setInterval(() => {
-            const now = Date.now();
-            mouseTrail = mouseTrail.filter(point => now - point.time < 1000);
-        }, 100);
-    }
-
-    createMouseTrailDot(x, y) {
-        const dot = document.createElement('div');
-        dot.className = 'mouse-trail-dot';
-        dot.style.cssText = `
-            position: fixed;
-            left: ${x}px;
-            top: ${y}px;
-            width: 6px;
-            height: 6px;
-            background: var(--primary);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 1000;
-            opacity: 0.8;
-            animation: mouseTrailFade 1.5s ease-out forwards;
-        `;
-        
-        document.body.appendChild(dot);
-        
-        setTimeout(() => {
-            dot.remove();
-        }, 1500);
-    }
-
-    handleMouseMove(e) {
-        const versionCards = document.querySelectorAll('.version-card');
-        versionCards.forEach((card, index) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-            const rotateX = (y / rect.height) * 5;
-            const rotateY = (x / rect.width) * 5;
-            
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(10px)`;
-            }
-        });
-    }
 
     setupKeyboardShortcuts() {
         document.addEventListener('keydown', (e) => {
@@ -589,19 +541,10 @@ class PortfolioHub {
             const windowHeight = window.innerHeight;
             const documentHeight = document.documentElement.scrollHeight;
             
-            if (scrollTop > windowHeight) {
+            if (documentHeight > windowHeight + 200 && scrollTop + windowHeight >= documentHeight - 50) {
                 backToTopButton.classList.add('visible');
-                
-                // Ajustar posición según el estado del footer
-                if (documentHeight > windowHeight + 200 && scrollTop + windowHeight >= documentHeight - 50) {
-                    // Footer expandido
-                    backToTopButton.classList.add('footer-expanded');
-                    backToTopButton.classList.remove('footer-compact');
-                } else {
-                    // Footer compacto
-                    backToTopButton.classList.add('footer-compact');
-                    backToTopButton.classList.remove('footer-expanded');
-                }
+                backToTopButton.classList.add('footer-expanded');
+                backToTopButton.classList.remove('footer-compact');
             } else {
                 backToTopButton.classList.remove('visible');
                 backToTopButton.classList.remove('footer-expanded');
@@ -693,47 +636,27 @@ class PortfolioHub {
 
     setupHamburgerMenu() {
         const hamburgerMenu = document.getElementById('hamburger-menu');
-        const navLinks = document.getElementById('nav-links');
+        const mobileNavLinks = document.getElementById('nav-links');
         
-        if (!hamburgerMenu || !navLinks) return;
+        if (!hamburgerMenu || !mobileNavLinks) return;
 
-        const toggleMenu = () => {
-            const isOpen = navLinks.classList.contains('active');
-            
-            if (isOpen) {
-                navLinks.classList.remove('active');
+        hamburgerMenu.addEventListener('click', function() {
+            this.classList.toggle('active');
+            mobileNavLinks.classList.toggle('active');
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!hamburgerMenu.contains(e.target) && !mobileNavLinks.contains(e.target)) {
                 hamburgerMenu.classList.remove('active');
-            } else {
-                navLinks.classList.add('active');
-                hamburgerMenu.classList.add('active');
+                mobileNavLinks.classList.remove('active');
             }
-        };
+        });
 
-        const closeMenu = () => {
-            navLinks.classList.remove('active');
-            hamburgerMenu.classList.remove('active');
-        };
-
-        hamburgerMenu.addEventListener('click', toggleMenu);
-        
         document.querySelectorAll('.nav-link').forEach(link => {
-            link.addEventListener('click', closeMenu);
-        });
-
-        document.addEventListener('click', (event) => {
-            const isClickInsideNav = navLinks.contains(event.target);
-            const isClickOnHamburger = hamburgerMenu.contains(event.target);
-            const isMenuOpen = navLinks.classList.contains('active');
-            
-            if (isMenuOpen && !isClickInsideNav && !isClickOnHamburger) {
-                closeMenu();
-            }
-        });
-
-        window.addEventListener('resize', () => {
-            if (window.innerWidth > 768) {
-                closeMenu();
-            }
+            link.addEventListener('click', function() {
+                hamburgerMenu.classList.remove('active');
+                mobileNavLinks.classList.remove('active');
+            });
         });
     }
 
@@ -820,24 +743,60 @@ class PortfolioHub {
             });
         }
     }
+
+    setupTypewriter() {
+        const typewriterText = document.querySelector('.typewriter-text');
+        const typewriterSubtitle = document.querySelector('.typewriter-subtitle');
+        
+        if (!typewriterText || !typewriterSubtitle) return;
+        
+        const fullText = typewriterText.getAttribute('data-text');
+        const subtitleText = typewriterSubtitle.getAttribute('data-text');
+        let currentIndex = 0;
+        let subtitleIndex = 0;
+        
+        typewriterSubtitle.classList.remove('typing');
+        
+        const typeText = () => {
+            if (currentIndex < fullText.length) {
+                typewriterText.textContent += fullText.charAt(currentIndex);
+                currentIndex++;
+                setTimeout(typeText, 100);
+            } else {
+                typewriterText.classList.remove('typing');
+                typewriterText.classList.add('completed');
+                setTimeout(() => {
+                    typewriterSubtitle.classList.add('typing');
+                    setTimeout(() => {
+                        typeSubtitle();
+                    }, 1000);
+                }, 1000);
+            }
+        };
+        
+        const typeSubtitle = () => {
+            if (subtitleIndex < subtitleText.length) {
+                typewriterSubtitle.textContent += subtitleText.charAt(subtitleIndex);
+                subtitleIndex++;
+                setTimeout(typeSubtitle, 50);
+            } else {
+                typewriterSubtitle.classList.remove('typing');
+                typewriterSubtitle.classList.add('completed');
+            }
+        };
+        
+        setTimeout(() => {
+            typewriterText.classList.add('typing');
+            typeText();
+        }, 1500);
+    }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
     const portfolioHub = new PortfolioHub();
     
-    const mouseTrailStyle = document.createElement('style');
-    mouseTrailStyle.textContent = `
-        @keyframes mouseTrailFade {
-            0% {
-                opacity: 0.8;
-                transform: scale(1);
-            }
-            100% {
-                opacity: 0;
-                transform: scale(0);
-            }
-        }
-        
+    const dynamicStyles = document.createElement('style');
+    dynamicStyles.textContent = `
         .keyboard-navigation *:focus {
             outline: 2px solid var(--primary) !important;
             outline-offset: 2px !important;
@@ -859,7 +818,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         }
     `;
-    document.head.appendChild(mouseTrailStyle);
+    document.head.appendChild(dynamicStyles);
     
     if ('performance' in window) {
         window.addEventListener('load', () => {
