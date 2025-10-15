@@ -149,9 +149,6 @@ class PortfolioHub {
         const themeToggle = document.getElementById('theme-toggle');
         themeToggle?.addEventListener('click', () => this.toggleTheme());
 
-        const soundToggle = document.getElementById('sound-toggle');
-        soundToggle?.addEventListener('click', () => this.toggleSound());
-
         const navSoundToggle = document.getElementById('nav-sound-toggle');
         navSoundToggle?.addEventListener('click', () => this.toggleSound());
 
@@ -176,6 +173,7 @@ class PortfolioHub {
     setupTheme() {
         document.documentElement.setAttribute('data-theme', this.currentTheme);
         this.updateThemeIcon();
+        this.updateSoundIcon();
     }
 
     toggleTheme() {
@@ -210,18 +208,21 @@ class PortfolioHub {
         localStorage.setItem('sound', this.soundEnabled.toString());
         this.updateSoundIcon();
         
-        if (this.soundEnabled && this.audioInitialized) {
+        if (this.soundEnabled) {
+            if (!this.audioContext) {
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    this.audioInitialized = true;
+                } catch (error) {
+                    console.log('Audio not supported');
+                    return;
+                }
+            }
             this.playSound('enable');
         }
     }
 
     updateSoundIcon() {
-        const soundToggle = document.getElementById('sound-toggle');
-        const soundIcon = soundToggle?.querySelector('i');
-        if (soundIcon) {
-            soundIcon.className = this.soundEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
-        }
-
         const navSoundToggle = document.getElementById('nav-sound-toggle');
         const navIcon = navSoundToggle?.querySelector('i');
         if (navIcon) {
@@ -523,6 +524,15 @@ class PortfolioHub {
     setupAudioInitialization() {
         this.audioContext = null;
         this.audioInitialized = false;
+        
+        if (this.soundEnabled) {
+            try {
+                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                this.audioInitialized = true;
+            } catch (error) {
+                console.log('Audio not supported');
+            }
+        }
     }
 
     setupProgressBar() {

@@ -1303,14 +1303,14 @@ body {
     }
     
     .back-to-top {
-        bottom: 87px;
+        bottom: 30px;
         right: 20px;
-        width: 45px;
-        height: 45px;
+        width: 50px;
+        height: 50px;
     }
     
     .back-to-top i {
-        font-size: 16px;
+        font-size: 18px;
     }
     
     .progress-bar {
