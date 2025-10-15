@@ -1096,6 +1096,112 @@ body {
     background: linear-gradient(90deg, var(--primary), var(--secondary));
 }
 
+/* Classic Portfolio Preview Styles */
+.preview-nav {
+    display: flex;
+    gap: 8px;
+    padding: 8px 12px;
+}
+
+.preview-nav-item {
+    width: 60px;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+}
+
+.preview-section {
+    margin-bottom: 12px;
+}
+
+.preview-title {
+    width: 80%;
+    height: 12px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    margin-bottom: 8px;
+}
+
+.preview-text {
+    width: 100%;
+    height: 8px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    margin-bottom: 6px;
+}
+
+.preview-text.short {
+    width: 60%;
+}
+
+/* Modern Portfolio Preview Styles */
+.preview-logo {
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 6px;
+    margin: 8px 12px;
+}
+
+.preview-nav-modern {
+    display: flex;
+    gap: 6px;
+    padding: 8px 12px;
+    margin-left: auto;
+}
+
+.preview-nav-modern-item {
+    width: 40px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+}
+
+.preview-nav-modern-item.active {
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+}
+
+.preview-hero {
+    padding: 16px 12px;
+}
+
+.preview-hero-title {
+    width: 70%;
+    height: 14px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    border-radius: 7px;
+    margin-bottom: 8px;
+}
+
+.preview-hero-subtitle {
+    width: 90%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.preview-cta {
+    width: 100px;
+    height: 24px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 12px;
+}
+
+.preview-features {
+    display: flex;
+    gap: 8px;
+    padding: 0 12px 12px;
+}
+
+.preview-feature-card {
+    flex: 1;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
 .version-info {
     text-align: left;
 }
@@ -1177,7 +1283,9 @@ body {
 
 .stat-item {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: var(--space-md);
     padding: var(--space-lg);
     background: var(--bg-glass);
@@ -1185,6 +1293,7 @@ body {
     backdrop-filter: blur(10px);
     border: 1px solid var(--border);
     transition: all var(--transition-normal);
+    text-align: center;
 }
 
 .stat-item:hover {
@@ -1205,7 +1314,7 @@ body {
 }
 
 .stat-content {
-    text-align: left;
+    text-align: center;
 }
 
 .stat-number {
@@ -1240,7 +1349,7 @@ body {
     font-weight: 800;
     margin-bottom: var(--space-md);
     font-family: var(--font-secondary);
-    color: black;
+    color: var(--text-primary);
 }
 
 .section-subtitle {
@@ -1323,7 +1432,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 16px;
+    gap: 0;
 }
 
 .sticky-footer.expanded .footer-content {
@@ -1335,6 +1444,13 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.3s ease;
+}
+
+.footer-brand:hover {
+    transform: translateY(-2px);
 }
 
 .footer-avatar {
@@ -1357,16 +1473,14 @@ body {
     font-weight: 600;
     color: var(--text-primary);
     margin: 0;
-    background: linear-gradient(135deg, var(--primary), var(--secondary));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    line-height: 1.2;
 }
 
 .footer-info p {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     margin: 0;
+    line-height: 1.2;
 }
 
 .footer-links {
@@ -1397,15 +1511,16 @@ body {
     align-items: center;
     justify-content: center;
     text-decoration: none;
+    font-size: 1.1rem;
     transition: all 0.3s ease;
     border: 1px solid var(--border);
 }
 
 .footer-links a:hover {
-    background: linear-gradient(90deg, #00C8C8 0%, #007BFF 100%);
+    background: linear-gradient(90deg, #007BFF 0%, #00BCD4 100%);
     color: white;
     transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(0, 200, 200, 0.3);
+    box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
 }
 
 .footer-bottom {
@@ -1752,7 +1867,7 @@ body {
 }
 
 .contact-modal-content {
-    background: var(--bg-primary);
+    background: #ffffff;
     border-radius: 16px;
     max-width: 420px;
     width: 92vw;
@@ -1761,7 +1876,7 @@ body {
     position: relative;
     animation: modalIn 0.3s cubic-bezier(.4,0,.2,1);
     min-height: 120px;
-    border: 1px solid var(--border);
+    border: 1px solid #e6e6e6;
 }
 
 .contact-modal-close {
@@ -1769,7 +1884,7 @@ body {
     top: 12px;
     right: 18px;
     font-size: 2rem;
-    color: var(--text-primary);
+    color: #1a237e;
     cursor: pointer;
     transition: color 0.2s ease;
     background: none;
@@ -1778,7 +1893,7 @@ body {
 }
 
 .contact-modal-close:hover {
-    color: var(--primary);
+    color: #00c6ae;
 }
 
 .nav-contact-btn {
@@ -1811,22 +1926,6 @@ body {
     visibility: visible !important;
 }
 
-[data-theme="dark"] .contact-modal {
-    background-color: rgba(0, 0, 0, 0.8);
-}
-
-[data-theme="dark"] .contact-modal-content {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-}
-
-[data-theme="dark"] .contact-modal-close {
-    color: var(--text-primary);
-}
-
-[data-theme="dark"] .contact-modal-close:hover {
-    color: var(--primary);
-}
 
 @keyframes modalIn {
     from { opacity: 0; transform: translateY(40px) scale(0.98); }
@@ -1837,6 +1936,27 @@ body {
     .contact-modal-content {
         max-width: 98vw;
         padding: 18px 4vw 10px 4vw;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+    }
+    
+    .sticky-footer.expanded .footer-content {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+        padding: 8px 16px;
+    }
+    
+    .footer-brand {
+        justify-content: center;
+    }
+    
+    .footer-bottom {
+        padding: 6px 16px;
     }
 }
 

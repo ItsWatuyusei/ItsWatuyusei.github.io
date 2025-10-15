@@ -1,9 +1,9 @@
 class PortfolioHub {
     constructor() {
-        this.init();
         this.currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
         this.soundEnabled = localStorage.getItem('sound') !== 'false';
         this.loadingProgress = 0;
+        this.init();
         this.loadingSteps = [
             'Initializing...',
             'Loading Assets...',
@@ -28,6 +28,7 @@ class PortfolioHub {
         this.setupContactModal();
         this.setupHamburgerMenu();
         this.setupTypewriter();
+        this.updateSoundIcon();
     }
 
     setupLoadingScreen() {
@@ -143,9 +144,6 @@ class PortfolioHub {
             }, 1200);
         }, 500);
         
-        if (this.soundEnabled && this.audioInitialized) {
-            this.playSound('complete');
-        }
     }
 
     setupEventListeners() {
@@ -154,6 +152,12 @@ class PortfolioHub {
 
         const navSoundToggle = document.getElementById('nav-sound-toggle');
         navSoundToggle?.addEventListener('click', () => this.toggleSound());
+        
+        document.addEventListener('click', () => {
+            if (this.soundEnabled && this.audioNeedsUserGesture) {
+                this.initializeAudio();
+            }
+        }, { once: true });
 
         document.querySelectorAll('.version-link').forEach(link => {
             link.addEventListener('click', (e) => {
@@ -186,9 +190,6 @@ class PortfolioHub {
         this.updateThemeIcon();
         this.animateThemeTransition();
         
-        if (this.soundEnabled && this.audioInitialized) {
-            this.playSound('toggle');
-        }
     }
 
     updateThemeIcon() {
@@ -212,15 +213,7 @@ class PortfolioHub {
         this.updateSoundIcon();
         
         if (this.soundEnabled) {
-            if (!this.audioContext) {
-                try {
-                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                    this.audioInitialized = true;
-                } catch (error) {
-                    console.log('Audio not supported');
-                    return;
-                }
-            }
+            this.initializeAudio();
             this.playSound('enable');
         }
     }
@@ -240,6 +233,7 @@ class PortfolioHub {
             try {
                 this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 this.audioInitialized = true;
+                this.audioNeedsUserGesture = false;
             } catch (error) {
                 return;
             }
@@ -515,7 +509,6 @@ class PortfolioHub {
                         }
                     })
                     .catch(registrationError => {
-                        console.log('SW registration failed: ', registrationError);
                     });
             });
         }
@@ -527,13 +520,17 @@ class PortfolioHub {
     setupAudioInitialization() {
         this.audioContext = null;
         this.audioInitialized = false;
+        this.audioNeedsUserGesture = true;
         
-        if (this.soundEnabled) {
+    }
+    
+    initializeAudio() {
+        if (!this.audioContext && this.soundEnabled) {
             try {
                 this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 this.audioInitialized = true;
+                this.audioNeedsUserGesture = false;
             } catch (error) {
-                console.log('Audio not supported');
             }
         }
     }
