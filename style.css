@@ -301,21 +301,25 @@ body {
 }
 
 .loading-stats {
+    position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: var(--space-md);
     font-size: 0.8rem;
     color: var(--text-muted);
     margin: var(--space-sm) 0 0 0;
     width: 100%;
     text-align: center;
+    min-height: 1.5rem;
 }
 
 .loading-stats .stat {
+    position: absolute;
     transition: opacity 0.5s ease, transform 0.3s ease;
     opacity: 0;
     transform: translateY(10px);
+    width: 100%;
+    text-align: center;
 }
 
 .loading-stats .stat.active {
@@ -1501,6 +1505,10 @@ body {
         bottom: 170px;
     }
     
+    body {
+        padding-bottom: 120px;
+    }
+    
     .nav-links {
         position: fixed;
         top: 60px;
@@ -1536,8 +1544,33 @@ body {
     }
     
     .hero-stats {
+        flex-direction: row;
+        gap: var(--space-sm);
+        flex-wrap: wrap;
+        justify-content: space-around;
+    }
+    
+    .stat-item {
+        flex: 1;
+        min-width: 100px;
+        padding: var(--space-sm);
         flex-direction: column;
-        gap: var(--space-lg);
+        text-align: center;
+        gap: var(--space-xs);
+    }
+    
+    .stat-icon {
+        width: 30px;
+        height: 30px;
+        margin: 0 auto;
+    }
+    
+    .stat-number {
+        font-size: 1.2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.7rem;
     }
     
     .features-grid {
@@ -1602,6 +1635,29 @@ body {
         padding: var(--space-lg) var(--space-md);
     }
     
+    .hero-stats {
+        gap: var(--space-xs);
+        padding: 0 var(--space-sm);
+    }
+    
+    .stat-item {
+        min-width: 80px;
+        padding: var(--space-xs);
+    }
+    
+    .stat-icon {
+        width: 25px;
+        height: 25px;
+    }
+    
+    .stat-number {
+        font-size: 1rem;
+    }
+    
+    .stat-label {
+        font-size: 0.6rem;
+    }
+    
     .footer-content {
         padding: 10px 16px;
         gap: 12px;
@@ -1639,13 +1695,13 @@ body {
     }
     
     body {
-        padding-bottom: 120px;
+        padding-bottom: 140px;
     }
 }
 
 .back-to-top {
     position: fixed;
-    bottom: 170px;
+    bottom: 160px;
     right: 20px;
     width: 45px;
     height: 45px;
@@ -1685,7 +1741,7 @@ body {
 }
 
 .back-to-top.footer-expanded {
-    bottom: 170px;
+    bottom: 160px;
 }
 
 .back-to-top i {

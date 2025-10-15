@@ -37,7 +37,7 @@ class PortfolioHub {
 
     simulateLoading() {
         const progressFill = document.getElementById('progress-fill');
-        const loadingStats = document.querySelectorAll('.stat');
+        const loadingStats = document.querySelectorAll('.loading-stats .stat');
         
         const loadingInterval = setInterval(() => {
             this.loadingProgress += Math.random() * 8;
@@ -88,6 +88,10 @@ class PortfolioHub {
     completeLoading() {
         const loadingScreen = document.getElementById('loading-screen');
         const mainContent = document.getElementById('main-content');
+        const loadingStats = document.querySelectorAll('.loading-stats .stat');
+        
+        this.currentStep = this.loadingSteps.length - 1;
+        this.updateLoadingStats(loadingStats, this.loadingSteps[this.currentStep]);
         
         setTimeout(() => {
             if (loadingScreen) {
