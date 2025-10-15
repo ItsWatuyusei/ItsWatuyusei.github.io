@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ItsWatuyusei | Full Stack Developer</title>
+    
+    <!-- Professional Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="Full Stack Developer specializing in modern web technologies, AI integration, and innovative software solutions.">
+    <meta name="author" content="ItsWatuyusei">
+    <meta property="og:title" content="ItsWatuyusei | Full Stack Developer">
+    <meta property="og:description" content="Professional Full Stack Developer creating innovative digital solutions">
+    <meta property="og:image" content="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115">
+    <meta name="theme-color" content="#2563eb">
+    
+    <link rel="icon" type="image/x-icon" href="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115">
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="background-animation">
+        <canvas id="particle-canvas"></canvas>
+        <div class="gradient-overlay"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">
+                    <i class="fas fa-code"></i>
+                </div>
+                <span class="logo-text">ItsWatuyusei</span>
+            </div>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="#hero" class="nav-link" data-section="hero">Home</a>
+                <a href="#about" class="nav-link" data-section="about">About</a>
+                <a href="#skills" class="nav-link" data-section="skills">Skills</a>
+                <a href="#projects" class="nav-link" data-section="projects">Projects</a>
+            </div>
+            
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero" id="hero">
+            <div class="hero-container">
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <i class="fas fa-rocket"></i>
+                        <span>Full Stack Developer</span>
+                    </div>
+                    
+                    <h1 class="hero-title">
+                        <span class="title-line">Building the</span>
+                        <span class="title-line highlight">Future</span>
+                        <span class="title-line">of Digital</span>
+                    </h1>
+                    
+                    <p class="hero-description">
+                        Professional Full Stack Developer with expertise in modern web technologies, 
+                        AI integration, and innovative software solutions that drive business growth.
+                    </p>
+                    
+                    <div class="hero-actions">
+                        <a href="#projects" class="btn btn-primary">
+                            <span>View Projects</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                        <a href="https://linktr.ee/ItsWatuyusei" target="_blank" class="btn btn-secondary">
+                            <span>Get In Touch</span>
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="50">0</span>
+                            <span class="stat-label">Projects</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="5">0</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number" data-target="15">0</span>
+                            <span class="stat-label">Technologies</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="hero-visual">
+                    <div class="avatar-container">
+                        <div class="avatar-glow"></div>
+                        <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" 
+                             alt="ItsWatuyusei" class="hero-avatar">
+                        <div class="avatar-ring"></div>
+                    </div>
+                    
+                    <div class="floating-elements">
+                        <div class="floating-icon icon-1">
+                            <i class="fab fa-react"></i>
+                        </div>
+                        <div class="floating-icon icon-2">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <div class="floating-icon icon-3">
+                            <i class="fab fa-js-square"></i>
+                        </div>
+                        <div class="floating-icon icon-4">
+                            <i class="fab fa-node-js"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section class="section about-section" id="about">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">About Me</h2>
+                    <p class="section-subtitle">Passionate about creating innovative digital solutions</p>
+                </div>
+                
+                <div class="about-content">
+                    <div class="about-text">
+                        <p class="about-description">
+                            I'm a dedicated Full Stack Developer with a passion for creating innovative digital solutions. 
+                            My expertise spans across modern web technologies, AI integration, and software development 
+                            that delivers exceptional user experiences and business results.
+                        </p>
+                        
+                        <div class="about-features">
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h3>Innovation</h3>
+                                    <p>Always exploring new technologies and approaches to solve complex problems</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h3>Collaboration</h3>
+                                    <p>Building strong partnerships and delivering solutions that exceed expectations</p>
+                                </div>
+                            </div>
+                            
+                            <div class="feature-item">
+                                <div class="feature-icon">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                                <div class="feature-content">
+                                    <h3>Performance</h3>
+                                    <p>Optimized solutions that deliver exceptional user experiences and results</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="about-visual">
+                        <div class="tech-grid">
+                            <div class="tech-item" data-tech="React">
+                                <i class="fab fa-react"></i>
+                            </div>
+                            <div class="tech-item" data-tech="Python">
+                                <i class="fab fa-python"></i>
+                            </div>
+                            <div class="tech-item" data-tech="JavaScript">
+                                <i class="fab fa-js-square"></i>
+                            </div>
+                            <div class="tech-item" data-tech="Node.js">
+                                <i class="fab fa-node-js"></i>
+                            </div>
+                            <div class="tech-item" data-tech="PHP">
+                                <i class="fab fa-php"></i>
+                            </div>
+                            <div class="tech-item" data-tech="C#">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="tech-item" data-tech="Flutter">
+                                <i class="fab fa-flutter"></i>
+                            </div>
+                            <div class="tech-item" data-tech="AWS">
+                                <i class="fab fa-aws"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="section skills-section" id="skills">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Technical Skills</h2>
+                    <p class="section-subtitle">Technologies and tools I work with</p>
+                </div>
+                
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3 class="category-title">Frontend Development</h3>
+                        <div class="skill-items">
+                            <div class="skill-item" data-skill="React">
+                                <div class="skill-icon">
+                                    <i class="fab fa-react"></i>
+                                </div>
+                                <span class="skill-name">React</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="95"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item" data-skill="JavaScript">
+                                <div class="skill-icon">
+                                    <i class="fab fa-js-square"></i>
+                                </div>
+                                <span class="skill-name">JavaScript</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="98"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item" data-skill="HTML/CSS">
+                                <div class="skill-icon">
+                                    <i class="fab fa-html5"></i>
+                                </div>
+                                <span class="skill-name">HTML/CSS</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="100"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item" data-skill="Flutter">
+                                <div class="skill-icon">
+                                    <i class="fab fa-flutter"></i>
+                                </div>
+                                <span class="skill-name">Flutter</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="85"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3 class="category-title">Backend Development</h3>
+                        <div class="skill-items">
+                            <div class="skill-item" data-skill="Python">
+                                <div class="skill-icon">
+                                    <i class="fab fa-python"></i>
+                                </div>
+                                <span class="skill-name">Python</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="92"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item" data-skill="Node.js">
+                                <div class="skill-icon">
+                                    <i class="fab fa-node-js"></i>
+                                </div>
+                                <span class="skill-name">Node.js</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="88"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item" data-skill="PHP">
+                                <div class="skill-icon">
+                                    <i class="fab fa-php"></i>
+                                </div>
+                                <span class="skill-name">PHP</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="95"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item" data-skill="C#">
+                                <div class="skill-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <span class="skill-name">C#/.NET</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="90"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3 class="category-title">Tools & Platforms</h3>
+                        <div class="skill-items">
+                            <div class="skill-item" data-skill="AWS">
+                                <div class="skill-icon">
+                                    <i class="fab fa-aws"></i>
+                                </div>
+                                <span class="skill-name">AWS</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="82"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item" data-skill="Git">
+                                <div class="skill-icon">
+                                    <i class="fab fa-git-alt"></i>
+                                </div>
+                                <span class="skill-name">Git</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="95"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item" data-skill="WordPress">
+                                <div class="skill-icon">
+                                    <i class="fab fa-wordpress"></i>
+                                </div>
+                                <span class="skill-name">WordPress</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="88"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item" data-skill="WooCommerce">
+                                <div class="skill-icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <span class="skill-name">WooCommerce</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="90"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="section projects-section" id="projects">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Featured Projects</h2>
+                    <p class="section-subtitle">Showcasing innovative solutions and creative implementations</p>
+                </div>
+                
+                <div class="project-controls">
+                    <div class="search-container">
+                        <input type="text" id="project-search" placeholder="Search projects..." class="project-search">
+                        <i class="fas fa-search search-icon"></i>
+                        <button type="button" id="clear-search" class="clear-search-btn" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                    <div class="projects-filter">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="web">Web Apps</button>
+                        <button class="filter-btn" data-filter="mobile">Mobile</button>
+                        <button class="filter-btn" data-filter="desktop">Desktop</button>
+                        <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
+                    </div>
+                </div>
+                
+                <div class="projects-grid" id="projectsGrid">
+                    <!-- BitelFibra -->
+                    <div class="project-card" data-category="web ecommerce" data-technologies="html,php,woocommerce,wordpress">
+                        <div class="project-image">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra00.png?updatedAt=1752006146778" 
+                                 alt="BitelFibra E-commerce Platform" loading="lazy" class="project-img" data-project="bitelfibra">
+                            <div class="project-overlay">
+                                <button class="project-btn" data-action="view" data-project="bitelfibra">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <a href="https://BitelFibra.com.pe" target="_blank" class="project-btn" data-action="visit">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-category">E-commerce Platform</div>
+                            <h3 class="project-title">BitelFibra</h3>
+                            <p class="project-description">
+                                Comprehensive e-commerce platform for fiber optic internet plans with 
+                                integrated payment systems and advanced product management.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">HTML</span>
+                                <span class="tech-tag">PHP</span>
+                                <span class="tech-tag">WooCommerce</span>
+                                <span class="tech-tag">WordPress</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- RafflesSystem -->
+                    <div class="project-card" data-category="web" data-technologies="php,javascript,mysql,html,css">
+                        <div class="project-image">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem00.png?updatedAt=1758383651390" 
+                                 alt="RafflesSystem Platform" loading="lazy" class="project-img" data-project="raffles">
+                            <div class="project-overlay">
+                                <button class="project-btn" data-action="view" data-project="raffles">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <a href="https://test.itswatuyusei.com/Raffles" target="_blank" class="project-btn" data-action="visit">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-category">Web Application</div>
+                            <h3 class="project-title">RafflesSystem</h3>
+                            <p class="project-description">
+                                Advanced raffle management system with comprehensive admin panel, 
+                                digital ticket distribution, and secure payment processing.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">PHP</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">MySQL</span>
+                                <span class="tech-tag">HTML/CSS</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- MU Online Emulator -->
+                    <div class="project-card" data-category="desktop" data-technologies="c++,lua,directx,visual studio">
+                        <div class="project-image">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/MuEmulator/MuEmulator01.png?updatedAt=1760388198601" 
+                                 alt="MU Online Emulator" loading="lazy" class="project-img" data-project="muemulator">
+                            <div class="project-overlay">
+                                <button class="project-btn" data-action="view" data-project="muemulator">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <a href="https://mega.nz/folder/ZeMCjJqa#hSOZERkU5mbuUwRJO5nK0g" target="_blank" class="project-btn" data-action="visit">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-category">Game Development</div>
+                            <h3 class="project-title">MU Online Emulator</h3>
+                            <p class="project-description">
+                                Custom MMORPG server emulator with advanced features including 
+                                Lua scripting, 3D camera system, and real-time user tracking.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">C++</span>
+                                <span class="tech-tag">Lua</span>
+                                <span class="tech-tag">DirectX</span>
+                                <span class="tech-tag">Visual Studio</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- MuServerEasy -->
+                    <div class="project-card" data-category="desktop" data-technologies="c#,.net,windows forms,sql server">
+                        <div class="project-image">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/MuServerEasy/MuServerEasy02.png?updatedAt=1760383658945" 
+                                 alt="MuServerEasy Application" loading="lazy" class="project-img" data-project="muservereasy">
+                            <div class="project-overlay">
+                                <button class="project-btn" data-action="view" data-project="muservereasy">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="project-btn" data-action="info" data-project="muservereasy">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-category">Desktop Application</div>
+                            <h3 class="project-title">MuServerEasy</h3>
+                            <p class="project-description">
+                                Professional Windows application for MU Online server configuration 
+                                with dual licensing system and multilingual support.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">C#</span>
+                                <span class="tech-tag">.NET 8.0</span>
+                                <span class="tech-tag">Windows Forms</span>
+                                <span class="tech-tag">SQL Server</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Custom CMS -->
+                    <div class="project-card" data-category="web" data-technologies="php,mysql,javascript,html,css">
+                        <div class="project-image">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs00.png?updatedAt=1752643865011" 
+                                 alt="Custom CMS Platform" loading="lazy" class="project-img" data-project="cms">
+                            <div class="project-overlay">
+                                <button class="project-btn" data-action="view" data-project="cms">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+                                <button class="project-btn" data-action="info" data-project="cms">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-category">CMS Platform</div>
+                            <h3 class="project-title">Custom CMS</h3>
+                            <p class="project-description">
+                                Fully functional custom content management system with 
+                                advanced admin panel for content and product management.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">PHP</span>
+                                <span class="tech-tag">MySQL</span>
+                                <span class="tech-tag">JavaScript</span>
+                                <span class="tech-tag">HTML/CSS</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- LauncherMU -->
+                    <div class="project-card" data-category="desktop" data-technologies="c#,wpf,.net,webview2">
+                        <div class="project-image">
+                            <div class="project-placeholder" data-project="launchermu">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="project-overlay">
+                                <button class="project-btn" data-action="info" data-project="launchermu">
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-category">Game Launcher</div>
+                            <h3 class="project-title">LauncherMU</h3>
+                            <p class="project-description">
+                                Advanced game launcher with WebView2 integration, automatic 
+                                update system, and customizable interface with drag & drop.
+                            </p>
+                            <div class="project-tech">
+                                <span class="tech-tag">C#</span>
+                                <span class="tech-tag">WPF</span>
+                                <span class="tech-tag">.NET 4.8</span>
+                                <span class="tech-tag">WebView2</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <i class="fas fa-code"></i>
+                        <span>ItsWatuyusei</span>
+                    </div>
+                    <p>Building the future of digital experiences</p>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="#hero">Home</a>
+                    <a href="#about">About</a>
+                    <a href="#skills">Skills</a>
+                    <a href="#projects">Projects</a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 ItsWatuyusei. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Project Modal -->
+    <div class="modal" id="projectModal">
+        <div class="modal-overlay" id="modalOverlay"></div>
+        <div class="modal-container">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Project Gallery</h3>
+                <button class="modal-close" id="modalClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-gallery" id="modalGallery">
+                    <!-- Gallery images will be inserted here -->
+                </div>
+                <div class="modal-info" id="modalInfo">
+                    <!-- Project info will be inserted here -->
+                </div>
+            </div>
+            <div class="modal-navigation">
+                <button class="modal-nav-btn" id="prevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="modal-counter" id="modalCounter">1 / 1</div>
+                <button class="modal-nav-btn" id="nextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="main.js"></script>
+</body>
+</html>

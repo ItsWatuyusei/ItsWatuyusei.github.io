@@ -563,7 +563,6 @@ class PortfolioHub {
         const progressBar = document.getElementById('progress-bar');
         
         if (!progressFill || !progressBar) {
-            console.log('Progress bar elements not found');
             return;
         }
 

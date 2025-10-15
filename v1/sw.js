@@ -47,7 +47,6 @@ self.addEventListener('fetch', function(event) {
                     return response;
                 }
                 return fetch(event.request).catch(function(error) {
-                    console.warn('Failed to fetch:', event.request.url);
                     return new Response('', { status: 404 });
                 });
             }

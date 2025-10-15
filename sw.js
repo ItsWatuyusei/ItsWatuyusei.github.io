@@ -40,7 +40,6 @@ self.addEventListener('install', event => {
                 return self.skipWaiting();
             })
             .catch(error => {
-                console.error('Failed to cache Portfolio Hub static assets:', error);
             })
     );
     
@@ -98,7 +97,6 @@ async function handleRequest(request) {
             const networkResponse = await fetch(request);
             return networkResponse;
         } catch (error) {
-            console.error('Network request failed in development:', request.url, error);
             return new Response('Development mode: Network error', {
                 status: 503,
                 statusText: 'Service Unavailable'
@@ -139,8 +137,6 @@ async function handleRequest(request) {
         return networkResponse;
         
     } catch (error) {
-        console.error('Network request failed for Portfolio Hub:', request.url, error);
-        
         const cachedResponse = await cache.match(request);
         if (cachedResponse) {
             return cachedResponse;
@@ -268,7 +264,6 @@ async function preloadPortfolioHubResources() {
                 await cache.put(resource, response);
             }
         } catch (error) {
-            console.warn('Failed to preload Portfolio Hub resource:', resource, error);
         }
     }
 }

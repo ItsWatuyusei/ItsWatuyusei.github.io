@@ -96,7 +96,6 @@ class EnhancedLazyLoader {
                 img.style.opacity = '1';
                 img.style.transform = 'scale(1)';
                 img.classList.add('loaded');
-                console.warn('Failed to load image:', img.src);
             });
         };
     }
@@ -137,7 +136,6 @@ class EnhancedLazyLoader {
         try {
             await this.preloadImage(src);
         } catch (error) {
-            console.warn('Failed to preload image:', src);
         }
         
         setTimeout(() => this.processPreloadQueue(), 100);
