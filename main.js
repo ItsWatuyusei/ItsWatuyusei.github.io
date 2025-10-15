@@ -163,6 +163,11 @@ class PortfolioHub {
             link.addEventListener('click', (e) => {
                 this.handleVersionNavigation(e);
             });
+            link.addEventListener('mouseenter', () => {
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('hover');
+                }
+            });
         });
 
         window.addEventListener('scroll', this.throttle(() => {
@@ -174,7 +179,8 @@ class PortfolioHub {
         }, 250));
 
         document.addEventListener('keydown', (e) => this.handleKeyboard(e));
-
+        
+        this.setupGeneralButtonSounds();
     }
 
     setupTheme() {
@@ -631,7 +637,10 @@ class PortfolioHub {
         hamburgerMenu.addEventListener('click', function() {
             this.classList.toggle('active');
             mobileNavLinks.classList.toggle('active');
-        });
+            if (this.soundEnabled && this.audioInitialized) {
+                this.playSound('toggle');
+            }
+        }.bind(this));
 
         document.addEventListener('click', function(e) {
             if (!hamburgerMenu.contains(e.target) && !mobileNavLinks.contains(e.target)) {
@@ -644,7 +653,10 @@ class PortfolioHub {
             link.addEventListener('click', function() {
                 hamburgerMenu.classList.remove('active');
                 mobileNavLinks.classList.remove('active');
-            });
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('hover');
+                }
+            }.bind(this));
         });
 
     }
@@ -712,12 +724,20 @@ class PortfolioHub {
         if (contactLink && contactModal) {
             contactLink.addEventListener('click', function(e) {
                 e.preventDefault();
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('hover');
+                }
                 openModal(contactModal);
-            });
+            }.bind(this));
         }
 
         if (contactModalClose && contactModal) {
-            contactModalClose.addEventListener('click', () => closeModal(contactModal));
+            contactModalClose.addEventListener('click', () => {
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('hover');
+                }
+                closeModal(contactModal);
+            });
         }
 
         if (contactModal) {
@@ -731,6 +751,24 @@ class PortfolioHub {
                 }
             });
         }
+    }
+
+    setupGeneralButtonSounds() {
+        document.querySelectorAll('button, .btn, [role="button"]').forEach(button => {
+            button.addEventListener('mouseenter', () => {
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('hover');
+                }
+            });
+        });
+        
+        document.querySelectorAll('a:not(.version-link):not(.nav-link)').forEach(link => {
+            link.addEventListener('mouseenter', () => {
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('hover');
+                }
+            });
+        });
     }
 
     setupTypewriter() {
