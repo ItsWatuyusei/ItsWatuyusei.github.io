@@ -101,7 +101,14 @@ body:not(.light-theme) {
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
     z-index: 1000;
-    transition: var(--transition);
+    transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
+    transform: translateY(-100%);
+    opacity: 0;
+}
+
+.nav.visible {
+    transform: translateY(0);
+    opacity: 1;
 }
 
 .light-theme .nav {
@@ -995,7 +1002,7 @@ body:not(.light-theme) {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
 }
 
 .project-header h3 {
@@ -1032,7 +1039,7 @@ body:not(.light-theme) {
 
 .project-content p {
     color: var(--text-secondary);
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     line-height: 1.6;
 }
 
@@ -1426,6 +1433,7 @@ body:not(.light-theme) {
         opacity: 0;
         visibility: hidden;
         transition: var(--transition);
+        z-index: 999;
     }
     
     .light-theme .nav-links {

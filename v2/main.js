@@ -60,12 +60,14 @@ class ModernPortfolio {
             const scrollY = window.scrollY;
             
             if (scrollY > 100) {
+                nav.classList.add('visible');
                 if (isLightMode) {
                     nav.style.background = 'rgba(255, 255, 255, 0.95)';
                 } else {
                     nav.style.background = 'rgba(10, 10, 10, 0.95)';
                 }
             } else {
+                nav.classList.remove('visible');
                 if (isLightMode) {
                     nav.style.background = 'rgba(255, 255, 255, 0.8)';
                 } else {
@@ -103,27 +105,50 @@ class ModernPortfolio {
             });
         });
 
-        // Sticky navigation
+        // Sticky navigation with show/hide on scroll
         const nav = document.getElementById('sticky-nav');
         if (nav) {
-            window.addEventListener('scroll', () => {
+            let lastScrollY = window.scrollY;
+            let ticking = false;
+
+            const updateNav = () => {
+                const currentScrollY = window.scrollY;
                 const isLightMode = document.body.classList.contains('light-theme');
-                if (window.scrollY > 100) {
+                
+                // Show/hide nav based on scroll position
+                if (currentScrollY > 100) {
+                    nav.classList.add('visible');
+                    
+                    // Update background based on scroll
                     if (isLightMode) {
                         nav.style.background = 'rgba(255, 255, 255, 0.95)';
                     } else {
                         nav.style.background = 'rgba(10, 10, 10, 0.95)';
                     }
-                    nav.style.backdropFilter = 'blur(20px)';
                 } else {
+                    nav.classList.remove('visible');
+                    
+                    // Keep background for when it becomes visible
                     if (isLightMode) {
                         nav.style.background = 'rgba(255, 255, 255, 0.8)';
                     } else {
                         nav.style.background = 'rgba(10, 10, 10, 0.8)';
                     }
-                    nav.style.backdropFilter = 'blur(20px)';
                 }
-            });
+                
+                nav.style.backdropFilter = 'blur(20px)';
+                lastScrollY = currentScrollY;
+                ticking = false;
+            };
+
+            const requestTick = () => {
+                if (!ticking) {
+                    requestAnimationFrame(updateNav);
+                    ticking = true;
+                }
+            };
+
+            window.addEventListener('scroll', requestTick, { passive: true });
         }
     }
 
