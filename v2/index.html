@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ItsWatuyusei | Full Stack Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <meta property="og:title" content="ItsWatuyusei | Full Stack Developer Portfolio">
+    <meta property="og:description" content="Full Stack Developer specializing in Python, PHP, C++, C#, .NET, React, WooCommerce, and modern web technologies.">
+    <meta property="og:image" content="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115">
+    <meta property="og:url" content="https://ItsWatuyusei.com">
+    
+    <meta name="description" content="Full Stack Developer specializing in Python, PHP, C++, C#, .NET, Flutter, WooCommerce, Shopify, PrestaShop, JavaScript and modern web technologies.">
+    <meta name="keywords" content="Full Stack Developer, Python Developer, C# Developer, .NET Developer, React Developer, WooCommerce Developer, Web Developer">
+    
+    <link rel="canonical" href="https://ItsWatuyusei.com">
+    <link rel="icon" type="image/x-icon" href="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115">
+    
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EBJ935Y1PG"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EBJ935Y1PG');
+        
+        // Apply theme immediately to prevent flash
+        (function() {
+            const storedTheme = localStorage.getItem('darkMode');
+            const isDarkMode = storedTheme === null ? true : storedTheme === 'true';
+            if (!isDarkMode) {
+                document.body.classList.add('light-theme');
+            }
+        })();
+    </script>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progress-bar">
+        <div class="progress-fill" id="progress-fill"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="sticky-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="https://ItsWatuyusei.com" class="nav-logo-link">
+                    <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" class="nav-avatar">
+                    <span class="nav-name">ItsWatuyusei</span>
+                </a>
+            </div>
+            <div class="nav-links" id="nav-links">
+                <a href="#skills" class="nav-link">Skills</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#tech-stack" class="nav-link">Tech Stack</a>
+                <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" class="nav-link nav-links-btn">Links</a>
+                <a href="#" id="nav-contact-link" class="nav-link nav-contact-btn">Contact</a>
+            </div>
+            <div class="nav-controls">
+                <div class="nav-darkmode">
+                    <input type="checkbox" id="nav-darkmode-toggle" aria-label="Toggle dark mode">
+                    <label for="nav-darkmode-toggle" class="nav-darkmode-label"><i class="fas fa-moon"></i></label>
+                </div>
+                <button class="hamburger-menu" id="hamburger-menu" aria-label="Toggle menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Hero Section -->
+        <section class="hero" id="top">
+            <div class="hero-bg">
+                <div class="hero-grid"></div>
+                <div class="hero-particles"></div>
+            </div>
+            <div class="hero-content">
+                <div class="hero-text">
+                    <div class="hero-badge">
+                        <span>Available for work</span>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="hero-greeting">Hi, I'm</span>
+                        <span class="hero-name">ItsWatuyusei</span>
+                        <span class="hero-role">
+                            <span class="typewriter" data-text="Full Stack Developer"></span>
+                        </span>
+                    </h1>
+                    <p class="hero-description">
+                        Building digital solutions for business, community and innovation.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="https://linktr.ee/ItsWatuyusei" target="_blank" class="btn btn-primary">
+                            <span>View Links</span>
+                            <i class="fas fa-external-link-alt"></i>
+                        </a>
+                        <a href="#" id="contact-link" class="btn btn-secondary">
+                            <span>Get in Touch</span>
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="hero-image">
+                        <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei">
+                        <div class="hero-image-glow"></div>
+                    </div>
+                    <div class="floating-elements">
+                        <div class="floating-card" style="--delay: 0s">
+                            <i class="fab fa-js"></i>
+                        </div>
+                        <div class="floating-card" style="--delay: 1s">
+                            <i class="fab fa-react"></i>
+                        </div>
+                        <div class="floating-card" style="--delay: 2s">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <div class="floating-card" style="--delay: 3s">
+                            <i class="fab fa-php"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section class="skills-section" id="skills">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Skills & Expertise</h2>
+                    <p class="section-subtitle">Technologies I work with</p>
+                </div>
+                <div class="skills-grid">
+                    <div class="skill-item" data-skill=".NET">
+                        <div class="skill-icon">.NET</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="AWS">
+                        <div class="skill-icon">AWS</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="C#">
+                        <div class="skill-icon">C#</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="C++">
+                        <div class="skill-icon">C++</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="CSS">
+                        <div class="skill-icon">CSS</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 92%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="Flutter">
+                        <div class="skill-icon">Flutter</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="Git">
+                        <div class="skill-icon">Git</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="HTML">
+                        <div class="skill-icon">HTML</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="JavaScript">
+                        <div class="skill-icon">JavaScript</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="Node.js">
+                        <div class="skill-icon">Node.js</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="PHP">
+                        <div class="skill-icon">PHP</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="PrestaShop">
+                        <div class="skill-icon">PrestaShop</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 82%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="Python">
+                        <div class="skill-icon">Python</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="React">
+                        <div class="skill-icon">React</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="Shopify">
+                        <div class="skill-icon">Shopify</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="SQL">
+                        <div class="skill-icon">SQL</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="WooCommerce">
+                        <div class="skill-icon">WooCommerce</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 92%"></div>
+                        </div>
+                    </div>
+                    <div class="skill-item" data-skill="WordPress">
+                        <div class="skill-icon">WordPress</div>
+                        <div class="skill-level">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section class="projects-section" id="projects">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Featured Projects</h2>
+                    <p class="section-subtitle">Some of my recent work</p>
+                </div>
+                
+                <div class="projects-search">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="projects-search" placeholder="Search projects..." class="search-input">
+                        <button class="search-clear" id="search-clear" style="display: none;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="projects-filter" id="projects-filter">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                </div>
+
+                <div class="projects-slider-container">
+                    <div class="projects-slider" id="projects-slider">
+                        <div class="projects-track">
+                            <article class="project-card" data-technologies="ecommerce,cms">
+                        <div class="project-image">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra00.png?updatedAt=1752006146778" alt="BitelFibra">
+                            <div class="project-overlay">
+                                <button class="view-gallery" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra00.png?updatedAt=1752006146778","https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra01.png?updatedAt=1752006146616","https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra02.png?updatedAt=1752006146072"]'>
+                                    <i class="fas fa-images"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3>BitelFibra</h3>
+                                <div class="project-links">
+                                    <a href="https://BitelFibra.com.pe" target="_blank" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <p>E-commerce platform for fiber optic internet plans. Online sales, product catalog, payment integration.</p>
+                            <div class="project-tech">
+                                <span>HTML</span>
+                                <span>PHP</span>
+                                <span>WooCommerce</span>
+                                <span>WordPress</span>
+                                <span>CSS</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-technologies="php,javascript,css,cms">
+                        <div class="project-image">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem00.png?updatedAt=1758383651390" alt="RafflesSystem">
+                            <div class="project-overlay">
+                                <button class="view-gallery" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem00.png?updatedAt=1758383651390","https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem01.png?updatedAt=1758383651224","https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem02.png?updatedAt=1758383651075","https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem03.png?updatedAt=1758383650871","https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem04.png?updatedAt=1758383650701"]'>
+                                    <i class="fas fa-images"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3>RafflesSystem</h3>
+                                <div class="project-links">
+                                    <a href="https://test.itswatuyusei.com/Raffles" target="_blank" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <p>Comprehensive raffle system featuring a responsive, centralized admin panel for streamlined user management, digital ticket distribution, and payment processing.</p>
+                            <div class="project-tech">
+                                <span>PHP</span>
+                                <span>JavaScript</span>
+                                <span>HTML</span>
+                                <span>CSS</span>
+                                <span>MySQL</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-technologies="cms,javascript">
+                        <div class="project-image">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/Forum.ItsWatuyusei/forum.itswatuyusei00.png?updatedAt=1752019308343" alt="ItsWatuyusei Forum">
+                            <div class="project-overlay">
+                                <button class="view-gallery" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/Forum.ItsWatuyusei/forum.itswatuyusei01.png?updatedAt=1752019307990","https://ik.imagekit.io/ItsWatuyusei/Image/Forum.ItsWatuyusei/forum.itswatuyusei02.png?updatedAt=1752019308165"]'>
+                                    <i class="fas fa-images"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3>ItsWatuyusei Forum</h3>
+                                <div class="project-links">
+                                    <a href="https://Forum.ItsWatuyusei.com" target="_blank" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <p>Programming community of gamers/developers and forum. User registration, discussion boards, file sharing.</p>
+                            <div class="project-tech">
+                                <span>CSS</span>
+                                <span>HTML</span>
+                                <span>JavaScript</span>
+                                <span>PHP</span>
+                                <span>SMF</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-technologies="cms,ecommerce">
+                        <div class="project-image">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs00.png?updatedAt=1752643865011" alt="Custom CMS">
+                            <div class="project-overlay">
+                                <button class="view-gallery" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs00.png?updatedAt=1752643865011","https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs01.png?updatedAt=1752643885082","https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs02.png?updatedAt=1752643898384","https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs04.png?updatedAt=1752724263116"]'>
+                                    <i class="fas fa-images"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3>Custom CMS</h3>
+                                <div class="project-links">
+                                    <a href="#" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <p>Custom CMS built with HTML, CSS, JavaScript and PHP. Admin panel for content and product management. (Fully functional beta version)</p>
+                            <div class="project-tech">
+                                <span>HTML</span>
+                                <span>CSS</span>
+                                <span>MySQL</span>
+                                <span>JavaScript</span>
+                                <span>PHP</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-technologies="cpp">
+                        <div class="project-image">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/MuEmulator/MuEmulator01.png?updatedAt=1760388198601" alt="MU Online Emulator">
+                            <div class="project-overlay">
+                                <button class="view-gallery" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/MuEmulator/MuEmulator01.png?updatedAt=1760388198601","https://ik.imagekit.io/ItsWatuyusei/Image/MuEmulator/MuEmulator00.png?updatedAt=1760388198266"]'>
+                                    <i class="fas fa-images"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3>MU Online Emulator</h3>
+                                <div class="project-links">
+                                    <a href="https://mega.nz/folder/ZeMCjJqa#hSOZERkU5mbuUwRJO5nK0g" target="_blank" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <p>Custom Season 6 MMORPG server emulator with multi-language support. Features encrypted Lua scripting system, web-based server control panel, advanced health bar system, monster AI system, custom events, 3D camera, emoji system, guild management with logo display, and real-time online user tracking.</p>
+                            <div class="project-tech">
+                                <span>C++</span>
+                                <span>Lua</span>
+                                <span>Visual Studio</span>
+                                <span>DirectX</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-technologies="dotnet">
+                        <div class="project-image">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/MuServerEasy/MuServerEasy02.png?updatedAt=1760383658945" alt="MuServerEasy">
+                            <div class="project-overlay">
+                                <button class="view-gallery" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/MuServerEasy/MuServerEasy02.png?updatedAt=1760383658945","https://ik.imagekit.io/ItsWatuyusei/Image/MuServerEasy/MuServerEasy00.png?updatedAt=1760383991150","https://ik.imagekit.io/ItsWatuyusei/Image/MuServerEasy/MuServerEasy01.png?updatedAt=1760383658952"]'>
+                                    <i class="fas fa-images"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3>MuServerEasy</h3>
+                                <div class="project-links">
+                                    <a href="#" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <p>Professional Windows desktop application for MU Online server creation and configuration with pre-established files. Features dual licensing system, multi-theme support, multilingual interface, and advanced authentication with secure admin panel.</p>
+                            <div class="project-tech">
+                                <span>C#</span>
+                                <span>.NET 8.0</span>
+                                <span>Windows Forms</span>
+                                <span>SQL Server</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-technologies="php,javascript,css,cms">
+                        <div class="project-image">
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/RandomTickets/randomTickets01.png?updatedAt=1753553588754" alt="RandomTickets">
+                            <div class="project-overlay">
+                                <button class="view-gallery" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/RandomTickets/randomTickets01.png?updatedAt=1753553588754","https://ik.imagekit.io/ItsWatuyusei/Image/RandomTickets/randomTickets02.png?updatedAt=1753553588865","https://ik.imagekit.io/ItsWatuyusei/Image/RandomTickets/randomTickets03.png?updatedAt=1753553588698","https://ik.imagekit.io/ItsWatuyusei/Image/RandomTickets/randomTickets04.png?updatedAt=1753553588711","https://ik.imagekit.io/ItsWatuyusei/Image/RandomTickets/randomTickets00.png?updatedAt=1753553588729"]'>
+                                    <i class="fas fa-images"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3>RandomTickets</h3>
+                                <div class="project-links">
+                                    <a href="#" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <p>Online raffle platform with user and admin panels. Supports multiple payment methods. Get random tickets and join raffles seamlessly. (Fully functional beta version)</p>
+                            <div class="project-tech">
+                                <span>PHP</span>
+                                <span>JavaScript</span>
+                                <span>HTML</span>
+                                <span>CSS</span>
+                                <span>MySQL</span>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="project-card" data-technologies="dotnet">
+                        <div class="project-image">
+                            <div class="project-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                        </div>
+                        <div class="project-content">
+                            <div class="project-header">
+                                <h3>LauncherMU</h3>
+                                <div class="project-links">
+                                    <a href="#" class="project-link">
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <p>Advanced game launcher for MU Online with WebView2 integration, automatic update system with CRC32 file verification, encrypted configuration management, real-time server status checking, and customizable interface with drag & drop functionality.</p>
+                            <div class="project-tech">
+                                <span>C#</span>
+                                <span>WPF</span>
+                                <span>.NET 4.8</span>
+                                <span>WebView2</span>
+                            </div>
+                        </div>
+                    </article>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tech Stack Section -->
+        <section class="tech-section" id="tech-stack">
+            <div class="container">
+                <div class="section-header">
+                    <h2 class="section-title">Tech Stack</h2>
+                    <p class="section-subtitle">Technologies and tools I use</p>
+                </div>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML5">
+                        <span>HTML5</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS3">
+                        <span>CSS3</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
+                        <span>JavaScript</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
+                        <span>React</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
+                        <span>Node.js</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                        <span>Python</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP">
+                        <span>PHP</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++">
+                        <span>C++</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#">
+                        <span>C#</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg" alt=".NET">
+                        <span>.NET</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="Flutter">
+                        <span>Flutter</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
+                        <span>MySQL</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
+                        <span>Git</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg" alt="WordPress">
+                        <span>WordPress</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/woocommerce/woocommerce-original.svg" alt="WooCommerce">
+                        <span>WooCommerce</span>
+                    </div>
+                    <div class="tech-item">
+                        <img src="https://cdn.worldvectorlogo.com/logos/shopify.svg" alt="Shopify">
+                        <span>Shopify</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" class="footer-avatar">
+                    <div class="footer-info">
+                        <h3>ItsWatuyusei</h3>
+                        <p>Full Stack Developer</p>
+                    </div>
+                </div>
+                <div class="footer-links" id="footer-links">
+                    <a href="https://forum.ItsWatuyusei.com" target="_blank" rel="noopener noreferrer" aria-label="Forum"><i class="fas fa-comments"></i></a>
+                    <a href="https://instagram.com/ItsWatuyusei" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://facebook.com/ItsWatuyusei" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom" id="footer-bottom">
+                <p>Copyright © <a href="https://itswatuyusei.com" target="_blank">ItsWatuyusei</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Contact Modal -->
+    <div id="contact-modal" class="contact-modal">
+        <div class="contact-modal-content">
+            <button class="contact-modal-close" id="contact-modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
+            <div class="hs-form-frame" data-region="na1" data-form-id="16683cb4-cb65-4421-ba88-58a310b3ac2f" data-portal-id="49346124"></div>
+        </div>
+    </div>
+
+    <!-- Image Gallery Modal -->
+    <div id="image-modal" class="image-modal">
+        <div class="image-modal-content">
+            <button class="image-modal-close" id="image-modal-close" aria-label="Close" onclick="closeImageGallery()"><i class="fas fa-times"></i></button>
+            <div class="gallery-container" id="gallery-container">
+                <button class="gallery-prev portfolio-btn" id="gallery-prev" aria-label="Anterior" onclick="prevGalleryImage()"><i class="fas fa-chevron-left"></i></button>
+                <img id="modal-image" src="" alt="Project Screenshot" />
+                <button class="gallery-next portfolio-btn" id="gallery-next" aria-label="Siguiente" onclick="nextGalleryImage()"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://js.hsforms.net/forms/embed/49346124.js" defer></script>
+    <script src="main.js"></script>
+</body>
+</html>
