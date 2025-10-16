@@ -18,6 +18,7 @@ class ModernPortfolio {
         this.setupModals();
         this.setupAnimations();
         this.setupServiceWorker();
+        this.setupFooter();
         this.createParticles();
     }
 
@@ -246,11 +247,8 @@ class ModernPortfolio {
         // Generate dynamic filters
         this.generateDynamicFilters();
         
-        // Clone all project cards to create seamless loop
-        this.originalCards.forEach(card => {
-            const clone = card.cloneNode(true);
-            projectsTrack.appendChild(clone);
-        });
+        // Initial state: show all projects with clones for seamless loop
+        this.filterProjects(this.originalCards, 'all', '');
 
         // Setup hover pause functionality
         projectsTrack.addEventListener('mouseenter', () => {
@@ -273,15 +271,15 @@ class ModernPortfolio {
             technologies.forEach(tech => allTechnologies.add(tech.trim()));
         });
 
-        // Create filter buttons for each technology
+        // Create filter buttons for each technology (matching v1 order)
         const technologyLabels = {
-            'ecommerce': 'E-commerce',
-            'cms': 'CMS',
-            'php': 'PHP',
-            'javascript': 'JavaScript',
             'cpp': 'C++',
+            'cms': 'CMS',
             'dotnet': '.NET',
+            'ecommerce': 'E-commerce',
             'flutter': 'Flutter',
+            'javascript': 'JavaScript',
+            'php': 'PHP',
             'python': 'Python'
         };
 
@@ -290,13 +288,17 @@ class ModernPortfolio {
         filterContainer.innerHTML = '';
         filterContainer.appendChild(allButton);
 
-        // Add technology filters
-        Array.from(allTechnologies).sort().forEach(tech => {
-            const button = document.createElement('button');
-            button.className = 'filter-btn';
-            button.dataset.filter = tech;
-            button.textContent = technologyLabels[tech] || tech.charAt(0).toUpperCase() + tech.slice(1);
-            filterContainer.appendChild(button);
+        // Add technology filters in v1 order
+        const v1FilterOrder = ['cpp', 'cms', 'dotnet', 'ecommerce', 'flutter', 'javascript', 'php', 'python'];
+        
+        v1FilterOrder.forEach(tech => {
+            if (allTechnologies.has(tech)) {
+                const button = document.createElement('button');
+                button.className = 'filter-btn';
+                button.dataset.filter = tech;
+                button.textContent = technologyLabels[tech];
+                filterContainer.appendChild(button);
+            }
         });
     }
 
@@ -359,11 +361,11 @@ class ModernPortfolio {
         const projectsTrack = document.querySelector('.projects-track');
         if (!projectsTrack) return;
 
-        // Clear existing clones
-        const clones = projectsTrack.querySelectorAll('.project-card:nth-child(n+' + (this.originalCards.length + 1) + ')');
-        clones.forEach(clone => clone.remove());
+        // Clear ALL cards from track
+        projectsTrack.innerHTML = '';
 
         let visibleCards = [];
+        const isFiltered = filter !== 'all' || search !== '';
 
         this.originalCards.forEach(card => {
             const title = card.querySelector('h3').textContent.toLowerCase();
@@ -381,22 +383,30 @@ class ModernPortfolio {
             
             // Show/hide project based on both filter and search
             if (matchesFilter && matchesSearch) {
-                card.style.display = 'block';
-                card.style.opacity = '1';
-                card.style.transform = 'translateY(0)';
-                visibleCards.push(card);
-            } else {
-                card.style.display = 'none';
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
+                // Create a fresh copy of the card
+                const cardCopy = card.cloneNode(true);
+                cardCopy.style.display = 'block';
+                cardCopy.style.opacity = '1';
+                cardCopy.style.transform = 'translateY(0)';
+                projectsTrack.appendChild(cardCopy);
+                visibleCards.push(cardCopy);
             }
         });
 
-        // Clone visible cards for seamless loop
-        visibleCards.forEach(card => {
-            const clone = card.cloneNode(true);
-            projectsTrack.appendChild(clone);
-        });
+        // Only clone for seamless loop if we have visible cards and it's not a filtered view
+        if (visibleCards.length > 0 && !isFiltered) {
+            visibleCards.forEach(card => {
+                const clone = card.cloneNode(true);
+                projectsTrack.appendChild(clone);
+            });
+        }
+
+        // Add/remove filtered class to control animation
+        if (isFiltered) {
+            projectsTrack.classList.add('filtered');
+        } else {
+            projectsTrack.classList.remove('filtered');
+        }
 
         // Show "No projects found" message if needed
         this.showNoResultsMessage(visibleCards, filter, search);
@@ -623,6 +633,50 @@ class ModernPortfolio {
                     });
             });
         }
+    }
+
+    setupFooter() {
+        const footer = document.getElementById('sticky-footer');
+        const footerLinks = document.getElementById('footer-links');
+        const footerBottom = document.getElementById('footer-bottom');
+        
+        if (!footer) return;
+
+        let ticking = false;
+
+        const updateFooter = () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const windowHeight = window.innerHeight;
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollBottom = documentHeight - (scrollTop + windowHeight);
+
+            // Expand footer when near bottom (within 100px)
+            if (scrollBottom <= 100) {
+                footer.classList.add('expanded');
+                setTimeout(() => {
+                    if (footerLinks) footerLinks.classList.add('visible');
+                    if (footerBottom) footerBottom.classList.add('visible');
+                }, 150);
+            } else {
+                footer.classList.remove('expanded');
+                if (footerLinks) footerLinks.classList.remove('visible');
+                if (footerBottom) footerBottom.classList.remove('visible');
+            }
+
+            ticking = false;
+        };
+
+        const requestTick = () => {
+            if (!ticking) {
+                requestAnimationFrame(updateFooter);
+                ticking = true;
+            }
+        };
+
+        window.addEventListener('scroll', requestTick, { passive: true });
+        
+        // Initial check
+        updateFooter();
     }
 
     createParticles() {
