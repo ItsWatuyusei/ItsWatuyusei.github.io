@@ -521,18 +521,17 @@ class ProfessionalPortfolio {
 
     // ===== MODAL SYSTEM =====
     setupModal() {
-        this.modal = document.getElementById('projectModal');
-        this.modalOverlay = document.getElementById('modalOverlay');
-        this.modalClose = document.getElementById('modalClose');
-        this.modalTitle = document.getElementById('modalTitle');
-        this.modalGallery = document.getElementById('modalGallery');
-        this.modalInfo = document.getElementById('modalInfo');
-        this.modalCounter = document.getElementById('modalCounter');
-        this.prevBtn = document.getElementById('prevBtn');
-        this.nextBtn = document.getElementById('nextBtn');
+        this.imageModal = document.getElementById('imageModal');
+        this.imageModalClose = document.getElementById('image-modal-close');
+        this.modalImage = document.getElementById('modal-image');
+        this.galleryPrev = document.getElementById('gallery-prev');
+        this.galleryNext = document.getElementById('gallery-next');
         
-        this.currentImageIndex = 0;
-        this.currentProject = null;
+        this.galleryImages = [];
+        this.galleryIndex = 0;
+        this.isTransitioning = false;
+        this.touchStartX = 0;
+        this.touchEndX = 0;
         
         this.projectData = {
             bitelfibra: {
@@ -1286,6 +1285,62 @@ class ProfessionalPortfolio {
         typeText(typewriter3, text3, 100, 3500);
         typeText(typewriterDescription, descriptionText, 50, 5000);
         if (typewriterAbout) typeText(typewriterAbout, aboutText, 40, 7000);
+    }
+
+    updatePagination(totalPages) {
+        if (totalPages <= 1) {
+            this.pagination.style.display = 'none';
+            return;
+        }
+        
+        this.pagination.style.display = 'flex';
+        let paginationHTML = '';
+        
+        if (this.currentPage > 1) {
+            paginationHTML += `<button class="pagination-btn" onclick="portfolio.renderProjectsPage(${this.currentPage - 1})">‹</button>`;
+        }
+        
+        for (let i = 1; i <= totalPages; i++) {
+            if (i === 1 || i === totalPages || (i >= this.currentPage - 1 && i <= this.currentPage + 1)) {
+                paginationHTML += `<button class="pagination-btn ${i === this.currentPage ? 'active' : ''}" onclick="portfolio.renderProjectsPage(${i})">${i}</button>`;
+            } else if (i === this.currentPage - 2 || i === this.currentPage + 2) {
+                paginationHTML += `<span class="pagination-ellipsis">...</span>`;
+            }
+        }
+        
+        if (this.currentPage < totalPages) {
+            paginationHTML += `<button class="pagination-btn" onclick="portfolio.renderProjectsPage(${this.currentPage + 1})">›</button>`;
+        }
+        
+        this.pagination.innerHTML = paginationHTML;
+    }
+
+    renderProjectsPage(page) {
+        this.currentPage = page;
+        const totalPages = Math.ceil(this.filteredProjects.length / this.projectsPerPage);
+        const startIndex = (this.currentPage - 1) * this.projectsPerPage;
+        const endIndex = startIndex + this.projectsPerPage;
+        
+        this.projectCards.forEach(card => {
+            card.style.display = 'none';
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+        });
+        
+        setTimeout(() => {
+            this.filteredProjects.forEach((card, index) => {
+                if (index >= startIndex && index < endIndex) {
+                    setTimeout(() => {
+                        card.style.display = 'block';
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                        card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    }, (index - startIndex) * 100);
+                }
+            });
+        }, 50);
+        
+        this.updatePagination(totalPages);
     }
 
     throttle(func, limit) {

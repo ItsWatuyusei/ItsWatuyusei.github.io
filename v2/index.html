@@ -41,12 +41,12 @@
 
     <nav class="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
+            <a href="https://ItsWatuyusei.com" rel="noopener noreferrer" class="nav-logo">
                 <div class="logo-icon">
                     <i class="fas fa-code"></i>
                 </div>
                 <span class="logo-text">ItsWatuyusei</span>
-            </div>
+            </a>
             
             <div class="nav-menu" id="navMenu">
                 <a href="#hero" class="nav-link" data-section="hero">Home</a>
@@ -120,10 +120,12 @@
                 
                 <div class="hero-visual">
                     <div class="avatar-container">
-                        <div class="avatar-glow"></div>
-                        <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" 
-                             alt="ItsWatuyusei" class="hero-avatar">
-                        <div class="avatar-ring"></div>
+                        <a href="https://ItsWatuyusei.com" rel="noopener noreferrer" class="avatar-link">
+                            <div class="avatar-glow"></div>
+                            <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" 
+                                 alt="ItsWatuyusei" class="hero-avatar">
+                            <div class="avatar-ring"></div>
+                        </a>
                     </div>
                     
                     <div class="floating-elements">
@@ -736,6 +738,23 @@
             <p>Copyright &copy; ItsWatuyusei</p>
         </div>
     </footer>
+
+    <div id="imageModal" class="image-modal">
+        <div class="image-modal-content">
+            <button class="image-modal-close" id="image-modal-close" aria-label="Close">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="gallery-container" id="gallery-container">
+                <button class="gallery-prev" id="gallery-prev" aria-label="Previous">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <img id="modal-image" src="" alt="Project Screenshot" />
+                <button class="gallery-next" id="gallery-next" aria-label="Next">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+    </div>
 
     <div id="contactModal" class="contact-modal">
         <div class="contact-modal-content">
