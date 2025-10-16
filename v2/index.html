@@ -33,25 +33,6 @@
         <div class="progress-fill" id="progressFill"></div>
     </div>
 
-    <nav class="sticky-nav" id="stickyNav">
-        <div class="nav-container">
-            <div class="nav-logo">
-                <a href="#top" class="nav-logo-link">
-                    <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" class="nav-avatar">
-                    <span class="nav-name">ItsWatuyusei</span>
-                </a>
-            </div>
-            <div class="nav-links" id="navLinks">
-                <a href="#about" class="nav-link" data-section="about">About</a>
-                <a href="#skills" class="nav-link" data-section="skills">Skills</a>
-                <a href="#projects" class="nav-link" data-section="projects">Projects</a>
-                <button class="contact-btn" id="contactBtn">
-                    <i class="fas fa-envelope"></i>
-                    <span>Get In Touch</span>
-                </button>
-            </div>
-        </div>
-    </nav>
 
     <div class="background-animation">
         <canvas id="particle-canvas"></canvas>
@@ -98,14 +79,16 @@
                     </div>
                     
                     <h1 class="hero-title">
-                        <span class="title-line">Building the</span>
-                        <span class="title-line highlight">Future</span>
-                        <span class="title-line">of Digital</span>
+                        <span class="title-line typewriter" id="typewriter1">Building the</span>
+                        <span class="title-line highlight typewriter" id="typewriter2">Future</span>
+                        <span class="title-line typewriter" id="typewriter3">of Digital</span>
                     </h1>
                     
                     <p class="hero-description">
-                        Professional Full Stack Developer with expertise in modern web technologies, 
-                        AI integration, and innovative software solutions that drive business growth.
+                        <span class="typewriter-description" id="typewriterDescription">
+                            Professional Full Stack Developer with expertise in modern web technologies, 
+                            AI integration, and innovative software solutions that drive business growth.
+                        </span>
                     </p>
                     
                     <div class="hero-actions">
@@ -171,9 +154,11 @@
                 <div class="about-content">
                     <div class="about-text">
                         <p class="about-description">
-                            I'm a dedicated Full Stack Developer with a passion for creating innovative digital solutions. 
-                            My expertise spans across modern web technologies, AI integration, and software development 
-                            that delivers exceptional user experiences and business results.
+                            <span class="typewriter-about" id="typewriterAbout">
+                                I'm a dedicated Full Stack Developer with a passion for creating innovative digital solutions. 
+                                My expertise spans across modern web technologies, AI integration, and software development 
+                                that delivers exceptional user experiences and business results.
+                            </span>
                         </p>
                         
                         <div class="about-features">
@@ -234,6 +219,33 @@
                             </div>
                             <div class="tech-item" data-tech="AWS">
                                 <i class="fab fa-aws"></i>
+                            </div>
+                            <div class="tech-item" data-tech="HTML5">
+                                <i class="fab fa-html5"></i>
+                            </div>
+                            <div class="tech-item" data-tech="CSS3">
+                                <i class="fab fa-css3-alt"></i>
+                            </div>
+                            <div class="tech-item" data-tech="C++">
+                                <i class="fas fa-code"></i>
+                            </div>
+                            <div class="tech-item" data-tech=".NET">
+                                <i class="fab fa-microsoft"></i>
+                            </div>
+                            <div class="tech-item" data-tech="MySQL">
+                                <i class="fas fa-database"></i>
+                            </div>
+                            <div class="tech-item" data-tech="Git">
+                                <i class="fab fa-git-alt"></i>
+                            </div>
+                            <div class="tech-item" data-tech="WordPress">
+                                <i class="fab fa-wordpress"></i>
+                            </div>
+                            <div class="tech-item" data-tech="WooCommerce">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="tech-item" data-tech="Shopify">
+                                <i class="fab fa-shopify"></i>
                             </div>
                         </div>
                     </div>
@@ -381,6 +393,46 @@
                                     <div class="skill-bar" data-level="90"></div>
                                 </div>
                             </div>
+                            
+                            <div class="skill-item" data-skill="C++">
+                                <div class="skill-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                <span class="skill-name">C++</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="85"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item" data-skill="Shopify">
+                                <div class="skill-icon">
+                                    <i class="fab fa-shopify"></i>
+                                </div>
+                                <span class="skill-name">Shopify</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="88"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item" data-skill="SQL">
+                                <div class="skill-icon">
+                                    <i class="fas fa-database"></i>
+                                </div>
+                                <span class="skill-name">SQL</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="92"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="skill-item" data-skill="PrestaShop">
+                                <div class="skill-icon">
+                                    <i class="fas fa-store"></i>
+                                </div>
+                                <span class="skill-name">PrestaShop</span>
+                                <div class="skill-level">
+                                    <div class="skill-bar" data-level="87"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -404,15 +456,18 @@
                     </div>
                     <div class="projects-filter">
                         <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="web">Web Apps</button>
-                        <button class="filter-btn" data-filter="mobile">Mobile</button>
-                        <button class="filter-btn" data-filter="desktop">Desktop</button>
+                        <button class="filter-btn" data-filter="cpp">C++</button>
+                        <button class="filter-btn" data-filter="cms">CMS</button>
+                        <button class="filter-btn" data-filter="dotnet">.NET</button>
                         <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
+                        <button class="filter-btn" data-filter="flutter">Flutter</button>
+                        <button class="filter-btn" data-filter="javascript">JavaScript</button>
+                        <button class="filter-btn" data-filter="python">Python</button>
                     </div>
                 </div>
                 
                 <div class="projects-grid" id="projectsGrid">
-                    <div class="project-card" data-category="web ecommerce" data-technologies="html,php,woocommerce,wordpress">
+                    <div class="project-card" data-category="web ecommerce" data-technologies="ecommerce,cms">
                         <div class="project-image">
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra00.png?updatedAt=1752006146778" 
                                  alt="BitelFibra E-commerce Platform" loading="lazy" class="project-img" data-project="bitelfibra">
@@ -441,7 +496,7 @@
                         </div>
                     </div>
                     
-                    <div class="project-card" data-category="web" data-technologies="php,javascript,mysql,html,css">
+                    <div class="project-card" data-category="web" data-technologies="php,javascript,css,cms">
                         <div class="project-image">
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/RafflesSystem/rafflesSystem00.png?updatedAt=1758383651390" 
                                  alt="RafflesSystem Platform" loading="lazy" class="project-img" data-project="raffles">
@@ -470,7 +525,7 @@
                         </div>
                     </div>
                     
-                    <div class="project-card" data-category="desktop" data-technologies="c++,lua,directx,visual studio">
+                    <div class="project-card" data-category="desktop" data-technologies="cpp">
                         <div class="project-image">
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/MuEmulator/MuEmulator01.png?updatedAt=1760388198601" 
                                  alt="MU Online Emulator" loading="lazy" class="project-img" data-project="muemulator">
@@ -499,7 +554,7 @@
                         </div>
                     </div>
                     
-                    <div class="project-card" data-category="desktop" data-technologies="c#,.net,windows forms,sql server">
+                    <div class="project-card" data-category="desktop" data-technologies="dotnet">
                         <div class="project-image">
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/MuServerEasy/MuServerEasy02.png?updatedAt=1760383658945" 
                                  alt="MuServerEasy Application" loading="lazy" class="project-img" data-project="muservereasy">
@@ -528,7 +583,7 @@
                         </div>
                     </div>
                     
-                    <div class="project-card" data-category="web" data-technologies="php,mysql,javascript,html,css">
+                    <div class="project-card" data-category="web" data-technologies="cms,javascript">
                         <div class="project-image">
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/ItsWatuyusei%20-%20Custom%20CMS/customcs00.png?updatedAt=1752643865011" 
                                  alt="Custom CMS Platform" loading="lazy" class="project-img" data-project="cms">
@@ -557,7 +612,7 @@
                         </div>
                     </div>
                     
-                    <div class="project-card" data-category="desktop" data-technologies="c#,wpf,.net,webview2">
+                    <div class="project-card" data-category="desktop" data-technologies="dotnet">
                         <div class="project-image">
                             <div class="project-placeholder" data-project="launchermu">
                                 <i class="fas fa-rocket"></i>
@@ -585,7 +640,7 @@
                     </div>
                 </div>
 
-                <div class="project-card" data-technologies="cms,javascript">
+                <div class="project-card" data-technologies="cms,ecommerce">
                     <div class="project-overlay">
                         <button class="project-btn" data-action="view" data-images='["https://ik.imagekit.io/ItsWatuyusei/Image/Forum.ItsWatuyusei/forum.itswatuyusei01.png?updatedAt=1752019307990","https://ik.imagekit.io/ItsWatuyusei/Image/Forum.ItsWatuyusei/forum.itswatuyusei02.png?updatedAt=1752019308165"]'>
                             <i class="fas fa-eye"></i>
@@ -664,10 +719,6 @@
                     <i class="fas fa-link"></i>
                     <span>All Links</span>
                 </a>
-                <a href="https://github.com/ItsWatuyusei" target="_blank" class="footer-social-link">
-                    <i class="fab fa-github"></i>
-                    <span>GitHub</span>
-                </a>
                 <a href="https://forum.ItsWatuyusei.com" target="_blank" class="footer-social-link">
                     <i class="fas fa-comments"></i>
                     <span>Forum</span>
@@ -680,7 +731,7 @@
         </div>
         
         <div class="footer-bottom">
-            <p>&copy; 2025 ItsWatuyusei</p>
+            <p>Copyright &copy; ItsWatuyusei</p>
         </div>
     </footer>
 

@@ -1,6 +1,3 @@
-// ===== PROFESSIONAL PORTFOLIO V2 - ELEGANT & MODERN =====
-
-// ===== PROFESSIONAL PORTFOLIO CLASS =====
 class ProfessionalPortfolio {
     constructor() {
         this.init();
@@ -16,10 +13,10 @@ class ProfessionalPortfolio {
         this.setupSkillAnimations();
         this.setupProjectFilter();
         this.setupCounterAnimations();
+        this.setupTypewriter();
         this.setupModal();
         this.setupContactModal();
         this.setupStickyElements();
-        this.setupStickyNav();
         this.setupProgressBar();
         this.setupPerformanceOptimizations();
     }
@@ -156,6 +153,9 @@ class ProfessionalPortfolio {
 
     // ===== NAVIGATION SYSTEM =====
     setupNavigation() {
+        this.navbar = document.querySelector('.navbar');
+        this.lastScrollTop = 0;
+        
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');
         const navLinks = document.querySelectorAll('.nav-link');
@@ -175,6 +175,7 @@ class ProfessionalPortfolio {
         });
 
         this.setupActiveNavigation();
+        this.bindNavScrollEvents();
         
         // Hero contact button
         const heroContactBtn = document.getElementById('heroContactBtn');
@@ -183,6 +184,38 @@ class ProfessionalPortfolio {
                 this.openContactModal();
             });
         }
+    }
+
+    bindNavScrollEvents() {
+        const updateNavbar = () => {
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollDifference = scrollTop - this.lastScrollTop;
+            
+            if (scrollTop <= 50) {
+                this.navbar.classList.remove('hidden');
+            } else if (scrollDifference > 0 && scrollTop > 200) {
+                this.navbar.classList.add('hidden');
+            } else if (scrollDifference < 0) {
+                this.navbar.classList.remove('hidden');
+            }
+            
+            this.lastScrollTop = scrollTop;
+        };
+
+        let rafId = null;
+        let isScrolling = false;
+        
+        const handleScroll = () => {
+            if (!isScrolling) {
+                rafId = requestAnimationFrame(() => {
+                    updateNavbar();
+                    isScrolling = false;
+                });
+                isScrolling = true;
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll, { passive: true });
     }
 
     setupActiveNavigation() {
@@ -612,8 +645,11 @@ class ProfessionalPortfolio {
         document.addEventListener('click', (e) => {
             if (e.target.closest('.project-btn[data-action="view"]')) {
                 e.preventDefault();
-                const projectId = e.target.closest('.project-btn').getAttribute('data-project');
-                this.openModal(projectId);
+                const imagesData = e.target.closest('.project-btn').getAttribute('data-images');
+                if (imagesData) {
+                    const images = JSON.parse(imagesData);
+                    this.openModalWithImages(images);
+                }
             }
             
             if (e.target.closest('.project-btn[data-action="info"]')) {
@@ -649,6 +685,49 @@ class ProfessionalPortfolio {
         this.updateModalContent();
         this.modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+    }
+
+    openModalWithImages(images) {
+        if (!images || images.length === 0) return;
+        
+        this.currentImages = images;
+        this.currentImageIndex = 0;
+        this.updateModalWithImages();
+        this.updateNavigation();
+        this.modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    updateModalWithImages() {
+        if (!this.currentImages || this.currentImages.length === 0) return;
+        
+        // Update gallery
+        this.modalGallery.innerHTML = '';
+        this.currentImages.forEach((imageUrl, index) => {
+            const img = document.createElement('img');
+            img.src = imageUrl;
+            img.alt = `Project image ${index + 1}`;
+            img.className = 'gallery-image';
+            img.style.display = index === this.currentImageIndex ? 'block' : 'none';
+            this.modalGallery.appendChild(img);
+        });
+        
+        // Update title
+        this.modalTitle.textContent = 'Project Gallery';
+        
+        // Update info section
+        const modalInfo = document.getElementById('modalInfo');
+        if (modalInfo) {
+            modalInfo.innerHTML = `
+                <div class="modal-info">
+                    <h4 class="info-title">Project Images</h4>
+                    <p class="info-description">Browse through the project gallery</p>
+                    <div class="info-tech">
+                        <span class="tech-tag">Gallery</span>
+                    </div>
+                </div>
+            `;
+        }
     }
 
     closeModal() {
@@ -701,7 +780,7 @@ class ProfessionalPortfolio {
     }
 
     updateNavigation() {
-        const totalImages = this.currentProject.images.length;
+        const totalImages = this.currentImages ? this.currentImages.length : (this.currentProject ? this.currentProject.images.length : 0);
         this.modalCounter.textContent = `${this.currentImageIndex + 1} / ${totalImages}`;
         
         this.prevBtn.disabled = this.currentImageIndex === 0;
@@ -711,6 +790,7 @@ class ProfessionalPortfolio {
         const images = this.modalGallery.querySelectorAll('.gallery-image');
         images.forEach((img, index) => {
             img.classList.toggle('active', index === this.currentImageIndex);
+            img.style.display = index === this.currentImageIndex ? 'block' : 'none';
         });
     }
 
@@ -718,13 +798,20 @@ class ProfessionalPortfolio {
         if (this.currentImageIndex > 0) {
             this.currentImageIndex--;
             this.updateNavigation();
+            if (this.currentImages) {
+                this.updateModalWithImages();
+            }
         }
     }
 
     nextImage() {
-        if (this.currentImageIndex < this.currentProject.images.length - 1) {
+        const maxIndex = this.currentImages ? this.currentImages.length - 1 : (this.currentProject ? this.currentProject.images.length - 1 : 0);
+        if (this.currentImageIndex < maxIndex) {
             this.currentImageIndex++;
             this.updateNavigation();
+            if (this.currentImages) {
+                this.updateModalWithImages();
+            }
         }
     }
 
@@ -858,70 +945,6 @@ class ProfessionalPortfolio {
         this.toggleFooterExpansion();
     }
 
-    // ===== STICKY NAVIGATION =====
-    setupStickyNav() {
-        this.stickyNav = document.getElementById('stickyNav');
-        this.lastScrollTop = 0;
-        
-        if (!this.stickyNav) return;
-        
-        this.bindStickyNavEvents();
-    }
-
-    bindStickyNavEvents() {
-        const updateStickyNav = () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const shouldShowNav = scrollTop > 200;
-            
-            if (shouldShowNav) {
-                this.stickyNav.classList.add('visible');
-            } else {
-                this.stickyNav.classList.remove('visible');
-            }
-            
-            this.lastScrollTop = scrollTop;
-        };
-
-        let rafId = null;
-        let isScrolling = false;
-        
-        const handleScroll = () => {
-            if (!isScrolling) {
-                rafId = requestAnimationFrame(() => {
-                    updateStickyNav();
-                    isScrolling = false;
-                });
-                isScrolling = true;
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll, { passive: true });
-        
-        // Bind navigation links
-        const stickyNavLinks = this.stickyNav.querySelectorAll('.nav-link[href^="#"]');
-        stickyNavLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = link.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
-                if (targetElement) {
-                    const offsetTop = targetElement.offsetTop - 80;
-                    window.scrollTo({
-                        top: offsetTop,
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        // Bind contact button
-        const stickyContactBtn = this.stickyNav.querySelector('#contactBtn');
-        if (stickyContactBtn) {
-            stickyContactBtn.addEventListener('click', () => {
-                this.openContactModal();
-            });
-        }
-    }
 
     // ===== PROGRESS BAR =====
     setupProgressBar() {
@@ -1217,6 +1240,51 @@ class ProfessionalPortfolio {
         };
     }
 
+    setupTypewriter() {
+        const typewriter1 = document.getElementById('typewriter1');
+        const typewriter2 = document.getElementById('typewriter2');
+        const typewriter3 = document.getElementById('typewriter3');
+        const typewriterDescription = document.getElementById('typewriterDescription');
+        const typewriterAbout = document.getElementById('typewriterAbout');
+        
+        if (!typewriter1 || !typewriter2 || !typewriter3 || !typewriterDescription) return;
+        
+        const text1 = typewriter1.textContent;
+        const text2 = typewriter2.textContent;
+        const text3 = typewriter3.textContent;
+        const descriptionText = typewriterDescription.textContent;
+        const aboutText = typewriterAbout ? typewriterAbout.textContent : '';
+        
+        typewriter1.textContent = '';
+        typewriter2.textContent = '';
+        typewriter3.textContent = '';
+        typewriterDescription.textContent = '';
+        if (typewriterAbout) typewriterAbout.textContent = '';
+        
+        const typeText = (element, text, speed = 100, delay = 0) => {
+            setTimeout(() => {
+                let i = 0;
+                const timer = setInterval(() => {
+                    if (i < text.length) {
+                        element.textContent += text.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(timer);
+                        setTimeout(() => {
+                            element.style.borderRight = 'none';
+                        }, 1000);
+                    }
+                }, speed);
+            }, delay);
+        };
+        
+        typeText(typewriter1, text1, 100, 500);
+        typeText(typewriter2, text2, 100, 2000);
+        typeText(typewriter3, text3, 100, 3500);
+        typeText(typewriterDescription, descriptionText, 50, 5000);
+        if (typewriterAbout) typeText(typewriterAbout, aboutText, 40, 7000);
+    }
+
     throttle(func, limit) {
         let inThrottle;
         return function() {
@@ -1231,9 +1299,6 @@ class ProfessionalPortfolio {
     }
 }
 
-// ===== ADDITIONAL EFFECTS =====
-
-// Professional Visual Effects Manager
 class ProfessionalEffects {
     constructor() {
         this.init();
@@ -1284,39 +1349,27 @@ class ProfessionalEffects {
     }
 }
 
-// ===== INITIALIZATION =====
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize main portfolio
     new ProfessionalPortfolio();
-    
-    // Initialize additional effects
     new ProfessionalEffects();
-    
-    // Add loading animation
     document.body.classList.add('portfolio-loaded');
     
-    // Performance monitoring
     if ('requestIdleCallback' in window) {
         requestIdleCallback(() => {
-            // Portfolio systems initialized
         });
     }
 });
 
-// ===== SERVICE WORKER REGISTRATION =====
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('/sw.js')
             .then(registration => {
-                // Service Worker registered
             })
             .catch(error => {
-                // Service Worker registration failed
             });
     });
 }
 
-// ===== ADDITIONAL CSS ANIMATIONS (Dynamic) =====
 const style = document.createElement('style');
 style.textContent = `
     @keyframes fadeInUp {
