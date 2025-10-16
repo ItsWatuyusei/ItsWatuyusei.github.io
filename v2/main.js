@@ -159,19 +159,51 @@ class ProfessionalPortfolio {
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');
         const navLinks = document.querySelectorAll('.nav-link');
+        const navContactLink = document.getElementById('nav-contact-link');
 
+        // Menu toggle functionality
         menuToggle.addEventListener('click', () => {
             menuToggle.classList.toggle('active');
             navMenu.classList.toggle('active');
             document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : '';
         });
 
+        // Close menu when clicking on links
         navLinks.forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+                // Handle contact link specially
+                if (link.id === 'nav-contact-link') {
+                    e.preventDefault();
+                    this.openContactModal();
+                }
+                
+                // Close mobile menu
                 menuToggle.classList.remove('active');
                 navMenu.classList.remove('active');
                 document.body.style.overflow = '';
+                
+                // Handle smooth scrolling for anchor links
+                if (link.getAttribute('href').startsWith('#')) {
+                    const targetId = link.getAttribute('href').substring(1);
+                    const targetElement = document.getElementById(targetId);
+                    if (targetElement) {
+                        const offsetTop = targetElement.offsetTop - 70;
+                        window.scrollTo({
+                            top: offsetTop,
+                            behavior: 'smooth'
+                        });
+                    }
+                }
             });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!menuToggle.contains(e.target) && !navMenu.contains(e.target)) {
+                menuToggle.classList.remove('active');
+                navMenu.classList.remove('active');
+                document.body.style.overflow = '';
+            }
         });
 
         this.setupActiveNavigation();
@@ -190,22 +222,11 @@ class ProfessionalPortfolio {
         const updateNavbar = () => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
             
-            // Show navbar when scrolling down after 200px (like v1)
-            const shouldShowNav = scrollTop > 200;
-            
-            if (shouldShowNav) {
-                this.navbar.classList.remove('hidden');
+            // Show navbar when scrolling down past 200px (like v1)
+            if (scrollTop > 200) {
                 this.navbar.classList.add('visible');
             } else {
-                this.navbar.classList.add('hidden');
                 this.navbar.classList.remove('visible');
-            }
-            
-            // Add scroll effect for visual feedback
-            if (scrollTop > 100) {
-                this.navbar.classList.add('scrolled');
-            } else {
-                this.navbar.classList.remove('scrolled');
             }
             
             this.lastScrollTop = scrollTop;
@@ -225,6 +246,8 @@ class ProfessionalPortfolio {
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
+        // Initialize state on load
+        updateNavbar();
     }
 
     setupActiveNavigation() {
@@ -256,19 +279,32 @@ class ProfessionalPortfolio {
 
     // ===== THEME TOGGLE =====
     setupThemeToggle() {
-        const themeToggle = document.getElementById('themeToggle');
-        const savedTheme = localStorage.getItem('portfolioTheme') || 'light';
+        const darkModeToggle = document.getElementById('nav-darkmode-toggle');
+        const html = document.documentElement;
         
-        document.documentElement.setAttribute('data-theme', savedTheme);
-        this.updateThemeIcon(themeToggle, savedTheme);
+        // Load saved theme or detect system preference
+        const savedTheme = localStorage.getItem('portfolioTheme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const shouldUseDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
         
-        themeToggle.addEventListener('click', () => {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        if (shouldUseDark) {
+            html.setAttribute('data-theme', 'dark');
+            darkModeToggle.checked = true;
+        } else {
+            html.setAttribute('data-theme', 'light');
+            darkModeToggle.checked = false;
+        }
+        
+        this.updateThemeIcon();
+        
+        darkModeToggle.addEventListener('change', () => {
+            const isChecked = darkModeToggle.checked;
+            const newTheme = isChecked ? 'dark' : 'light';
             
-            document.documentElement.setAttribute('data-theme', newTheme);
+            html.setAttribute('data-theme', newTheme);
             localStorage.setItem('portfolioTheme', newTheme);
-            this.updateThemeIcon(themeToggle, newTheme);
+            
+            this.updateThemeIcon();
             
             // Add smooth transition
             document.body.style.transition = 'all 0.3s ease';
@@ -278,16 +314,21 @@ class ProfessionalPortfolio {
         });
     }
 
-    updateThemeIcon(toggle, theme) {
-        const icon = toggle.querySelector('i');
-        icon.className = theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    updateThemeIcon() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        const icon = document.querySelector('.nav-darkmode-label i');
+        
+        if (currentTheme === 'dark') {
+            icon.className = 'fas fa-sun';
+        } else {
+            icon.className = 'fas fa-moon';
+        }
     }
 
     // ===== SCROLL EFFECTS =====
     setupScrollEffects() {
         this.setupParallaxScrolling();
         this.setupScrollAnimations();
-        this.setupNavbarScroll();
     }
 
     setupParallaxScrolling() {
@@ -329,26 +370,6 @@ class ProfessionalPortfolio {
         });
     }
 
-    setupNavbarScroll() {
-        const navbar = document.querySelector('.navbar');
-        let lastScrollY = window.scrollY;
-        
-        window.addEventListener('scroll', this.throttle(() => {
-            const currentScrollY = window.scrollY;
-            
-            if (currentScrollY > 100) {
-                navbar.style.background = 'rgba(255, 255, 255, 0.98)';
-                navbar.style.backdropFilter = 'blur(20px)';
-                navbar.style.boxShadow = '0 4px 6px rgba(0, 0, 0, 0.1)';
-            } else {
-                navbar.style.background = 'rgba(255, 255, 255, 0.95)';
-                navbar.style.backdropFilter = 'blur(20px)';
-                navbar.style.boxShadow = '0 1px 2px rgba(0, 0, 0, 0.05)';
-            }
-            
-            lastScrollY = currentScrollY;
-        }, 16));
-    }
 
     // ===== SKILL ANIMATIONS =====
     setupSkillAnimations() {
@@ -656,6 +677,13 @@ class ProfessionalPortfolio {
                     this.openImageModal();
                 }
             }
+            
+            // Prevent visit button from going to top
+            if (e.target.closest('.project-btn[data-action="visit"]')) {
+                e.preventDefault();
+                // TODO: Add actual visit functionality here
+                console.log('Visit button clicked - functionality not implemented yet');
+            }
         });
         
         // Close modal events
@@ -707,12 +735,13 @@ class ProfessionalPortfolio {
 
     openImageModal() {
         // Store current scroll position
-        this.scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        this.imageModal.dataset.scrollPosition = scrollPosition;
         
         this.imageModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
         document.body.style.position = 'fixed';
-        document.body.style.top = `-${this.scrollPosition}px`;
+        document.body.style.top = `-${scrollPosition}px`;
         document.body.style.width = '100%';
         
         // Preload next and previous images
@@ -727,8 +756,9 @@ class ProfessionalPortfolio {
         document.body.style.width = '';
         
         // Restore scroll position
-        if (this.scrollPosition !== undefined) {
-            window.scrollTo(0, this.scrollPosition);
+        const scrollPosition = this.imageModal.dataset.scrollPosition;
+        if (scrollPosition) {
+            window.scrollTo(0, parseInt(scrollPosition));
         }
     }
 
@@ -946,12 +976,13 @@ class ProfessionalPortfolio {
 
     openContactModal() {
         // Store current scroll position
-        this.contactScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        this.contactModal.dataset.scrollPosition = scrollPosition;
         
         this.contactModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
         document.body.style.position = 'fixed';
-        document.body.style.top = `-${this.contactScrollPosition}px`;
+        document.body.style.top = `-${scrollPosition}px`;
         document.body.style.width = '100%';
         
         // Focus on first input when modal opens
@@ -971,14 +1002,17 @@ class ProfessionalPortfolio {
         document.body.style.width = '';
         
         // Restore scroll position
-        if (this.contactScrollPosition !== undefined) {
-            window.scrollTo(0, this.contactScrollPosition);
+        const scrollPosition = this.contactModal.dataset.scrollPosition;
+        if (scrollPosition) {
+            window.scrollTo(0, parseInt(scrollPosition));
         }
     }
 
     // ===== STICKY FOOTER =====
     setupStickyElements() {
-        this.stickyFooter = document.getElementById('stickyFooter');
+        this.stickyFooter = document.getElementById('sticky-footer');
+        this.footerLinks = document.getElementById('footer-links');
+        this.footerBottom = document.getElementById('footer-bottom');
         this.lastScrollTop = 0;
         this.scrollDirection = 'up';
         
@@ -992,25 +1026,15 @@ class ProfessionalPortfolio {
             const scrollTop = window.pageYOffset;
             const windowHeight = window.innerHeight;
             const documentHeight = document.documentElement.scrollHeight;
-            const footerHeight = this.stickyFooter.offsetHeight;
             
-            // Show expanded footer when near bottom of page
-            if (documentHeight > windowHeight + footerHeight && scrollTop + windowHeight >= documentHeight - footerHeight - 20) {
+            if (documentHeight > windowHeight + 200 && scrollTop + windowHeight >= documentHeight - 50) {
                 this.stickyFooter.classList.add('expanded');
-                
-                setTimeout(() => {
-                    const footerLinks = this.stickyFooter.querySelector('.footer-links');
-                    const footerBottom = this.stickyFooter.querySelector('.footer-bottom');
-                    if (footerLinks) footerLinks.classList.add('visible');
-                    if (footerBottom) footerBottom.classList.add('visible');
-                }, 150);
+                this.footerLinks.classList.add('visible');
+                this.footerBottom.classList.add('visible');
             } else {
                 this.stickyFooter.classList.remove('expanded');
-                
-                const footerLinks = this.stickyFooter.querySelector('.footer-links');
-                const footerBottom = this.stickyFooter.querySelector('.footer-bottom');
-                if (footerLinks) footerLinks.classList.remove('visible');
-                if (footerBottom) footerBottom.classList.remove('visible');
+                this.footerLinks.classList.remove('visible');
+                this.footerBottom.classList.remove('visible');
             }
         };
     }
@@ -1026,7 +1050,7 @@ class ProfessionalPortfolio {
             
             // Sticky Footer Logic - more refined
             const isNearBottom = scrollTop + windowHeight >= documentHeight - 100;
-            const shouldShowFooter = scrollTop > 200;
+            const shouldShowFooter = scrollTop > 180;
             
             if (shouldShowFooter && !isNearBottom) {
                 this.stickyFooter.classList.add('visible');
@@ -1218,7 +1242,7 @@ class ProfessionalPortfolio {
             // Toggle theme with Ctrl+T
             if (e.ctrlKey && e.key === 't') {
                 e.preventDefault();
-                document.getElementById('themeToggle').click();
+                document.getElementById('nav-darkmode-toggle').click();
             }
             
             // Navigate sections with arrow keys
@@ -1249,7 +1273,7 @@ class ProfessionalPortfolio {
 
     getCurrentSection() {
         const sections = document.querySelectorAll('section[id]');
-        const scrollPos = window.pageYOffset + 200;
+        const scrollPos = window.pageYOffset + 180;
         
         for (let section of sections) {
             if (section.offsetTop <= scrollPos && section.offsetTop + section.offsetHeight > scrollPos) {

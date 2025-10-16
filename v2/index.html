@@ -37,23 +37,29 @@
 
     <nav class="navbar">
         <div class="nav-container">
-            <a href="https://ItsWatuyusei.com" rel="noopener noreferrer" class="nav-logo">
-                <div class="logo-icon">
-                    <i class="fas fa-code"></i>
-                </div>
-                <span class="logo-text">ItsWatuyusei</span>
-            </a>
+            <div class="nav-logo">
+                <a href="#hero" class="nav-logo-link">
+                    <img src="https://ik.imagekit.io/ItsWatuyusei/Image/bio.png?updatedAt=1752020060115" alt="ItsWatuyusei" class="nav-avatar">
+                    <div class="nav-info">
+                        <span class="nav-name">ItsWatuyusei</span>
+                        <span class="nav-title">Full Stack Developer</span>
+                    </div>
+                </a>
+            </div>
             
             <div class="nav-menu" id="navMenu">
-                <a href="#hero" class="nav-link" data-section="hero">Home</a>
                 <a href="#about" class="nav-link" data-section="about">About</a>
+                <a href="#skills" class="nav-link" data-section="skills">About Me</a>
                 <a href="#projects" class="nav-link" data-section="projects">Projects</a>
+                <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" class="nav-link nav-links-btn">Links</a>
+                <a href="#" id="nav-contact-link" class="nav-link nav-contact-btn">Contact</a>
             </div>
             
             <div class="nav-controls">
-                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
-                    <i class="fas fa-moon"></i>
-                </button>
+                <div class="nav-darkmode">
+                    <input type="checkbox" id="nav-darkmode-toggle" aria-label="Toggle dark mode">
+                    <label for="nav-darkmode-toggle" class="nav-darkmode-label"><i class="fas fa-moon"></i></label>
+                </div>
                 <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">
                     <span></span>
                     <span></span>
@@ -205,6 +211,9 @@
                             </div>
                             <div class="tech-item" data-tech="Node.js" title="Node.js Runtime Environment">
                                 <i class="fab fa-node-js"></i>
+                            </div>
+                            <div class="tech-item" data-tech="HTML" title="HTML Markup Language">
+                                <i class="fab fa-html5"></i>
                             </div>
                             <div class="tech-item" data-tech="CSS3" title="CSS3 Styling Language">
                                 <i class="fab fa-css3-alt"></i>
@@ -502,7 +511,7 @@
 
     </main>
 
-    <footer class="sticky-footer" id="stickyFooter">
+    <footer class="sticky-footer" id="sticky-footer">
         <div class="footer-content">
             <div class="footer-brand">
                 <div class="footer-avatar">
@@ -513,25 +522,14 @@
                     <p>Full Stack Developer</p>
                 </div>
             </div>
-            
-            <div class="footer-links">
-                <a href="https://linktr.ee/ItsWatuyusei" target="_blank" class="footer-social-link">
-                    <i class="fas fa-link"></i>
-                    <span>All Links</span>
-                </a>
-                <a href="https://forum.ItsWatuyusei.com" target="_blank" class="footer-social-link">
-                    <i class="fas fa-comments"></i>
-                    <span>Forum</span>
-                </a>
-                <a href="https://instagram.com/ItsWatuyusei" target="_blank" class="footer-social-link">
-                    <i class="fab fa-instagram"></i>
-                    <span>Instagram</span>
-                </a>
+            <div class="footer-links" id="footer-links">
+                <a href="https://forum.ItsWatuyusei.com" target="_blank" rel="noopener noreferrer" aria-label="Forum"><i class="fas fa-comments"></i></a>
+                <a href="https://instagram.com/ItsWatuyusei" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://facebook.com/ItsWatuyusei" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
             </div>
         </div>
-        
-        <div class="footer-bottom">
-            <p>Copyright &copy; ItsWatuyusei</p>
+        <div class="footer-bottom" id="footer-bottom">
+            <p>Copyright © <a href="https://itswatuyusei.com" target="_blank">ItsWatuyusei</a></p>
         </div>
     </footer>
 
