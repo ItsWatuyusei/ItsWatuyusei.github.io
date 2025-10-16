@@ -452,20 +452,11 @@ class ProfessionalPortfolio {
             const desc = card.querySelector('.project-description')?.textContent?.toLowerCase() || '';
             const tech = card.querySelector('.project-tech')?.textContent?.toLowerCase() || '';
             const technologies = card.getAttribute('data-technologies') || '';
-            const categories = card.getAttribute('data-category') || '';
             
             const matchesSearch = (title && title.includes(searchTerm)) || 
                                 (desc && desc.includes(searchTerm)) || 
                                 (tech && tech.includes(searchTerm));
-            
-            let matchesFilter = true;
-            if (activeFilter === 'all') {
-                matchesFilter = true;
-            } else if (['web', 'mobile', 'desktop', 'ecommerce'].includes(activeFilter)) {
-                matchesFilter = categories.includes(activeFilter);
-            } else {
-                matchesFilter = technologies.includes(activeFilter);
-            }
+            const matchesFilter = activeFilter === 'all' || technologies.includes(activeFilter);
             
             return matchesSearch && matchesFilter;
         });
@@ -507,6 +498,7 @@ class ProfessionalPortfolio {
         });
         
         this.updatePagination(totalPages);
+        this.updateFilterButtonsVisibility();
     }
 
     toggleClearButton() {
@@ -1424,6 +1416,7 @@ class ProfessionalPortfolio {
         }, 50);
         
         this.updatePagination(totalPages);
+        this.updateFilterButtonsVisibility();
     }
 
     throttle(func, limit) {

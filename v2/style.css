@@ -130,6 +130,22 @@ body {
     100% { transform: translateX(100%); }
 }
 
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
 [data-theme="dark"] .progress-bar {
     background: var(--dark-glass-bg);
     border-bottom-color: var(--dark-glass-border);
@@ -677,110 +693,110 @@ body {
 }
 
 .icon-1 {
-    top: 2%;
-    right: -25%;
+    top: -5%;
+    right: -20%;
     animation: float-1 8s ease-in-out infinite;
 }
 
 .icon-2 {
-    top: 8%;
-    left: -35%;
+    top: 3%;
+    left: -18%;
     animation: float-2 10s ease-in-out infinite;
 }
 
 .icon-3 {
-    top: 18%;
-    right: -40%;
+    top: -2%;
+    right: -12%;
     animation: float-3 12s ease-in-out infinite;
 }
 
 .icon-4 {
-    top: 28%;
-    left: -30%;
+    top: 7%;
+    left: -15%;
     animation: float-4 9s ease-in-out infinite;
 }
 
 .icon-5 {
-    top: 38%;
-    right: -35%;
+    top: 1%;
+    right: -28%;
     animation: float-5 11s ease-in-out infinite;
 }
 
 .icon-6 {
-    top: 48%;
-    left: -40%;
+    top: 12%;
+    left: -8%;
     animation: float-6 13s ease-in-out infinite;
 }
 
 .icon-7 {
-    top: 58%;
-    right: -30%;
+    top: 5%;
+    right: -22%;
     animation: float-7 10s ease-in-out infinite;
 }
 
 .icon-8 {
-    top: 68%;
-    left: -35%;
+    top: 9%;
+    left: -25%;
     animation: float-8 14s ease-in-out infinite;
 }
 
 .icon-9 {
-    top: 78%;
-    right: -45%;
+    top: -1%;
+    right: -35%;
     animation: float-9 9s ease-in-out infinite;
 }
 
 .icon-10 {
-    top: 12%;
-    left: -25%;
+    top: 4%;
+    left: -12%;
     animation: float-10 12s ease-in-out infinite;
 }
 
 .icon-11 {
-    top: 22%;
-    right: -20%;
+    top: 8%;
+    right: -15%;
     animation: float-11 11s ease-in-out infinite;
 }
 
 .icon-12 {
-    top: 32%;
-    left: -45%;
+    top: 2%;
+    left: -30%;
     animation: float-12 13s ease-in-out infinite;
 }
 
 .icon-13 {
-    top: 42%;
-    right: -40%;
+    top: 6%;
+    right: -18%;
     animation: float-13 10s ease-in-out infinite;
 }
 
 .icon-14 {
-    top: 52%;
-    left: -25%;
+    top: 10%;
+    left: -20%;
     animation: float-14 14s ease-in-out infinite;
 }
 
 .icon-15 {
-    top: 62%;
-    right: -35%;
+    top: 3%;
+    right: -32%;
     animation: float-15 9s ease-in-out infinite;
 }
 
 .icon-16 {
-    top: 72%;
-    left: -40%;
+    top: 11%;
+    left: -22%;
     animation: float-16 12s ease-in-out infinite;
 }
 
 .icon-17 {
-    top: 82%;
-    right: -38%;
+    top: 7%;
+    right: -25%;
     animation: float-17 11s ease-in-out infinite;
 }
 
 .icon-18 {
-    top: 92%;
-    left: -32%;
+    top: 1%;
+    left: -35%;
     animation: float-18 13s ease-in-out infinite;
 }
 
@@ -1445,6 +1461,10 @@ body {
     box-shadow: var(--shadow-lg);
 }
 
+.filter-btn.hidden {
+    display: none !important;
+}
+
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1954,32 +1974,36 @@ body {
 .image-modal-content {
     background: var(--white);
     border-radius: var(--radius-2xl);
-    max-width: 520px;
-    width: 90vw;
+    max-width: 800px;
+    width: 95vw;
     max-height: 90vh;
-    padding: var(--space-xl) 0;
+    padding: var(--space-lg);
     box-shadow: var(--shadow-2xl);
     position: relative;
-    animation: modalIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--gray-200);
+    border: 1px solid var(--glass-border);
 }
 
 .image-modal-content img {
-    width: 360px;
-    height: 340px;
+    max-width: 100%;
+    max-height: 70vh;
+    width: auto;
+    height: auto;
     border-radius: var(--radius-lg);
     display: block;
     object-fit: contain;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-xl);
+    transition: all 0.3s ease;
 }
 
 .image-modal-close {
     position: absolute;
     top: var(--space-md);
-    right: var(--space-lg);
+    right: var(--space-md);
     font-size: 1.25rem;
     color: var(--gray-600);
     cursor: pointer;
@@ -1987,14 +2011,15 @@ body {
     transition: all var(--transition-fast);
     z-index: 10;
     background: var(--glass-bg);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     border: 1px solid var(--glass-border);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 44px;
+    height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: var(--shadow-md);
 }
 
 .image-modal-close:hover {
@@ -2010,35 +2035,36 @@ body {
     align-items: center;
     justify-content: center;
     width: 100%;
-    padding: var(--space-sm) 0 0 0;
+    padding: var(--space-lg) var(--space-xl);
     position: relative;
-    min-height: 400px;
+    min-height: 500px;
     transition: all var(--transition-normal);
+    gap: var(--space-md);
 }
 
 .gallery-prev,
 .gallery-next {
     background: var(--glass-bg);
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
     color: var(--gray-700);
     border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
+    border-radius: 50%;
     padding: var(--space-md);
-    font-size: 1rem;
-    font-weight: 500;
-    box-shadow: var(--shadow-md);
-    margin: 0 var(--space-md);
+    font-size: 1.125rem;
+    font-weight: 600;
+    box-shadow: var(--shadow-lg);
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all var(--transition-fast);
     outline: none;
-    width: 44px;
-    height: 44px;
+    width: 52px;
+    height: 52px;
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
+    z-index: 5;
 }
 
 .gallery-prev {
@@ -2092,24 +2118,32 @@ body {
 @media (max-width: 768px) {
     .image-modal-content {
         max-width: 95vw;
-        padding: var(--space-lg) 0;
+        padding: var(--space-md);
+        max-height: 85vh;
     }
     
     .image-modal-content img {
-        width: 280px;
-        height: 260px;
+        max-height: 60vh;
     }
     
     .gallery-container {
-        min-height: 300px;
+        min-height: 400px;
+        padding: var(--space-md);
     }
     
     .gallery-prev,
     .gallery-next {
-        width: 36px;
-        height: 36px;
+        width: 44px;
+        height: 44px;
         padding: var(--space-sm);
-        margin: 0 var(--space-sm);
+    }
+    
+    .gallery-prev {
+        left: var(--space-sm);
+    }
+    
+    .gallery-next {
+        right: var(--space-sm);
     }
 }
 
