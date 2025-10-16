@@ -1,6 +1,5 @@
 class ModernPortfolio {
     constructor() {
-        // Get dark mode preference from localStorage, default to true (dark mode)
         const storedTheme = localStorage.getItem('darkMode');
         this.isDarkMode = storedTheme === null ? true : storedTheme === 'true';
         this.currentImageIndex = 0;
@@ -25,30 +24,26 @@ class ModernPortfolio {
     setupTheme() {
         const toggle = document.getElementById('nav-darkmode-toggle');
         if (toggle) {
-            // Initialize theme based on stored preference
             if (this.isDarkMode) {
                 document.body.classList.remove('light-theme');
-                toggle.checked = false; // Moon icon for dark mode
+                toggle.checked = false;
             } else {
                 document.body.classList.add('light-theme');
-                toggle.checked = true; // Sun icon for light mode
+                toggle.checked = true;
             }
             
             toggle.addEventListener('change', (e) => {
                 const isLightMode = e.target.checked;
                 this.isDarkMode = !isLightMode;
                 
-                // Update localStorage
                 localStorage.setItem('darkMode', this.isDarkMode.toString());
                 
-                // Update body class
                 if (isLightMode) {
                     document.body.classList.add('light-theme');
                 } else {
                     document.body.classList.remove('light-theme');
                 }
                 
-                // Update nav background based on current scroll position
                 this.updateNavBackground();
             });
         }
@@ -88,9 +83,15 @@ class ModernPortfolio {
                 hamburger.classList.toggle('active');
                 navLinks.classList.toggle('active');
             });
+
+            document.addEventListener('click', (e) => {
+                if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+                    hamburger.classList.remove('active');
+                    navLinks.classList.remove('active');
+                }
+            });
         }
 
-        // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -106,7 +107,6 @@ class ModernPortfolio {
             });
         });
 
-        // Sticky navigation with show/hide on scroll
         const nav = document.getElementById('sticky-nav');
         if (nav) {
             let lastScrollY = window.scrollY;
@@ -116,11 +116,9 @@ class ModernPortfolio {
                 const currentScrollY = window.scrollY;
                 const isLightMode = document.body.classList.contains('light-theme');
                 
-                // Show/hide nav based on scroll position
                 if (currentScrollY > 100) {
                     nav.classList.add('visible');
                     
-                    // Update background based on scroll
                     if (isLightMode) {
                         nav.style.background = 'rgba(255, 255, 255, 0.95)';
                     } else {
@@ -129,7 +127,6 @@ class ModernPortfolio {
                 } else {
                     nav.classList.remove('visible');
                     
-                    // Keep background for when it becomes visible
                     if (isLightMode) {
                         nav.style.background = 'rgba(255, 255, 255, 0.8)';
                     } else {
@@ -165,7 +162,6 @@ class ModernPortfolio {
                 progressFill.style.width = Math.min(scrollPercent, 100) + '%';
             };
 
-            // Throttle scroll events for better performance
             let ticking = false;
             const throttledUpdate = () => {
                 if (!ticking) {
@@ -179,13 +175,11 @@ class ModernPortfolio {
 
             window.addEventListener('scroll', throttledUpdate, { passive: true });
             
-            // Initial update
             updateProgressBar();
         }
     }
 
     setupHero() {
-        // Typewriter effect
         const typewriter = document.querySelector('.typewriter');
         if (typewriter) {
             const text = typewriter.dataset.text;
@@ -208,7 +202,6 @@ class ModernPortfolio {
             setTimeout(type, 1000);
         }
 
-        // Floating animation for cards
         const floatingCards = document.querySelectorAll('.floating-card');
         floatingCards.forEach((card, index) => {
             card.style.animationDelay = `${index * 0.5}s`;
@@ -218,7 +211,6 @@ class ModernPortfolio {
     setupSkills() {
         const skillItems = document.querySelectorAll('.skill-item');
         
-        // Animate skill bars on scroll
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -241,16 +233,12 @@ class ModernPortfolio {
         const projectsTrack = document.querySelector('.projects-track');
         if (!projectsTrack) return;
 
-        // Store original cards
         this.originalCards = Array.from(projectsTrack.children);
         
-        // Generate dynamic filters
         this.generateDynamicFilters();
         
-        // Initial state: show all projects with clones for seamless loop
         this.filterProjects(this.originalCards, 'all', '');
 
-        // Setup hover pause functionality
         projectsTrack.addEventListener('mouseenter', () => {
             projectsTrack.style.animationPlayState = 'paused';
         });
@@ -264,14 +252,12 @@ class ModernPortfolio {
         const filterContainer = document.getElementById('projects-filter');
         if (!filterContainer) return;
 
-        // Get all unique technologies from projects
         const allTechnologies = new Set();
         this.originalCards.forEach(card => {
             const technologies = card.dataset.technologies.split(',');
             technologies.forEach(tech => allTechnologies.add(tech.trim()));
         });
 
-        // Create filter buttons for each technology (matching v1 order)
         const technologyLabels = {
             'cpp': 'C++',
             'cms': 'CMS',
@@ -279,17 +265,14 @@ class ModernPortfolio {
             'ecommerce': 'E-commerce',
             'flutter': 'Flutter',
             'javascript': 'JavaScript',
-            'php': 'PHP',
             'python': 'Python'
         };
 
-        // Clear existing filters (except "All")
         const allButton = filterContainer.querySelector('[data-filter="all"]');
         filterContainer.innerHTML = '';
         filterContainer.appendChild(allButton);
 
-        // Add technology filters in v1 order
-        const v1FilterOrder = ['cpp', 'cms', 'dotnet', 'ecommerce', 'flutter', 'javascript', 'php', 'python'];
+        const v1FilterOrder = ['cpp', 'cms', 'dotnet', 'ecommerce', 'flutter', 'javascript', 'python'];
         
         v1FilterOrder.forEach(tech => {
             if (allTechnologies.has(tech)) {
@@ -310,13 +293,9 @@ class ModernPortfolio {
 
         this.currentFilter = 'all';
         this.currentSearch = '';
-
-        // Search functionality
         if (searchInput) {
             searchInput.addEventListener('input', (e) => {
                 this.currentSearch = e.target.value.toLowerCase().trim();
-                
-                // Show/hide clear button
                 if (searchClear) {
                     if (this.currentSearch.length > 0) {
                         searchClear.style.display = 'block';
@@ -324,12 +303,10 @@ class ModernPortfolio {
                         searchClear.style.display = 'none';
                     }
                 }
-                
                 this.filterProjects(this.originalCards, this.currentFilter, this.currentSearch);
             });
         }
 
-        // Clear search functionality
         if (searchClear) {
             searchClear.addEventListener('click', () => {
                 searchInput.value = '';
@@ -339,15 +316,12 @@ class ModernPortfolio {
             });
         }
 
-        // Filter functionality - use event delegation for dynamic buttons
         const filterContainer = document.getElementById('projects-filter');
         if (filterContainer) {
             filterContainer.addEventListener('click', (e) => {
                 if (e.target.classList.contains('filter-btn')) {
-                    // Remove active class from all buttons
                     const filterButtons = filterContainer.querySelectorAll('.filter-btn');
                     filterButtons.forEach(btn => btn.classList.remove('active'));
-                    // Add active class to clicked button
                     e.target.classList.add('active');
 
                     this.currentFilter = e.target.dataset.filter;
@@ -361,7 +335,6 @@ class ModernPortfolio {
         const projectsTrack = document.querySelector('.projects-track');
         if (!projectsTrack) return;
 
-        // Clear ALL cards from track
         projectsTrack.innerHTML = '';
 
         let visibleCards = [];
@@ -372,18 +345,14 @@ class ModernPortfolio {
             const description = card.querySelector('p').textContent.toLowerCase();
             const technologies = card.dataset.technologies.toLowerCase();
             
-            // Check if project matches filter
             const matchesFilter = filter === 'all' || technologies.includes(filter);
             
-            // Check if project matches search
             const matchesSearch = search === '' || 
                 title.includes(search) || 
                 description.includes(search) || 
                 technologies.includes(search);
             
-            // Show/hide project based on both filter and search
             if (matchesFilter && matchesSearch) {
-                // Create a fresh copy of the card
                 const cardCopy = card.cloneNode(true);
                 cardCopy.style.display = 'block';
                 cardCopy.style.opacity = '1';
@@ -393,7 +362,6 @@ class ModernPortfolio {
             }
         });
 
-        // Only clone for seamless loop if we have visible cards and it's not a filtered view
         if (visibleCards.length > 0 && !isFiltered) {
             visibleCards.forEach(card => {
                 const clone = card.cloneNode(true);
@@ -401,19 +369,16 @@ class ModernPortfolio {
             });
         }
 
-        // Add/remove filtered class to control animation
         if (isFiltered) {
             projectsTrack.classList.add('filtered');
         } else {
             projectsTrack.classList.remove('filtered');
         }
 
-        // Show "No projects found" message if needed
         this.showNoResultsMessage(visibleCards, filter, search);
     }
 
     showNoResultsMessage(visibleCards, filter, search) {
-        // Remove existing no results message
         const existingMessage = document.querySelector('.no-results-message');
         if (existingMessage) {
             existingMessage.remove();
@@ -435,7 +400,6 @@ class ModernPortfolio {
     }
 
     setupModals() {
-        // Contact modal
         const contactBtn = document.getElementById('contact-link');
         const navContactBtn = document.getElementById('nav-contact-link');
         const contactModal = document.getElementById('contact-modal');
@@ -475,29 +439,17 @@ class ModernPortfolio {
             contactClose.addEventListener('click', closeContactModal);
         }
 
-        // Close modal when clicking outside
         contactModal.addEventListener('click', (e) => {
             if (e.target === contactModal) {
                 closeContactModal();
             }
         });
 
-        // Image gallery modal
-        const viewGalleryButtons = document.querySelectorAll('.view-gallery');
         const imageModal = document.getElementById('image-modal');
         const imageClose = document.getElementById('image-modal-close');
         const modalImage = document.getElementById('modal-image');
         const galleryPrev = document.getElementById('gallery-prev');
         const galleryNext = document.getElementById('gallery-next');
-
-        console.log('Gallery elements found:', {
-            buttons: viewGalleryButtons.length,
-            modal: !!imageModal,
-            close: !!imageClose,
-            image: !!modalImage,
-            prev: !!galleryPrev,
-            next: !!galleryNext
-        });
 
         const openImageModal = (images) => {
             console.log('Opening image modal with images:', images);
@@ -540,11 +492,11 @@ class ModernPortfolio {
             showCurrentImage();
         };
 
-        viewGalleryButtons.forEach((button, index) => {
-            console.log(`Setting up gallery button ${index}:`, button);
-            button.addEventListener('click', (e) => {
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.view-gallery')) {
                 e.preventDefault();
                 e.stopPropagation();
+                const button = e.target.closest('.view-gallery');
                 console.log('Gallery button clicked:', button);
                 const images = button.dataset.images;
                 console.log('Images data:', images);
@@ -552,7 +504,6 @@ class ModernPortfolio {
                     try {
                         const imageArray = JSON.parse(images);
                         if (Array.isArray(imageArray) && imageArray.length > 0) {
-                            // Store images globally for navigation
                             window.currentGalleryImages = imageArray;
                             window.currentGalleryIndex = 0;
                             openImageModal(images);
@@ -563,7 +514,7 @@ class ModernPortfolio {
                 } else {
                     console.error('No images data found');
                 }
-            });
+            }
         });
 
         if (imageClose) {
@@ -578,7 +529,6 @@ class ModernPortfolio {
             galleryPrev.addEventListener('click', showPrevImage);
         }
 
-        // Close image modal when clicking outside
         if (imageModal) {
             imageModal.addEventListener('click', (e) => {
                 if (e.target === imageModal) {
@@ -587,7 +537,6 @@ class ModernPortfolio {
             });
         }
 
-        // Keyboard navigation
         document.addEventListener('keydown', (e) => {
             if (imageModal.style.display === 'flex') {
                 if (e.key === 'ArrowLeft') {
@@ -606,7 +555,6 @@ class ModernPortfolio {
     }
 
     setupAnimations() {
-        // Intersection Observer for animations
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -615,7 +563,6 @@ class ModernPortfolio {
             });
         }, { threshold: 0.1 });
 
-        // Observe elements for animation
         document.querySelectorAll('.skill-item, .project-card, .tech-item').forEach(el => {
             observer.observe(el);
         });
@@ -650,7 +597,6 @@ class ModernPortfolio {
             const documentHeight = document.documentElement.scrollHeight;
             const scrollBottom = documentHeight - (scrollTop + windowHeight);
 
-            // Expand footer when near bottom (within 100px)
             if (scrollBottom <= 100) {
                 footer.classList.add('expanded');
                 setTimeout(() => {
@@ -675,7 +621,6 @@ class ModernPortfolio {
 
         window.addEventListener('scroll', requestTick, { passive: true });
         
-        // Initial check
         updateFooter();
     }
 
@@ -689,7 +634,6 @@ class ModernPortfolio {
             const particle = document.createElement('div');
             particle.className = 'particle';
             
-            // Random position and animation delay
             particle.style.left = Math.random() * 100 + '%';
             particle.style.animationDelay = Math.random() * 15 + 's';
             particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
@@ -699,7 +643,6 @@ class ModernPortfolio {
     }
 }
 
-// Global functions for modal control
 function openContactModal(event) {
     event.preventDefault();
     const contactModal = document.getElementById('contact-modal');
@@ -723,10 +666,7 @@ function closeContactModal() {
     }
 }
 
-// Global functions for gallery navigation (used by HTML onclick)
 function openImageGallery(images) {
-    // This function is kept for backward compatibility but should not be used
-    // The gallery now uses event listeners with data-attributes
     console.warn('openImageGallery called via onclick - this should use event listeners instead');
 }
 
@@ -763,11 +703,9 @@ function prevGalleryImage() {
     }
 }
 
-// Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     new ModernPortfolio();
     
-    // Add click outside to close image modal
     document.addEventListener('click', (e) => {
         const imageModal = document.getElementById('image-modal');
         if (imageModal && e.target === imageModal) {
@@ -775,7 +713,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Add keyboard navigation for image gallery
     document.addEventListener('keydown', (e) => {
         const imageModal = document.getElementById('image-modal');
         if (imageModal && imageModal.style.display === 'flex') {
@@ -790,7 +727,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-// Add CSS animations
 const style = document.createElement('style');
 style.textContent = `
     .animate-in {
