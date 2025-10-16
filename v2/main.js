@@ -699,8 +699,14 @@ class ProfessionalPortfolio {
     }
 
     openImageModal() {
+        // Store current scroll position
+        this.scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        
         this.imageModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${this.scrollPosition}px`;
+        document.body.style.width = '100%';
         
         // Preload next and previous images
         this.preloadImages();
@@ -709,6 +715,14 @@ class ProfessionalPortfolio {
     closeImageModal() {
         this.imageModal.style.display = 'none';
         document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        
+        // Restore scroll position
+        if (this.scrollPosition !== undefined) {
+            window.scrollTo(0, this.scrollPosition);
+        }
     }
 
     showGalleryImage(idx, animate = false) {
@@ -904,7 +918,11 @@ class ProfessionalPortfolio {
         });
         
         // Close modal events
-        this.contactModalClose.addEventListener('click', () => this.closeContactModal());
+        this.contactModalClose.addEventListener('click', (e) => {
+            e.preventDefault();
+            this.closeContactModal();
+        });
+        
         this.contactModal.addEventListener('click', (e) => {
             if (e.target === this.contactModal) {
                 this.closeContactModal();
@@ -920,13 +938,35 @@ class ProfessionalPortfolio {
     }
 
     openContactModal() {
+        // Store current scroll position
+        this.contactScrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        
         this.contactModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${this.contactScrollPosition}px`;
+        document.body.style.width = '100%';
+        
+        // Focus on first input when modal opens
+        setTimeout(() => {
+            const firstInput = this.contactModal.querySelector('input, textarea');
+            if (firstInput) {
+                firstInput.focus();
+            }
+        }, 100);
     }
 
     closeContactModal() {
         this.contactModal.style.display = 'none';
         document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        
+        // Restore scroll position
+        if (this.contactScrollPosition !== undefined) {
+            window.scrollTo(0, this.contactScrollPosition);
+        }
     }
 
     // ===== STICKY FOOTER =====
