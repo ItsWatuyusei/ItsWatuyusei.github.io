@@ -193,10 +193,12 @@ class ProfessionalPortfolio {
             
             if (scrollTop <= 50) {
                 this.navbar.classList.remove('hidden');
-            } else if (scrollDifference > 0 && scrollTop > 200) {
-                this.navbar.classList.add('hidden');
-            } else if (scrollDifference < 0) {
+            } else if (scrollDifference < 0 && scrollTop > 200) {
+                // Scrolling up - show navbar
                 this.navbar.classList.remove('hidden');
+            } else if (scrollDifference > 0 && scrollTop > 200) {
+                // Scrolling down - hide navbar
+                this.navbar.classList.add('hidden');
             }
             
             this.lastScrollTop = scrollTop;
@@ -491,18 +493,14 @@ class ProfessionalPortfolio {
         
         requestAnimationFrame(() => {
             cardsToHide.forEach(card => {
-                card.style.display = 'none';
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
+                card.classList.add('project-hidden');
             });
             
             setTimeout(() => {
                 cardsToShow.forEach((card, index) => {
                     setTimeout(() => {
-                        card.style.display = 'block';
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                        card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                        card.classList.remove('project-hidden');
+                        card.classList.add('project-visible');
                     }, index * 100);
                 });
             }, 50);
@@ -649,55 +647,134 @@ class ProfessionalPortfolio {
                 e.preventDefault();
                 const imagesData = e.target.closest('.project-btn').getAttribute('data-images');
                 if (imagesData) {
-                    const images = JSON.parse(imagesData);
-                    this.openModalWithImages(images);
+                    try {
+                        this.galleryImages = JSON.parse(imagesData);
+                    } catch {
+                        this.galleryImages = [imagesData];
+                    }
+                    this.galleryIndex = 0;
+                    this.showGalleryImage(0, false);
+                    this.openImageModal();
                 }
-            }
-            
-            if (e.target.closest('.project-btn[data-action="info"]')) {
-                e.preventDefault();
-                const projectId = e.target.closest('.project-btn').getAttribute('data-project');
-                this.openModal(projectId);
             }
         });
         
         // Close modal events
-        this.modalClose.addEventListener('click', () => this.closeModal());
-        this.modalOverlay.addEventListener('click', () => this.closeModal());
+        this.imageModalClose.addEventListener('click', () => this.closeImageModal());
+        this.imageModal.addEventListener('click', (e) => {
+            if (e.target === this.imageModal) this.closeImageModal();
+        });
         
         // Navigation events
-        this.prevBtn.addEventListener('click', () => this.previousImage());
-        this.nextBtn.addEventListener('click', () => this.nextImage());
+        this.galleryPrev.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (this.galleryImages.length > 1 && !this.isTransitioning) {
+                this.showGalleryImage(this.galleryIndex - 1, true);
+            }
+        });
+        
+        this.galleryNext.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            if (this.galleryImages.length > 1 && !this.isTransitioning) {
+                this.showGalleryImage(this.galleryIndex + 1, true);
+            }
+        });
         
         // Keyboard events
         document.addEventListener('keydown', (e) => {
-            if (this.modal.classList.contains('active')) {
-                if (e.key === 'Escape') this.closeModal();
-                if (e.key === 'ArrowLeft') this.previousImage();
-                if (e.key === 'ArrowRight') this.nextImage();
+            if (this.imageModal.style.display === 'flex') {
+                if (e.key === 'Escape') this.closeImageModal();
+                if (e.key === 'ArrowLeft' && !this.isTransitioning) {
+                    this.showGalleryImage(this.galleryIndex - 1, true);
+                }
+                if (e.key === 'ArrowRight' && !this.isTransitioning) {
+                    this.showGalleryImage(this.galleryIndex + 1, true);
+                }
             }
         });
+        
+        // Touch events for mobile
+        this.imageModal.addEventListener('touchstart', (e) => {
+            this.touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        this.imageModal.addEventListener('touchend', (e) => {
+            this.touchEndX = e.changedTouches[0].screenX;
+            this.handleSwipe();
+        }, { passive: true });
     }
 
-    openModal(projectId) {
-        this.currentProject = this.projectData[projectId];
-        if (!this.currentProject) return;
-        
-        this.currentImageIndex = 0;
-        this.updateModalContent();
-        this.modal.classList.add('active');
+    openImageModal() {
+        this.imageModal.style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        
+        // Preload next and previous images
+        this.preloadImages();
     }
 
-    openModalWithImages(images) {
-        if (!images || images.length === 0) return;
+    closeImageModal() {
+        this.imageModal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    showGalleryImage(idx, animate = false) {
+        if (!this.galleryImages.length || this.isTransitioning) return;
         
-        this.currentImages = images;
-        this.currentImageIndex = 0;
-        this.updateModalWithImages();
-        this.updateNavigation();
-        this.modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
+        this.isTransitioning = true;
+        this.galleryIndex = ((idx % this.galleryImages.length) + this.galleryImages.length) % this.galleryImages.length;
+        
+        if (animate) {
+            this.modalImage.style.opacity = '0';
+            
+            setTimeout(() => {
+                this.modalImage.src = this.galleryImages[this.galleryIndex];
+                
+                this.modalImage.onload = () => {
+                    this.modalImage.style.opacity = '1';
+                    this.isTransitioning = false;
+                };
+                
+                this.modalImage.onerror = () => {
+                    this.modalImage.style.opacity = '1';
+                    this.isTransitioning = false;
+                };
+            }, 300);
+        } else {
+            this.modalImage.src = this.galleryImages[this.galleryIndex];
+            this.isTransitioning = false;
+        }
+        
+        const showNav = this.galleryImages.length > 1;
+        this.galleryPrev.style.display = showNav ? 'flex' : 'none';
+        this.galleryNext.style.display = showNav ? 'flex' : 'none';
+    }
+
+    handleSwipe() {
+        const swipeThreshold = 50;
+        const diff = this.touchStartX - this.touchEndX;
+        
+        if (Math.abs(diff) > swipeThreshold && !this.isTransitioning) {
+            if (diff > 0) {
+                if (this.galleryImages.length > 1) this.showGalleryImage(this.galleryIndex + 1, true);
+            } else {
+                if (this.galleryImages.length > 1) this.showGalleryImage(this.galleryIndex - 1, true);
+            }
+        }
+    }
+
+    preloadImages() {
+        if (this.galleryImages.length <= 1) return;
+        
+        const nextIndex = (this.galleryIndex + 1) % this.galleryImages.length;
+        const prevIndex = (this.galleryIndex - 1 + this.galleryImages.length) % this.galleryImages.length;
+        
+        const nextImg = new Image();
+        const prevImg = new Image();
+        
+        nextImg.src = this.galleryImages[nextIndex];
+        prevImg.src = this.galleryImages[prevIndex];
     }
 
     updateModalWithImages() {
@@ -909,11 +986,10 @@ class ProfessionalPortfolio {
             const documentHeight = document.documentElement.scrollHeight;
             
             // Sticky Footer Logic - more refined
-            const isScrollingDown = scrollTop > this.lastScrollTop;
             const isNearBottom = scrollTop + windowHeight >= documentHeight - 100;
-            const shouldShowFooter = isScrollingDown && scrollTop > 300 && !isNearBottom;
+            const shouldShowFooter = scrollTop > 200;
             
-            if (shouldShowFooter) {
+            if (shouldShowFooter && !isNearBottom) {
                 this.stickyFooter.classList.add('visible');
             } else if (isNearBottom) {
                 // Hide regular footer when near bottom, expanded footer will show
@@ -1297,22 +1373,32 @@ class ProfessionalPortfolio {
         let paginationHTML = '';
         
         if (this.currentPage > 1) {
-            paginationHTML += `<button class="pagination-btn" onclick="portfolio.renderProjectsPage(${this.currentPage - 1})">‹</button>`;
+            paginationHTML += `<button class="pagination-btn prev-btn" data-page="${this.currentPage - 1}">‹</button>`;
         }
         
         for (let i = 1; i <= totalPages; i++) {
             if (i === 1 || i === totalPages || (i >= this.currentPage - 1 && i <= this.currentPage + 1)) {
-                paginationHTML += `<button class="pagination-btn ${i === this.currentPage ? 'active' : ''}" onclick="portfolio.renderProjectsPage(${i})">${i}</button>`;
+                paginationHTML += `<button class="pagination-btn page-btn ${i === this.currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
             } else if (i === this.currentPage - 2 || i === this.currentPage + 2) {
                 paginationHTML += `<span class="pagination-ellipsis">...</span>`;
             }
         }
         
         if (this.currentPage < totalPages) {
-            paginationHTML += `<button class="pagination-btn" onclick="portfolio.renderProjectsPage(${this.currentPage + 1})">›</button>`;
+            paginationHTML += `<button class="pagination-btn next-btn" data-page="${this.currentPage + 1}">›</button>`;
         }
         
         this.pagination.innerHTML = paginationHTML;
+        
+        // Bind pagination events
+        this.pagination.querySelectorAll('.pagination-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const page = parseInt(e.target.getAttribute('data-page'));
+                if (page) {
+                    this.renderProjectsPage(page);
+                }
+            });
+        });
     }
 
     renderProjectsPage(page) {
@@ -1321,20 +1407,17 @@ class ProfessionalPortfolio {
         const startIndex = (this.currentPage - 1) * this.projectsPerPage;
         const endIndex = startIndex + this.projectsPerPage;
         
+        // Hide all cards first
         this.projectCards.forEach(card => {
-            card.style.display = 'none';
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
+            card.classList.add('project-hidden');
         });
         
         setTimeout(() => {
             this.filteredProjects.forEach((card, index) => {
                 if (index >= startIndex && index < endIndex) {
                     setTimeout(() => {
-                        card.style.display = 'block';
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateY(0)';
-                        card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                        card.classList.remove('project-hidden');
+                        card.classList.add('project-visible');
                     }, (index - startIndex) * 100);
                 }
             });
