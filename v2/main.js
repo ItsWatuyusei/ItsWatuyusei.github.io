@@ -189,16 +189,23 @@ class ProfessionalPortfolio {
     bindNavScrollEvents() {
         const updateNavbar = () => {
             const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const scrollDifference = scrollTop - this.lastScrollTop;
             
-            if (scrollTop <= 50) {
+            // Show navbar when scrolling down after 200px (like v1)
+            const shouldShowNav = scrollTop > 200;
+            
+            if (shouldShowNav) {
                 this.navbar.classList.remove('hidden');
-            } else if (scrollDifference < 0 && scrollTop > 200) {
-                // Scrolling up - show navbar
-                this.navbar.classList.remove('hidden');
-            } else if (scrollDifference > 0 && scrollTop > 200) {
-                // Scrolling down - hide navbar
+                this.navbar.classList.add('visible');
+            } else {
                 this.navbar.classList.add('hidden');
+                this.navbar.classList.remove('visible');
+            }
+            
+            // Add scroll effect for visual feedback
+            if (scrollTop > 100) {
+                this.navbar.classList.add('scrolled');
+            } else {
+                this.navbar.classList.remove('scrolled');
             }
             
             this.lastScrollTop = scrollTop;

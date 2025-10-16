@@ -205,6 +205,19 @@ body {
     transform: translateY(-100%);
 }
 
+.navbar.scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--gray-200);
+}
+
+[data-theme="dark"] .navbar.scrolled {
+    background: rgba(15, 23, 42, 0.98);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border-bottom-color: var(--dark-surface-elevated);
+}
+
 [data-theme="dark"] .navbar {
     background: rgba(15, 23, 42, 0.98);
     backdrop-filter: blur(20px);
@@ -627,6 +640,7 @@ body {
     align-items: center;
     justify-content: center;
     animation: slideInRight 1s ease-out 0.4s both;
+    transform: translateX(30px);
 }
 
 .avatar-container {
@@ -721,43 +735,43 @@ body {
 
 .icon-1 {
     top: 15%;
-    right: -8%;
+    right: -12%;
     animation: float-1 8s ease-in-out infinite;
 }
 
 .icon-2 {
     top: 25%;
-    left: -8%;
+    left: -12%;
     animation: float-2 10s ease-in-out infinite;
 }
 
 .icon-3 {
     top: 35%;
-    right: -6%;
+    right: -10%;
     animation: float-3 12s ease-in-out infinite;
 }
 
 .icon-4 {
     top: 45%;
-    left: -6%;
+    left: -10%;
     animation: float-4 9s ease-in-out infinite;
 }
 
 .icon-5 {
     top: 55%;
-    right: -10%;
+    right: -14%;
     animation: float-5 11s ease-in-out infinite;
 }
 
 .icon-6 {
     top: 65%;
-    left: -4%;
+    left: -8%;
     animation: float-6 13s ease-in-out infinite;
 }
 
 .icon-7 {
     top: 75%;
-    right: -4%;
+    right: -8%;
     animation: float-7 10s ease-in-out infinite;
 }
 
@@ -1104,9 +1118,9 @@ body {
 
 .tech-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: var(--space-md);
-    max-width: 800px;
+    max-width: 700px;
     margin: 0 auto;
 }
 
