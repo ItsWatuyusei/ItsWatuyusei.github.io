@@ -370,6 +370,7 @@ class ProfessionalPortfolio {
         this.projectCards = document.querySelectorAll('.project-card');
         this.filterBtns = document.querySelectorAll('.filter-btn');
         this.clearSearchBtn = document.getElementById('clear-search');
+        this.pagination = document.getElementById('projects-pagination');
         
         this.projectsPerPage = 6;
         this.currentPage = 1;
@@ -506,6 +507,8 @@ class ProfessionalPortfolio {
                 });
             }, 50);
         });
+        
+        this.updatePagination(totalPages);
     }
 
     toggleClearButton() {
