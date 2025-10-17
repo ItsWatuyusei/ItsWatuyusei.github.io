@@ -914,30 +914,7 @@ body:not(.light-theme) {
     overflow: hidden;
 }
 
-.project-image::after {
-    content: '📷';
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 36px;
-    height: 36px;
-    background: rgba(99, 102, 241, 0.9);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    color: white;
-    opacity: 0.8;
-    transition: var(--transition);
-    z-index: 10;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
 
-.project-card:hover .project-image::after {
-    opacity: 1;
-    transform: scale(1.1);
-}
 
 .project-image img {
     width: 100%;

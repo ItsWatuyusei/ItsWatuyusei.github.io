@@ -575,11 +575,11 @@ body {
 .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 12px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 70px;
+    min-height: 60px;
 }
 
 .nav-logo {
@@ -611,7 +611,7 @@ body {
 .nav-info {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 0px;
 }
 
 .nav-name {
@@ -629,18 +629,6 @@ body {
 }
 
 
-.nav-name {
-    font-size: 1rem;
-    font-weight: 600;
-    line-height: 1.2;
-}
-
-.nav-title {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    font-weight: 400;
-    line-height: 1.2;
-}
 
 .nav-links {
     display: flex;
@@ -1570,7 +1558,8 @@ body {
     }
     
     .nav-container {
-        height: 60px;
+        padding: 8px 16px;
+        min-height: 50px;
     }
     
     .nav-avatar {
