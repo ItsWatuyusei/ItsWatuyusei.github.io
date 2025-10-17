@@ -957,7 +957,7 @@ body {
     grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     gap: var(--space-lg);
     margin-bottom: var(--space-2xl);
-    opacity: 0;
+    opacity: 1;
     animation: slideUp 0.8s ease 0.8s forwards;
     position: relative;
     z-index: 3;
@@ -1246,7 +1246,7 @@ body {
     display: flex;
     justify-content: center;
     gap: var(--space-2xl);
-    opacity: 0;
+    opacity: 1;
     animation: slideUp 0.8s ease 1s forwards;
     z-index: 4;
 }
@@ -1776,8 +1776,8 @@ body {
 
 
 .fade-in {
-    opacity: 0;
-    transform: translateY(30px);
+    opacity: 1;
+    transform: translateY(0);
     transition: all 0.6s ease;
 }
 

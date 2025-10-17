@@ -482,15 +482,15 @@ document.addEventListener('DOMContentLoaded', function() {
     function toggleDarkMode(checked) {
         if (checked) {
             root.classList.add('dark');
-            localStorage.setItem('theme', 'dark');
+            localStorage.setItem('v1-theme', 'dark');
         } else {
             root.classList.remove('dark');
-            localStorage.setItem('theme', 'light');
+            localStorage.setItem('v1-theme', 'light');
         }
         updateMoon();
     }
 
-    const savedTheme = localStorage.getItem('theme');
+    const savedTheme = localStorage.getItem('v1-theme');
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const shouldUseDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
     

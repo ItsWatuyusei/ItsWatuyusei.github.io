@@ -1,7 +1,7 @@
 class ModernPortfolio {
     constructor() {
-        const storedTheme = localStorage.getItem('darkMode');
-        this.isDarkMode = storedTheme === null ? true : storedTheme === 'true';
+        const storedTheme = localStorage.getItem('v2-darkMode');
+        this.isDarkMode = storedTheme === null ? false : storedTheme === 'true';
         this.currentImageIndex = 0;
         this.currentImages = [];
         this.init();
@@ -18,7 +18,7 @@ class ModernPortfolio {
         this.setupAnimations();
         this.setupServiceWorker();
         this.setupFooter();
-        this.createParticles();
+        // this.createParticles();
         this.randomizeTechPositions();
     }
 
@@ -37,7 +37,7 @@ class ModernPortfolio {
                 const isLightMode = e.target.checked;
                 this.isDarkMode = !isLightMode;
                 
-                localStorage.setItem('darkMode', this.isDarkMode.toString());
+                localStorage.setItem('v2-darkMode', this.isDarkMode.toString());
                 
                 if (isLightMode) {
                     document.body.classList.add('light-theme');
@@ -617,7 +617,7 @@ class ModernPortfolio {
         const particlesContainer = document.querySelector('.hero-particles');
         if (!particlesContainer) return;
 
-        const particleCount = 50;
+        const particleCount = 20;
         
         const fragment = document.createDocumentFragment();
         for (let i = 0; i < particleCount; i++) {
@@ -625,8 +625,9 @@ class ModernPortfolio {
             particle.className = 'particle';
             
             particle.style.left = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 15 + 's';
-            particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (Math.random() * 15 + 20) + 's';
+            particle.style.opacity = '0.3';
             
             fragment.appendChild(particle);
         }
@@ -635,18 +636,19 @@ class ModernPortfolio {
 
     randomizeTechPositions() {
         const techCircles = document.querySelectorAll('.tech-circle');
-        techCircles.forEach(circle => {
-            const randomTop = Math.random() * 85 + 5;
-            const randomLeft = Math.random() * 85 + 5;
-            const randomDelay = Math.random() * 20;
-            const randomSize = Math.random() * 60 + 50;
-            const randomIconSize = Math.random() * 20 + 35;
+        techCircles.forEach((circle, index) => {
+            const randomTop = Math.random() * 80 + 10;
+            const randomLeft = Math.random() * 80 + 10;
+            const randomDelay = Math.random() * 15 + 5;
+            const randomSize = Math.random() * 40 + 60;
+            const randomIconSize = Math.random() * 15 + 40;
             
             circle.style.top = randomTop + '%';
             circle.style.left = randomLeft + '%';
             circle.style.animationDelay = '-' + randomDelay + 's';
             circle.style.width = randomSize + 'px';
             circle.style.height = randomSize + 'px';
+            circle.style.opacity = '0';
             
             const icon = circle.querySelector('img');
             if (icon) {
@@ -660,6 +662,11 @@ class ModernPortfolio {
             if (circle.style.bottom) {
                 circle.style.bottom = 'auto';
             }
+            
+            setTimeout(() => {
+                circle.style.transition = 'opacity 1s ease-in-out';
+                circle.style.opacity = '0.6';
+            }, index * 200 + 500);
         });
     }
 }

@@ -551,11 +551,14 @@ class PortfolioHub {
             rootMargin: '0px 0px -50px 0px'
         });
         
-        elements.forEach(el => observer.observe(el));
+        elements.forEach(el => {
+            observer.observe(el);
+            el.classList.add('visible');
+        });
     }
 
     setupScrollAnimations() {
-        document.querySelectorAll('.feature-card, .version-card, .stat-item').forEach(el => {
+        document.querySelectorAll('.stat-item').forEach(el => {
             el.classList.add('fade-in');
         });
     }

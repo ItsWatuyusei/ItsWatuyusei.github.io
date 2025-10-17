@@ -28,8 +28,8 @@
         
         // Apply theme immediately to prevent flash
         document.addEventListener('DOMContentLoaded', function() {
-            const storedTheme = localStorage.getItem('darkMode');
-            const isDarkMode = storedTheme === null ? true : storedTheme === 'true';
+            const storedTheme = localStorage.getItem('v2-darkMode');
+            const isDarkMode = storedTheme === null ? false : storedTheme === 'true';
             if (!isDarkMode) {
                 document.body.classList.add('light-theme');
             }
@@ -127,10 +127,9 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <div class="hero-badge">
-                        <span>Available for work</span>
+                        <span>Building digital solutions</span>
                     </div>
                     <h1 class="hero-title">
-                        <span class="hero-greeting">Hi,</span>
                         <span class="hero-name">ItsWatuyusei</span>
                         <span class="hero-role">
                             <span class="typewriter" data-text="Full Stack Developer"></span>
