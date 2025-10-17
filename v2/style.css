@@ -66,13 +66,11 @@ body {
     padding-bottom: 80px;
 }
 
-/* Prevent flash of unstyled content */
 body:not(.light-theme) {
     background: var(--bg-primary);
     color: var(--text-primary);
 }
 
-/* Progress Bar */
 .progress-bar {
     position: fixed;
     top: 0;
@@ -92,7 +90,6 @@ body:not(.light-theme) {
     box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
 }
 
-/* Navigation */
 .nav {
     position: fixed;
     top: 0;
@@ -274,12 +271,10 @@ body:not(.light-theme) {
     transform: rotate(-45deg) translate(5px, -5px);
 }
 
-/* Main Content */
 .main {
     padding-top: 70px;
 }
 
-/* Hero Section */
 .hero {
     min-height: 80vh;
     display: flex;
@@ -533,68 +528,14 @@ body:not(.light-theme) {
     }
 }
 
-.floating-elements {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-}
 
-.floating-card {
-    position: absolute;
-    width: 60px;
-    height: 60px;
-    background: var(--bg-glass);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: var(--primary);
-    backdrop-filter: blur(10px);
-    animation: float 6s ease-in-out infinite;
-    animation-delay: var(--delay);
-}
 
-.floating-card:nth-child(1) {
-    top: 20%;
-    left: 10%;
-}
-
-.floating-card:nth-child(2) {
-    top: 60%;
-    right: 20%;
-}
-
-.floating-card:nth-child(3) {
-    bottom: 30%;
-    left: 20%;
-}
-
-.floating-card:nth-child(4) {
-    top: 40%;
-    right: 10%;
-}
-
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-    50% {
-        transform: translateY(-20px) rotate(5deg);
-    }
-}
-
-/* Container */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
-/* Sections */
 .section-header {
     text-align: center;
     margin-bottom: 50px;
@@ -617,7 +558,6 @@ body:not(.light-theme) {
     margin: 0 auto;
 }
 
-/* Skills Section */
 .skills-section {
     padding: 60px 0;
     background: var(--bg-secondary);
@@ -689,7 +629,6 @@ body:not(.light-theme) {
     0% { width: 0; }
 }
 
-/* Projects Section */
 .projects-section {
     padding: 60px 0;
 }
@@ -833,7 +772,6 @@ body:not(.light-theme) {
     line-height: 1.6;
 }
 
-/* Projects Slider */
 .projects-slider-container {
     overflow: hidden;
     width: 100%;
@@ -1042,7 +980,6 @@ body:not(.light-theme) {
     backdrop-filter: blur(10px);
 }
 
-/* Tech Section */
 .tech-section {
     padding: 60px 0;
     background: var(--bg-secondary);
@@ -1108,7 +1045,6 @@ body:not(.light-theme) {
     color: var(--text-primary);
 }
 
-/* Footer */
 .sticky-footer {
     position: fixed;
     bottom: 0;
@@ -1273,7 +1209,6 @@ body:not(.light-theme) .sticky-footer {
     color: var(--secondary);
 }
 
-/* Modals */
 .contact-modal,
 .image-modal {
     position: fixed;
@@ -1384,7 +1319,6 @@ body:not(.light-theme) .sticky-footer {
     padding: 32px;
 }
 
-/* HubSpot form styles for contact modal */
 .contact-modal .hs-form-frame {
     color: #000000;
 }
@@ -1469,7 +1403,6 @@ body:not(.light-theme) .sticky-footer {
     object-fit: contain;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
     .nav-links {
         position: fixed;
@@ -1680,7 +1613,6 @@ body:not(.light-theme) .sticky-footer {
     }
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -1698,13 +1630,11 @@ body:not(.light-theme) .sticky-footer {
     background: var(--primary-dark);
 }
 
-/* Selection */
 ::selection {
     background: var(--primary);
     color: white;
 }
 
-/* Focus styles */
 button:focus,
 input:focus,
 a:focus {

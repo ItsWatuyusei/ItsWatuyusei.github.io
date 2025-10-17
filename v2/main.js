@@ -116,25 +116,17 @@ class ModernPortfolio {
                 const currentScrollY = window.scrollY;
                 const isLightMode = document.body.classList.contains('light-theme');
                 
-                if (currentScrollY > 100) {
-                    nav.classList.add('visible');
-                    
-                    if (isLightMode) {
-                        nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                requestAnimationFrame(() => {
+                    if (currentScrollY > 100) {
+                        nav.classList.add('visible');
+                        nav.style.background = isLightMode ? 'rgba(255, 255, 255, 0.95)' : 'rgba(10, 10, 10, 0.95)';
                     } else {
-                        nav.style.background = 'rgba(10, 10, 10, 0.95)';
+                        nav.classList.remove('visible');
+                        nav.style.background = isLightMode ? 'rgba(255, 255, 255, 0.8)' : 'rgba(10, 10, 10, 0.8)';
                     }
-                } else {
-                    nav.classList.remove('visible');
-                    
-                    if (isLightMode) {
-                        nav.style.background = 'rgba(255, 255, 255, 0.8)';
-                    } else {
-                        nav.style.background = 'rgba(10, 10, 10, 0.8)';
-                    }
-                }
+                    nav.style.backdropFilter = 'blur(20px)';
+                });
                 
-                nav.style.backdropFilter = 'blur(20px)';
                 lastScrollY = currentScrollY;
                 ticking = false;
             };
@@ -155,11 +147,13 @@ class ModernPortfolio {
         
         if (progressFill) {
             const updateProgressBar = () => {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                const scrollPercent = (scrollTop / scrollHeight) * 100;
-                
-                progressFill.style.width = Math.min(scrollPercent, 100) + '%';
+                requestAnimationFrame(() => {
+                    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                    const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                    const scrollPercent = (scrollTop / scrollHeight) * 100;
+                    
+                    progressFill.style.width = Math.min(scrollPercent, 100) + '%';
+                });
             };
 
             let ticking = false;
@@ -202,10 +196,6 @@ class ModernPortfolio {
             setTimeout(type, 1000);
         }
 
-        const floatingCards = document.querySelectorAll('.floating-card');
-        floatingCards.forEach((card, index) => {
-            card.style.animationDelay = `${index * 0.5}s`;
-        });
     }
 
     setupSkills() {
@@ -218,9 +208,11 @@ class ModernPortfolio {
                     if (progressBar) {
                         const width = progressBar.style.width;
                         progressBar.style.width = '0%';
-                        setTimeout(() => {
-                            progressBar.style.width = width;
-                        }, 100);
+                        requestAnimationFrame(() => {
+                            setTimeout(() => {
+                                progressBar.style.width = width;
+                            }, 100);
+                        });
                     }
                 }
             });
@@ -362,14 +354,14 @@ class ModernPortfolio {
             }
         });
 
-        if (visibleCards.length > 0 && !isFiltered) {
+        if (visibleCards.length > 0 && (!isFiltered || visibleCards.length > 3)) {
             visibleCards.forEach(card => {
                 const clone = card.cloneNode(true);
                 projectsTrack.appendChild(clone);
             });
         }
 
-        if (isFiltered) {
+        if (isFiltered && visibleCards.length <= 3) {
             projectsTrack.classList.add('filtered');
         } else {
             projectsTrack.classList.remove('filtered');
@@ -583,22 +575,24 @@ class ModernPortfolio {
         let ticking = false;
 
         const updateFooter = () => {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
-            const scrollBottom = documentHeight - (scrollTop + windowHeight);
+            requestAnimationFrame(() => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                const windowHeight = window.innerHeight;
+                const documentHeight = document.documentElement.scrollHeight;
+                const scrollBottom = documentHeight - (scrollTop + windowHeight);
 
-            if (scrollBottom <= 100) {
-                footer.classList.add('expanded');
-                setTimeout(() => {
-                    if (footerLinks) footerLinks.classList.add('visible');
-                    if (footerBottom) footerBottom.classList.add('visible');
-                }, 150);
-            } else {
-                footer.classList.remove('expanded');
-                if (footerLinks) footerLinks.classList.remove('visible');
-                if (footerBottom) footerBottom.classList.remove('visible');
-            }
+                if (scrollBottom <= 100) {
+                    footer.classList.add('expanded');
+                    setTimeout(() => {
+                        if (footerLinks) footerLinks.classList.add('visible');
+                        if (footerBottom) footerBottom.classList.add('visible');
+                    }, 150);
+                } else {
+                    footer.classList.remove('expanded');
+                    if (footerLinks) footerLinks.classList.remove('visible');
+                    if (footerBottom) footerBottom.classList.remove('visible');
+                }
+            });
 
             ticking = false;
         };
@@ -621,6 +615,7 @@ class ModernPortfolio {
 
         const particleCount = 50;
         
+        const fragment = document.createDocumentFragment();
         for (let i = 0; i < particleCount; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
@@ -629,8 +624,9 @@ class ModernPortfolio {
             particle.style.animationDelay = Math.random() * 15 + 's';
             particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
             
-            particlesContainer.appendChild(particle);
+            fragment.appendChild(particle);
         }
+        particlesContainer.appendChild(fragment);
     }
 }
 
