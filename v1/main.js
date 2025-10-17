@@ -300,12 +300,11 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const typewriterText = document.querySelector('.typewriter-text');
-    const typewriterRole = document.querySelector('.typewriter-text-role');
+    const typewriterRole = document.querySelector('.typewriter');
     const fullText = typewriterText.getAttribute('data-text');
     const roleText = typewriterRole.getAttribute('data-text');
     let currentIndex = 0;
     let roleIndex = 0;
-    typewriterRole.classList.remove('typing');
     
     function typeWriter() {
         if (currentIndex < fullText.length) {
@@ -326,12 +325,17 @@ document.addEventListener('DOMContentLoaded', function() {
     
     function typeWriterRole() {
         if (roleIndex < roleText.length) {
-            typewriterRole.textContent += roleText.charAt(roleIndex);
+            typewriterRole.textContent = roleText.slice(0, roleIndex + 1);
             roleIndex++;
-            setTimeout(typeWriterRole, 60);
+            setTimeout(typeWriterRole, 100);
         } else {
             typewriterRole.classList.remove('typing');
             typewriterRole.classList.add('completed');
+            setTimeout(() => {
+                roleIndex = 0;
+                typewriterRole.textContent = '';
+                setTimeout(typeWriterRole, 500);
+            }, 2000);
         }
     }
     

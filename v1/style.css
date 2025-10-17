@@ -767,6 +767,10 @@ body {
     font-size: 1.08rem;
     margin-bottom: 12px;
     font-weight: 600;
+    min-height: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .links {
@@ -1378,6 +1382,13 @@ body {
         margin-right: auto;
         text-align: center;
     }
+    
+    .typewriter {
+        display: inline-block;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+    }
 }
 
 .contact-modal {
@@ -1915,6 +1926,32 @@ body {
 
 .typewriter-text-role.completed::after {
     display: none;
+}
+
+.typewriter {
+    position: relative;
+    display: inline-block;
+}
+
+.typewriter::after {
+    content: '|';
+    position: relative;
+    display: inline-block;
+    animation: blink 1s infinite;
+    color: #e0f7fa;
+    margin-left: 2px;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.typewriter.typing::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.typewriter.completed::after {
+    opacity: 0;
+    visibility: hidden;
 }
 
 .no-projects-message {
