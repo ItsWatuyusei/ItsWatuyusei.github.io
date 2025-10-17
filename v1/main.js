@@ -491,8 +491,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     const savedTheme = localStorage.getItem('v1-theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldUseDark = savedTheme === 'dark' || (!savedTheme && prefersDark);
+    const shouldUseDark = savedTheme === 'dark';
     
     if (shouldUseDark) {
         root.classList.add('dark');
@@ -724,30 +723,57 @@ document.addEventListener('DOMContentLoaded', function() {
         skillObserver.observe(skill);
     });
 
+    const techLogos = document.querySelectorAll('.tech-stack-logos img');
+    
+    const loadTechStackImage = (logo) => {
+        const dataSrc = logo.getAttribute('data-src');
+        if (dataSrc && !logo.src) {
+            const img = new Image();
+            img.onload = () => {
+                logo.src = dataSrc;
+                logo.classList.add('loaded');
+            };
+            img.onerror = () => {
+                logo.src = dataSrc;
+                logo.classList.add('loaded');
+            };
+            img.src = dataSrc;
+        }
+    };
+
     const techStackObserver = new IntersectionObserver((entries) => {
-        const logosToAnimate = [];
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                logosToAnimate.push(entry.target);
+                const logo = entry.target;
+                const index = Array.from(techLogos).indexOf(logo);
+                
+                loadTechStackImage(logo);
+                
+                setTimeout(() => {
+                    requestAnimationFrame(() => {
+                        logo.style.opacity = '1';
+                        logo.style.transform = 'scale(1) rotate(0deg)';
+                    });
+                }, index * 100);
+                
+                techStackObserver.unobserve(logo);
             }
         });
-        
-        if (logosToAnimate.length > 0) {
-            requestAnimationFrame(() => {
-                logosToAnimate.forEach(logo => {
-                    logo.style.opacity = '1';
-                    logo.style.transform = 'scale(1) rotate(0deg)';
-                });
-            });
-        }
-    }, { threshold: 0.1 });
-
-    const techLogos = document.querySelectorAll('.tech-stack-logos img');
+    }, { 
+        threshold: 0.2,
+        rootMargin: '50px 0px'
+    });
+    
     techLogos.forEach((logo, index) => {
         logo.style.opacity = '0';
         logo.style.transform = 'scale(0.8) rotate(-10deg)';
-        logo.style.transition = `opacity 0.5s ease ${index * 0.1}s, transform 0.5s ease ${index * 0.1}s`;
-        techStackObserver.observe(logo);
+        logo.style.transition = `opacity 0.6s ease, transform 0.6s ease`;
+        logo.style.willChange = 'opacity, transform';
+        
+        if (!logo.hasAttribute('data-src')) {
+            logo.setAttribute('data-src', logo.src);
+            logo.removeAttribute('src');
+        }
         
         const animateLogo = () => {
             logo.classList.remove('clicked');
@@ -765,6 +791,8 @@ document.addEventListener('DOMContentLoaded', function() {
         logo.setAttribute('tabindex', '0');
         logo.setAttribute('role', 'button');
         logo.setAttribute('aria-label', logo.alt || 'Tech icon');
+        
+        techStackObserver.observe(logo);
     });
 
     const hamburgerMenu = document.getElementById('hamburger-menu');

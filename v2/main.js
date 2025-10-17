@@ -18,7 +18,6 @@ class ModernPortfolio {
         this.setupAnimations();
         this.setupServiceWorker();
         this.setupFooter();
-        // this.createParticles();
         this.randomizeTechPositions();
     }
 
@@ -56,22 +55,21 @@ class ModernPortfolio {
             const isLightMode = document.body.classList.contains('light-theme');
             const scrollY = window.scrollY;
             
-            if (scrollY > 100) {
-                nav.classList.add('visible');
-                if (isLightMode) {
-                    nav.style.background = 'rgba(255, 255, 255, 0.95)';
+            requestAnimationFrame(() => {
+                if (scrollY > 100) {
+                    nav.classList.add('visible');
+                    nav.style.cssText = `
+                        background: ${isLightMode ? 'rgba(255, 255, 255, 0.95)' : 'rgba(10, 10, 10, 0.95)'};
+                        backdrop-filter: blur(20px);
+                    `;
                 } else {
-                    nav.style.background = 'rgba(10, 10, 10, 0.95)';
+                    nav.classList.remove('visible');
+                    nav.style.cssText = `
+                        background: ${isLightMode ? 'rgba(255, 255, 255, 0.8)' : 'rgba(10, 10, 10, 0.8)'};
+                        backdrop-filter: blur(20px);
+                    `;
                 }
-            } else {
-                nav.classList.remove('visible');
-                if (isLightMode) {
-                    nav.style.background = 'rgba(255, 255, 255, 0.8)';
-                } else {
-                    nav.style.background = 'rgba(10, 10, 10, 0.8)';
-                }
-            }
-            nav.style.backdropFilter = 'blur(20px)';
+            });
         }
     }
 
@@ -123,12 +121,17 @@ class ModernPortfolio {
                 requestAnimationFrame(() => {
                     if (currentScrollY > 100) {
                         nav.classList.add('visible');
-                        nav.style.background = isLightMode ? 'rgba(255, 255, 255, 0.95)' : 'rgba(10, 10, 10, 0.95)';
+                        nav.style.cssText = `
+                            background: ${isLightMode ? 'rgba(255, 255, 255, 0.95)' : 'rgba(10, 10, 10, 0.95)'};
+                            backdrop-filter: blur(20px);
+                        `;
                     } else {
                         nav.classList.remove('visible');
-                        nav.style.background = isLightMode ? 'rgba(255, 255, 255, 0.8)' : 'rgba(10, 10, 10, 0.8)';
+                        nav.style.cssText = `
+                            background: ${isLightMode ? 'rgba(255, 255, 255, 0.8)' : 'rgba(10, 10, 10, 0.8)'};
+                            backdrop-filter: blur(20px);
+                        `;
                     }
-                    nav.style.backdropFilter = 'blur(20px)';
                 });
                 
                 lastScrollY = currentScrollY;
@@ -331,8 +334,7 @@ class ModernPortfolio {
         const projectsTrack = document.querySelector('.projects-track');
         if (!projectsTrack) return;
 
-        projectsTrack.innerHTML = '';
-
+        const fragment = document.createDocumentFragment();
         let visibleCards = [];
         const isFiltered = filter !== 'all' || search !== '';
 
@@ -350,10 +352,8 @@ class ModernPortfolio {
             
             if (matchesFilter && matchesSearch) {
                 const cardCopy = card.cloneNode(true);
-                cardCopy.style.display = 'block';
-                cardCopy.style.opacity = '1';
-                cardCopy.style.transform = 'translateY(0)';
-                projectsTrack.appendChild(cardCopy);
+                cardCopy.style.cssText = 'display: block; opacity: 1; transform: translateY(0);';
+                fragment.appendChild(cardCopy);
                 visibleCards.push(cardCopy);
             }
         });
@@ -361,17 +361,22 @@ class ModernPortfolio {
         if (visibleCards.length > 0 && (!isFiltered || visibleCards.length > 3)) {
             visibleCards.forEach(card => {
                 const clone = card.cloneNode(true);
-                projectsTrack.appendChild(clone);
+                fragment.appendChild(clone);
             });
         }
 
-        if (isFiltered && visibleCards.length <= 3) {
-            projectsTrack.classList.add('filtered');
-        } else {
-            projectsTrack.classList.remove('filtered');
-        }
-
-        this.showNoResultsMessage(visibleCards, filter, search);
+        requestAnimationFrame(() => {
+            projectsTrack.innerHTML = '';
+            projectsTrack.appendChild(fragment);
+            
+            if (isFiltered && visibleCards.length <= 3) {
+                projectsTrack.classList.add('filtered');
+            } else {
+                projectsTrack.classList.remove('filtered');
+            }
+            
+            this.showNoResultsMessage(visibleCards, filter, search);
+        });
     }
 
     showNoResultsMessage(visibleCards, filter, search) {
@@ -636,37 +641,37 @@ class ModernPortfolio {
 
     randomizeTechPositions() {
         const techCircles = document.querySelectorAll('.tech-circle');
-        techCircles.forEach((circle, index) => {
-            const randomTop = Math.random() * 80 + 10;
-            const randomLeft = Math.random() * 80 + 10;
-            const randomDelay = Math.random() * 15 + 5;
-            const randomSize = Math.random() * 40 + 60;
-            const randomIconSize = Math.random() * 15 + 40;
-            
-            circle.style.top = randomTop + '%';
-            circle.style.left = randomLeft + '%';
-            circle.style.animationDelay = '-' + randomDelay + 's';
-            circle.style.width = randomSize + 'px';
-            circle.style.height = randomSize + 'px';
-            circle.style.opacity = '0';
-            
-            const icon = circle.querySelector('img');
-            if (icon) {
-                icon.style.width = randomIconSize + 'px';
-                icon.style.height = randomIconSize + 'px';
-            }
-            
-            if (circle.style.right) {
-                circle.style.right = 'auto';
-            }
-            if (circle.style.bottom) {
-                circle.style.bottom = 'auto';
-            }
-            
-            setTimeout(() => {
-                circle.style.transition = 'opacity 1s ease-in-out';
-                circle.style.opacity = '0.6';
-            }, index * 200 + 500);
+        
+        requestAnimationFrame(() => {
+            techCircles.forEach((circle, index) => {
+                const randomTop = Math.random() * 96 + 2;
+                const randomLeft = Math.random() * 96 + 2;
+                const randomDelay = Math.random() * 15 + 5;
+                const randomSize = Math.random() * 40 + 40;
+                const randomIconSize = Math.random() * 15 + 25;
+                
+                circle.style.cssText = `
+                    top: ${randomTop}%;
+                    left: ${randomLeft}%;
+                    animation-delay: -${randomDelay}s;
+                    width: ${randomSize}px;
+                    height: ${randomSize}px;
+                    opacity: 0;
+                    transition: opacity 1s ease-in-out;
+                `;
+                
+                const icon = circle.querySelector('img');
+                if (icon) {
+                    icon.style.cssText = `
+                        width: ${randomIconSize}px;
+                        height: ${randomIconSize}px;
+                    `;
+                }
+                
+                setTimeout(() => {
+                    circle.style.opacity = '0.6';
+                }, index * 200 + 500);
+            });
         });
     }
 }
