@@ -19,6 +19,7 @@ class ModernPortfolio {
         this.setupServiceWorker();
         this.setupFooter();
         this.createParticles();
+        this.randomizeTechPositions();
     }
 
     setupTheme() {
@@ -97,9 +98,12 @@ class ModernPortfolio {
                 e.preventDefault();
                 const target = document.querySelector(anchor.getAttribute('href'));
                 if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
+                    const navHeight = document.querySelector('.nav').offsetHeight;
+                    const targetPosition = target.offsetTop - navHeight - 20;
+                    
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
                     });
                     navLinks.classList.remove('active');
                     hamburger.classList.remove('active');
@@ -627,6 +631,36 @@ class ModernPortfolio {
             fragment.appendChild(particle);
         }
         particlesContainer.appendChild(fragment);
+    }
+
+    randomizeTechPositions() {
+        const techCircles = document.querySelectorAll('.tech-circle');
+        techCircles.forEach(circle => {
+            const randomTop = Math.random() * 85 + 5;
+            const randomLeft = Math.random() * 85 + 5;
+            const randomDelay = Math.random() * 20;
+            const randomSize = Math.random() * 40 + 40;
+            const randomIconSize = Math.random() * 15 + 25;
+            
+            circle.style.top = randomTop + '%';
+            circle.style.left = randomLeft + '%';
+            circle.style.animationDelay = '-' + randomDelay + 's';
+            circle.style.width = randomSize + 'px';
+            circle.style.height = randomSize + 'px';
+            
+            const icon = circle.querySelector('img');
+            if (icon) {
+                icon.style.width = randomIconSize + 'px';
+                icon.style.height = randomIconSize + 'px';
+            }
+            
+            if (circle.style.right) {
+                circle.style.right = 'auto';
+            }
+            if (circle.style.bottom) {
+                circle.style.bottom = 'auto';
+            }
+        });
     }
 }
 

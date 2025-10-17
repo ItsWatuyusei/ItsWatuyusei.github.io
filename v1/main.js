@@ -1040,4 +1040,80 @@ function setupDynamicFooter() {
     toggleFooterExpansion();
 }
 
-setupDynamicFooter(); 
+setupDynamicFooter();
+
+function randomizeShapePositions() {
+    const floatingShapes = document.querySelector('.floating-shapes');
+    if (!floatingShapes) {
+        setTimeout(() => randomizeShapePositions(), 100);
+        return;
+    }
+    
+    floatingShapes.innerHTML = '';
+    
+    const shapeTypes = ['circle', 'square', 'triangle'];
+    const numShapes = 24;
+    
+    const positions = [
+        { top: '5%', left: '8%' },
+        { top: '15%', left: '35%' },
+        { top: '25%', left: '65%' },
+        { top: '35%', left: '15%' },
+        { top: '45%', left: '85%' },
+        { top: '55%', left: '5%' },
+        { top: '65%', left: '45%' },
+        { top: '75%', left: '75%' },
+        { top: '85%', left: '25%' },
+        { top: '95%', left: '55%' },
+        { top: '10%', left: '90%' },
+        { top: '30%', left: '50%' },
+        { top: '50%', left: '10%' },
+        { top: '70%', left: '80%' },
+        { top: '90%', left: '40%' },
+        { top: '20%', left: '20%' },
+        { top: '40%', left: '60%' },
+        { top: '60%', left: '30%' },
+        { top: '80%', left: '70%' },
+        { top: '12%', left: '75%' },
+        { top: '32%', left: '25%' },
+        { top: '52%', left: '85%' },
+        { top: '72%', left: '15%' },
+        { top: '92%', left: '65%' }
+    ];
+    
+    for (let i = 0; i < numShapes; i++) {
+        const shape = document.createElement('div');
+        const randomType = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
+        const randomSize = Math.random() * 80 + 15;
+        const position = positions[i] || { 
+            top: Math.random() * 90 + 5 + '%', 
+            left: Math.random() * 90 + 5 + '%' 
+        };
+        const randomDelay = Math.random() * 25;
+        const randomDuration = Math.random() * 15 + 20;
+        
+        shape.className = `shape ${randomType}`;
+        shape.style.top = position.top;
+        shape.style.left = position.left;
+        shape.style.animationDelay = '-' + randomDelay + 's';
+        shape.style.animationDuration = randomDuration + 's';
+        
+        if (randomType === 'triangle') {
+            const triangleSize = randomSize / 2;
+            shape.style.borderLeftWidth = triangleSize + 'px';
+            shape.style.borderRightWidth = triangleSize + 'px';
+            shape.style.borderBottomWidth = (triangleSize * 1.7) + 'px';
+        } else {
+            shape.style.width = randomSize + 'px';
+            shape.style.height = randomSize + 'px';
+        }
+        
+        floatingShapes.appendChild(shape);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        randomizeShapePositions();
+    }, 1000);
+}); 

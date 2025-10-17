@@ -41,6 +41,57 @@
         <div class="progress-fill" id="progress-fill"></div>
     </div>
 
+    <div class="tech-background">
+        <div class="tech-circle" data-tech="HTML">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML">
+        </div>
+        <div class="tech-circle" data-tech="CSS">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS">
+        </div>
+        <div class="tech-circle" data-tech="JavaScript">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
+        </div>
+        <div class="tech-circle" data-tech="React">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
+        </div>
+        <div class="tech-circle" data-tech="Node.js">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
+        </div>
+        <div class="tech-circle" data-tech="Python">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+        </div>
+        <div class="tech-circle" data-tech="PHP">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP">
+        </div>
+        <div class="tech-circle" data-tech="C++">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++">
+        </div>
+        <div class="tech-circle" data-tech="C#">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#">
+        </div>
+        <div class="tech-circle" data-tech=".NET">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg" alt=".NET">
+        </div>
+        <div class="tech-circle" data-tech="Flutter">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="Flutter">
+        </div>
+        <div class="tech-circle" data-tech="MySQL">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
+        </div>
+        <div class="tech-circle" data-tech="Git">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
+        </div>
+        <div class="tech-circle" data-tech="WordPress">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg" alt="WordPress">
+        </div>
+        <div class="tech-circle" data-tech="WooCommerce">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/woocommerce/woocommerce-original.svg" alt="WooCommerce">
+        </div>
+        <div class="tech-circle" data-tech="Shopify">
+            <img src="https://cdn.worldvectorlogo.com/logos/shopify.svg" alt="Shopify">
+        </div>
+    </div>
+
     <nav class="nav" id="sticky-nav">
         <div class="nav-container">
             <div class="nav-logo">
@@ -52,8 +103,6 @@
             <div class="nav-links" id="nav-links">
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="#projects" class="nav-link">Projects</a>
-                <a href="#tech-stack" class="nav-link">Tech Stack</a>
-                <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" class="nav-link nav-links-btn">Links</a>
                 <a href="#" id="nav-contact-link" class="nav-link nav-contact-btn">Contact</a>
             </div>
             <div class="nav-controls">
@@ -73,7 +122,6 @@
     <main class="main">
         <section class="hero" id="top">
             <div class="hero-bg">
-                <div class="hero-grid"></div>
                 <div class="hero-particles"></div>
             </div>
             <div class="hero-content">
@@ -239,18 +287,20 @@
                     <p class="section-subtitle">Some of my recent work</p>
                 </div>
                 
-                <div class="projects-search">
-                    <div class="search-container">
-                        <i class="fas fa-search search-icon"></i>
-                        <input type="text" id="projects-search" placeholder="Search projects..." class="search-input">
-                        <button class="search-clear" id="search-clear" style="display: none;">
-                            <i class="fas fa-times"></i>
-                        </button>
+                <div class="projects-controls">
+                    <div class="projects-search">
+                        <div class="search-container">
+                            <i class="fas fa-search search-icon"></i>
+                            <input type="text" id="projects-search" placeholder="Search..." class="search-input">
+                            <button class="search-clear" id="search-clear" style="display: none;">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
-                
-                <div class="projects-filter" id="projects-filter">
-                    <button class="filter-btn active" data-filter="all">All</button>
+                    
+                    <div class="projects-filter" id="projects-filter">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                    </div>
                 </div>
 
                 <div class="projects-slider-container">
@@ -487,80 +537,6 @@
             </div>
         </section>
 
-        <section class="tech-section" id="tech-stack">
-            <div class="container">
-                <div class="section-header">
-                    <h2 class="section-title">Tech Stack</h2>
-                    <p class="section-subtitle">Technologies and tools I use</p>
-                </div>
-                <div class="tech-grid">
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML">
-                        <span>HTML</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS">
-                        <span>CSS</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" alt="JavaScript">
-                        <span>JavaScript</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" alt="React">
-                        <span>React</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" alt="Node.js">
-                        <span>Node.js</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
-                        <span>Python</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" alt="PHP">
-                        <span>PHP</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++">
-                        <span>C++</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" alt="C#">
-                        <span>C#</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/dot-net/dot-net-original.svg" alt=".NET">
-                        <span>.NET</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/flutter/flutter-original.svg" alt="Flutter">
-                        <span>Flutter</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" alt="MySQL">
-                        <span>MySQL</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" alt="Git">
-                        <span>Git</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/wordpress/wordpress-plain.svg" alt="WordPress">
-                        <span>WordPress</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/woocommerce/woocommerce-original.svg" alt="WooCommerce">
-                        <span>WooCommerce</span>
-                    </div>
-                    <div class="tech-item">
-                        <img src="https://cdn.worldvectorlogo.com/logos/shopify.svg" alt="Shopify">
-                        <span>Shopify</span>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
 
     <footer class="sticky-footer" id="sticky-footer">
