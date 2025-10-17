@@ -505,8 +505,8 @@ body:not(.light-theme) {
 }
 
 .btn:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-xl), var(--shadow-glow);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg), var(--shadow-glow);
 }
 
 .btn::before {
@@ -1260,14 +1260,16 @@ body:not(.light-theme) .sticky-footer {
 .contact-modal-content {
     background: #ffffff;
     border-radius: 16px;
-    max-width: 420px;
+    max-width: 480px;
     width: 92vw;
-    padding: 24px 16px 16px 16px;
+    padding: 16px 8px 8px 8px;
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     position: relative;
     animation: modalIn 0.3s cubic-bezier(.4,0,.2,1);
-    min-height: 120px;
+    min-height: 60px;
+    max-height: 70vh;
     border: 1px solid #e6e6e6;
+    overflow: hidden;
 }
 
 .image-modal-content {
@@ -1306,7 +1308,7 @@ body:not(.light-theme) .sticky-footer {
     color: #1a237e;
     cursor: pointer;
     font-weight: bold;
-    transition: color 0.2s;
+    transition: color 0.2s ease;
     z-index: 10;
     background: none;
     border: none;
@@ -1529,8 +1531,16 @@ body:not(.light-theme) .sticky-footer {
     }
     
     .hero {
-        padding: 20px 0;
+        padding: 20px 0 40px 0;
         min-height: 60vh;
+    }
+    
+    .hero-content {
+        gap: 30px;
+    }
+    
+    .hero-actions {
+        margin-bottom: 20px;
     }
     
     .skills-section,
@@ -1605,6 +1615,26 @@ body:not(.light-theme) .sticky-footer {
         padding: 0 16px;
     }
     
+    .hero {
+        padding: 15px 0 35px 0;
+        min-height: 55vh;
+    }
+    
+    .hero-content {
+        gap: 25px;
+        padding: 0 16px;
+    }
+    
+    .hero-actions {
+        margin-bottom: 15px;
+        gap: 15px;
+    }
+    
+    .btn {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+    
     .hero-image {
         width: 200px;
         height: 200px;
@@ -1676,6 +1706,6 @@ a:focus {
 @media (max-width: 600px) {
     .contact-modal-content {
         max-width: 98vw;
-        padding: 16px 3vw 12px 3vw;
+        padding: 10px 2vw 6px 2vw;
     }
 }
