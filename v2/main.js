@@ -452,7 +452,6 @@ class ModernPortfolio {
         const galleryNext = document.getElementById('gallery-next');
 
         const openImageModal = (images) => {
-            console.log('Opening image modal with images:', images);
             this.currentImages = JSON.parse(images);
             this.currentImageIndex = 0;
             showCurrentImage();
@@ -464,7 +463,6 @@ class ModernPortfolio {
         };
 
         const closeImageModal = () => {
-            console.log('Closing image modal');
             imageModal.style.opacity = '0';
             setTimeout(() => {
                 imageModal.style.display = 'none';
@@ -476,7 +474,6 @@ class ModernPortfolio {
             if (this.currentImages.length > 0) {
                 modalImage.src = this.currentImages[this.currentImageIndex];
                 modalImage.alt = `Project Screenshot ${this.currentImageIndex + 1}`;
-                console.log('Showing image:', this.currentImages[this.currentImageIndex]);
             }
         };
 
@@ -497,9 +494,7 @@ class ModernPortfolio {
                 e.preventDefault();
                 e.stopPropagation();
                 const button = e.target.closest('.view-gallery');
-                console.log('Gallery button clicked:', button);
                 const images = button.dataset.images;
-                console.log('Images data:', images);
                 if (images) {
                     try {
                         const imageArray = JSON.parse(images);
@@ -509,10 +504,8 @@ class ModernPortfolio {
                             openImageModal(images);
                         }
                     } catch (error) {
-                        console.error('Error parsing images:', error);
                     }
                 } else {
-                    console.error('No images data found');
                 }
             }
         });
@@ -573,10 +566,8 @@ class ModernPortfolio {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/v2/sw.js')
                     .then(registration => {
-                        console.log('SW registered: ', registration);
                     })
                     .catch(registrationError => {
-                        console.log('SW registration failed: ', registrationError);
                     });
             });
         }
@@ -667,7 +658,6 @@ function closeContactModal() {
 }
 
 function openImageGallery(images) {
-    console.warn('openImageGallery called via onclick - this should use event listeners instead');
 }
 
 function closeImageGallery() {
