@@ -272,6 +272,36 @@ body {
     gap: 16px;
 }
 
+.nav-sound-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text);
+    font-size: 16px;
+}
+
+.nav-sound-toggle:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+.nav-sound-toggle i {
+    transition: all 0.15s ease;
+}
+
+.nav-sound-toggle:hover i {
+    transform: scale(1.1);
+}
+
 .hamburger-menu {
     display: none;
     flex-direction: column;
@@ -1780,6 +1810,18 @@ body {
 .dark .nav-darkmode-label:hover {
     color: var(--primary);
     background: rgba(99, 102, 241, 0.1);
+}
+
+.dark .nav-sound-toggle {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--border);
+}
+
+.dark .nav-sound-toggle:hover {
+    background: var(--primary);
+    border-color: var(--primary);
+    color: white;
 }
 
 .dark .image-modal {

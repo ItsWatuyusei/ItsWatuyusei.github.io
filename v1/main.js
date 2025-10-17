@@ -14,6 +14,10 @@ class EnhancedLazyLoader {
         this.imageObserver = null;
         this.contentObserver = null;
         this.preloadQueue = [];
+        this.soundEnabled = localStorage.getItem('v1-sound') !== 'false';
+        this.audioContext = null;
+        this.audioInitialized = false;
+        this.audioNeedsUserGesture = true;
         this.init();
     }
 
@@ -21,6 +25,9 @@ class EnhancedLazyLoader {
         this.setupImageObserver();
         this.setupContentObserver();
         this.setupPreloadQueue();
+        this.setupAudioInitialization();
+        this.setupSoundToggle();
+        this.updateSoundIcon();
     }
 
     setupImageObserver() {
@@ -140,10 +147,143 @@ class EnhancedLazyLoader {
         
         setTimeout(() => this.processPreloadQueue(), 100);
     }
+
+    setupAudioInitialization() {
+        this.audioContext = null;
+        this.audioInitialized = false;
+        this.audioNeedsUserGesture = true;
+    }
+
+    initializeAudio() {
+        return new Promise((resolve) => {
+            try {
+                if (!this.audioContext) {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+
+                if (this.audioContext.state === 'suspended') {
+                    return this.audioContext.resume().then(() => {
+                        this.audioInitialized = true;
+                        this.audioNeedsUserGesture = false;
+                        resolve(true);
+                    }).catch(() => {
+                        this.audioInitialized = false;
+                        resolve(false);
+                    });
+                }
+
+                this.audioInitialized = true;
+                this.audioNeedsUserGesture = false;
+                resolve(true);
+            } catch (error) {
+                this.audioInitialized = false;
+                resolve(false);
+            }
+        });
+    }
+
+    setupSoundToggle() {
+        const navSoundToggle = document.getElementById('nav-sound-toggle');
+        navSoundToggle?.addEventListener('click', () => this.toggleSound());
+
+        document.addEventListener('click', () => {
+            if (this.audioNeedsUserGesture) {
+                this.initializeAudio();
+            }
+        });
+
+        document.addEventListener('keydown', () => {
+            if (this.audioNeedsUserGesture) {
+                this.initializeAudio();
+            }
+        });
+    }
+
+    toggleSound() {
+        this.soundEnabled = !this.soundEnabled;
+        localStorage.setItem('v1-sound', this.soundEnabled.toString());
+        this.updateSoundIcon();
+
+        if (this.soundEnabled) {
+            this.initializeAudio().then((success) => {
+                if (success) {
+                    this.playSound('enable');
+                }
+            });
+        }
+    }
+
+    updateSoundIcon() {
+        const navSoundToggle = document.getElementById('nav-sound-toggle');
+        const navIcon = navSoundToggle?.querySelector('i');
+
+        if (navIcon) {
+            navIcon.className = this.soundEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+        }
+    }
+
+    playSound(type) {
+        if (!this.soundEnabled) return;
+
+        if (!this.audioContext) {
+            this.initializeAudio().then((success) => {
+                if (success) {
+                    this.createSoundEffect(this.audioContext, type);
+                }
+            });
+            return;
+        }
+
+        if (this.audioContext.state === 'suspended') {
+            this.audioContext.resume().then(() => {
+                if (this.audioInitialized) {
+                    this.createSoundEffect(this.audioContext, type);
+                }
+            });
+            return;
+        }
+
+        if (this.audioInitialized) {
+            this.createSoundEffect(this.audioContext, type);
+        }
+    }
+
+    createSoundEffect(audioContext, type) {
+        try {
+            const frequencies = {
+                'hover': [800, 900],
+                'click': [600, 700, 800],
+                'toggle': [500, 600, 700, 800],
+                'enable': [400, 500, 600, 700, 800],
+                'success': [523.25, 659.25, 783.99]
+            };
+
+            const freqArray = frequencies[type] || frequencies['hover'];
+
+            freqArray.forEach((f, index) => {
+                setTimeout(() => {
+                    const osc = audioContext.createOscillator();
+                    const gain = audioContext.createGain();
+
+                    osc.connect(gain);
+                    gain.connect(audioContext.destination);
+
+                    osc.frequency.setValueAtTime(f, audioContext.currentTime);
+                    gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+                    osc.start(audioContext.currentTime);
+                    osc.stop(audioContext.currentTime + 0.3);
+                }, index * 50);
+            });
+        } catch (error) {
+        }
+    }
 }
 
 document.addEventListener('DOMContentLoaded', function() {
     const lazyLoader = new EnhancedLazyLoader();
+    window.lazyLoader = lazyLoader;
     
     const projectImages = document.querySelectorAll('.project-img[src]');
     projectImages.forEach(img => {
@@ -247,6 +387,9 @@ document.addEventListener('DOMContentLoaded', function() {
     [contactLink, navContactLink].forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
+            if (window.lazyLoader && window.lazyLoader.soundEnabled) {
+                window.lazyLoader.playSound('click');
+            }
             openModal(contactModal);
         });
     });
@@ -317,6 +460,9 @@ document.addEventListener('DOMContentLoaded', function() {
     projectTitles.forEach(title => {
         title.style.cursor = 'pointer';
         title.addEventListener('click', function() {
+            if (window.lazyLoader && window.lazyLoader.soundEnabled) {
+                window.lazyLoader.playSound('click');
+            }
             try {
                 galleryImages = JSON.parse(this.getAttribute('data-images'));
             } catch {
@@ -488,6 +634,10 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('v1-theme', 'light');
         }
         updateMoon();
+        
+        if (window.lazyLoader && window.lazyLoader.soundEnabled && window.lazyLoader.audioInitialized) {
+            window.lazyLoader.playSound('toggle');
+        }
     }
 
     const savedTheme = localStorage.getItem('v1-theme');
@@ -798,6 +948,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const hamburgerMenu = document.getElementById('hamburger-menu');
     const mobileNavLinks = document.getElementById('nav-links');
     hamburgerMenu.addEventListener('click', function() {
+        if (window.lazyLoader && window.lazyLoader.soundEnabled) {
+            window.lazyLoader.playSound('toggle');
+        }
         this.classList.toggle('active');
         mobileNavLinks.classList.toggle('active');
     });

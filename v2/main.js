@@ -4,6 +4,10 @@ class ModernPortfolio {
         this.isDarkMode = storedTheme === null ? false : storedTheme === 'true';
         this.currentImageIndex = 0;
         this.currentImages = [];
+        this.soundEnabled = localStorage.getItem('v2-sound') !== 'false';
+        this.audioContext = null;
+        this.audioInitialized = false;
+        this.audioNeedsUserGesture = true;
         this.init();
     }
 
@@ -18,6 +22,9 @@ class ModernPortfolio {
         this.setupAnimations();
         this.setupServiceWorker();
         this.setupFooter();
+        this.setupAudioInitialization();
+        this.setupSoundToggle();
+        this.updateSoundIcon();
         this.randomizeTechPositions();
     }
 
@@ -45,6 +52,10 @@ class ModernPortfolio {
                 }
                 
                 this.updateNavBackground();
+                
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('toggle');
+                }
             });
         }
     }
@@ -79,6 +90,9 @@ class ModernPortfolio {
         
         if (hamburger && navLinks) {
             hamburger.addEventListener('click', () => {
+                if (this.soundEnabled) {
+                    this.playSound('toggle');
+                }
                 hamburger.classList.toggle('active');
                 navLinks.classList.toggle('active');
             });
@@ -425,6 +439,9 @@ class ModernPortfolio {
         if (contactBtn) {
             contactBtn.addEventListener('click', (e) => {
                 e.preventDefault();
+                if (this.soundEnabled) {
+                    this.playSound('click');
+                }
                 openContactModal();
             });
         }
@@ -432,6 +449,9 @@ class ModernPortfolio {
         if (navContactBtn) {
             navContactBtn.addEventListener('click', (e) => {
                 e.preventDefault();
+                if (this.soundEnabled) {
+                    this.playSound('click');
+                }
                 openContactModal();
             });
         }
@@ -494,6 +514,9 @@ class ModernPortfolio {
             if (e.target.closest('.view-gallery')) {
                 e.preventDefault();
                 e.stopPropagation();
+                if (this.soundEnabled) {
+                    this.playSound('click');
+                }
                 const button = e.target.closest('.view-gallery');
                 const images = button.dataset.images;
                 if (images) {
@@ -674,6 +697,138 @@ class ModernPortfolio {
             });
         });
     }
+
+    setupAudioInitialization() {
+        this.audioContext = null;
+        this.audioInitialized = false;
+        this.audioNeedsUserGesture = true;
+    }
+
+    initializeAudio() {
+        return new Promise((resolve) => {
+            try {
+                if (!this.audioContext) {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                }
+
+                if (this.audioContext.state === 'suspended') {
+                    return this.audioContext.resume().then(() => {
+                        this.audioInitialized = true;
+                        this.audioNeedsUserGesture = false;
+                        resolve(true);
+                    }).catch(() => {
+                        this.audioInitialized = false;
+                        resolve(false);
+                    });
+                }
+
+                this.audioInitialized = true;
+                this.audioNeedsUserGesture = false;
+                resolve(true);
+            } catch (error) {
+                this.audioInitialized = false;
+                resolve(false);
+            }
+        });
+    }
+
+    setupSoundToggle() {
+        const navSoundToggle = document.getElementById('nav-sound-toggle');
+        navSoundToggle?.addEventListener('click', () => this.toggleSound());
+
+        document.addEventListener('click', () => {
+            if (this.audioNeedsUserGesture) {
+                this.initializeAudio();
+            }
+        });
+
+        document.addEventListener('keydown', () => {
+            if (this.audioNeedsUserGesture) {
+                this.initializeAudio();
+            }
+        });
+    }
+
+    toggleSound() {
+        this.soundEnabled = !this.soundEnabled;
+        localStorage.setItem('v2-sound', this.soundEnabled.toString());
+        this.updateSoundIcon();
+
+        if (this.soundEnabled) {
+            this.initializeAudio().then((success) => {
+                if (success) {
+                    this.playSound('enable');
+                }
+            });
+        }
+    }
+
+    updateSoundIcon() {
+        const navSoundToggle = document.getElementById('nav-sound-toggle');
+        const navIcon = navSoundToggle?.querySelector('i');
+
+        if (navIcon) {
+            navIcon.className = this.soundEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+        }
+    }
+
+    playSound(type) {
+        if (!this.soundEnabled) return;
+
+        if (!this.audioContext) {
+            this.initializeAudio().then((success) => {
+                if (success) {
+                    this.createSoundEffect(this.audioContext, type);
+                }
+            });
+            return;
+        }
+
+        if (this.audioContext.state === 'suspended') {
+            this.audioContext.resume().then(() => {
+                if (this.audioInitialized) {
+                    this.createSoundEffect(this.audioContext, type);
+                }
+            });
+            return;
+        }
+
+        if (this.audioInitialized) {
+            this.createSoundEffect(this.audioContext, type);
+        }
+    }
+
+    createSoundEffect(audioContext, type) {
+        try {
+            const frequencies = {
+                'hover': [800, 900],
+                'click': [600, 700, 800],
+                'toggle': [500, 600, 700, 800],
+                'enable': [400, 500, 600, 700, 800],
+                'success': [523.25, 659.25, 783.99]
+            };
+
+            const freqArray = frequencies[type] || frequencies['hover'];
+
+            freqArray.forEach((f, index) => {
+                setTimeout(() => {
+                    const osc = audioContext.createOscillator();
+                    const gain = audioContext.createGain();
+
+                    osc.connect(gain);
+                    gain.connect(audioContext.destination);
+
+                    osc.frequency.setValueAtTime(f, audioContext.currentTime);
+                    gain.gain.setValueAtTime(0.1, audioContext.currentTime);
+                    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+
+                    osc.start(audioContext.currentTime);
+                    osc.stop(audioContext.currentTime + 0.3);
+                }, index * 50);
+            });
+        } catch (error) {
+        }
+    }
 }
 
 function openContactModal(event) {
@@ -736,7 +891,7 @@ function prevGalleryImage() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    new ModernPortfolio();
+    window.portfolio = new ModernPortfolio();
     
     document.addEventListener('click', (e) => {
         const imageModal = document.getElementById('image-modal');

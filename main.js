@@ -907,19 +907,23 @@ class PortfolioHub {
 
     setupGeneralButtonSounds() {
         document.querySelectorAll('button, .btn, [role="button"]').forEach(button => {
-            button.addEventListener('mouseenter', () => {
-                if (this.soundEnabled && this.audioInitialized) {
-                    this.playSound('hover');
-                }
-            });
+            if (!button.closest('footer') && !button.closest('.logo-container')) {
+                button.addEventListener('mouseenter', () => {
+                    if (this.soundEnabled && this.audioInitialized) {
+                        this.playSound('hover');
+                    }
+                });
+            }
         });
         
-        document.querySelectorAll('a:not(.version-link):not(.nav-link)').forEach(link => {
-            link.addEventListener('mouseenter', () => {
-                if (this.soundEnabled && this.audioInitialized) {
-                    this.playSound('hover');
-                }
-            });
+        document.querySelectorAll('a:not(.version-link):not(.nav-link):not(.logo-link)').forEach(link => {
+            if (!link.closest('footer')) {
+                link.addEventListener('mouseenter', () => {
+                    if (this.soundEnabled && this.audioInitialized) {
+                        this.playSound('hover');
+                    }
+                });
+            }
         });
     }
 
