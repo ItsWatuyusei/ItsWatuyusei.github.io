@@ -429,7 +429,7 @@ body:not(.light-theme) {
 
 .hero-greeting {
     display: block;
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 400;
     color: var(--text-secondary);
     margin-bottom: 8px;
@@ -437,7 +437,7 @@ body:not(.light-theme) {
 
 .hero-name {
     display: block;
-    font-size: clamp(3rem, 8vw, 6rem);
+    font-size: clamp(2rem, 5vw, 3.5rem);
     font-weight: 800;
     background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
     -webkit-background-clip: text;
@@ -449,7 +449,7 @@ body:not(.light-theme) {
 
 .hero-role {
     display: block;
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    font-size: clamp(1rem, 2.5vw, 1.5rem);
     font-weight: 600;
     color: var(--text-primary);
 }
@@ -470,7 +470,7 @@ body:not(.light-theme) {
 }
 
 .hero-description {
-    font-size: 20px;
+    font-size: 16px;
     color: var(--text-secondary);
     margin-bottom: 40px;
     max-width: 500px;
@@ -605,7 +605,7 @@ body:not(.light-theme) {
 }
 
 .section-title {
-    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-size: clamp(1.8rem, 3.5vw, 2.5rem);
     font-weight: 800;
     margin-bottom: 16px;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
