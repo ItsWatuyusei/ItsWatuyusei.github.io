@@ -79,8 +79,8 @@ body {
 
 .tech-circle {
     position: absolute;
-    width: 80px;
-    height: 80px;
+    min-width: 50px;
+    min-height: 50px;
     background: var(--bg-glass);
     border: 1px solid var(--border);
     border-radius: 50%;
@@ -99,8 +99,10 @@ body {
 }
 
 .tech-circle img {
-    width: 40px;
-    height: 40px;
+    min-width: 30px;
+    min-height: 30px;
+    max-width: 55px;
+    max-height: 55px;
     filter: grayscale(1);
     transition: filter 0.3s ease;
 }
@@ -1554,8 +1556,8 @@ body:not(.light-theme) .sticky-footer {
     }
     
     .tech-circle img {
-        min-width: 25px;
-        min-height: 25px;
+        min-width: 40px;
+        min-height: 40px;
     }
     
     .footer-content {
@@ -1668,8 +1670,8 @@ body:not(.light-theme) .sticky-footer {
     }
     
     .tech-circle img {
-        min-width: 20px;
-        min-height: 20px;
+        min-width: 35px;
+        min-height: 35px;
     }
     
 }
