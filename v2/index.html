@@ -27,13 +27,13 @@
         gtag('config', 'G-EBJ935Y1PG');
         
         // Apply theme immediately to prevent flash
-        (function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const storedTheme = localStorage.getItem('darkMode');
             const isDarkMode = storedTheme === null ? true : storedTheme === 'true';
             if (!isDarkMode) {
                 document.body.classList.add('light-theme');
             }
-        })();
+        });
     </script>
 </head>
 <body>
