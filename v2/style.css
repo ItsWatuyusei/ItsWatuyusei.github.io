@@ -488,6 +488,17 @@ body:not(.light-theme) {
     align-items: center;
 }
 
+.hero-image-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: var(--transition);
+}
+
+.hero-image-link:hover {
+    transform: scale(1.02);
+}
+
 .hero-image {
     position: relative;
     width: 300px;
