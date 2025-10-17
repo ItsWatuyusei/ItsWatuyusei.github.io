@@ -758,11 +758,11 @@ body:not(.light-theme) {
     left: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-secondary);
+    color: var(--primary);
     font-size: 16px;
     pointer-events: none;
     z-index: 10;
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
 .search-clear {
