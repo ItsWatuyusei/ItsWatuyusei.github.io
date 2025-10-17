@@ -56,7 +56,7 @@ body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    z-index: 0;
+    z-index: -1;
 }
 
 .shape {
@@ -680,6 +680,7 @@ body {
     padding: 0 0 0 0;
     overflow: hidden;
     border: 1.5px solid var(--border);
+    z-index: 2;
 }
 
 .header {
@@ -837,6 +838,7 @@ body {
     position: relative;
     cursor: pointer;
     will-change: transform, box-shadow;
+    z-index: 3;
 }
 
 .project-card::before {

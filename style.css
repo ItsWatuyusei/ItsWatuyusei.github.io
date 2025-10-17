@@ -1257,6 +1257,7 @@ body {
     border: 1px solid var(--border);
     transition: all var(--transition-normal);
     text-align: center;
+    z-index: 3;
 }
 
 .stat-item:hover {

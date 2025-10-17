@@ -341,6 +341,7 @@ body:not(.light-theme) {
     position: relative;
     overflow: hidden;
     padding: 40px 0;
+    z-index: 2;
 }
 
 .hero-bg {
@@ -528,6 +529,7 @@ body:not(.light-theme) {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 3;
 }
 
 .hero-image-link {
@@ -545,6 +547,7 @@ body:not(.light-theme) {
     position: relative;
     width: 300px;
     height: 300px;
+    z-index: 3;
 }
 
 .hero-image img {
@@ -613,7 +616,9 @@ body:not(.light-theme) {
 
 .skills-section {
     padding: 30px 0;
-    background: var(--bg-secondary);
+    background: transparent;
+    position: relative;
+    z-index: 1;
 }
 
 .skills-grid {
@@ -630,6 +635,7 @@ body:not(.light-theme) {
     transition: var(--transition);
     position: relative;
     overflow: hidden;
+    z-index: 3;
 }
 
 .skill-item::before {
@@ -684,38 +690,45 @@ body:not(.light-theme) {
 
 .projects-section {
     padding: 40px 0;
+    position: relative;
+    z-index: 1;
 }
 
 .projects-controls {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    gap: 20px;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 16px;
 }
 
 .projects-search {
-    flex: 1;
-    max-width: 300px;
+    flex: 0 0 auto;
 }
 
 .search-container {
     position: relative;
     width: 100%;
+    max-width: 320px;
 }
 
 .search-input {
     width: 100%;
-    padding: 10px 36px 10px 36px;
+    padding: 8px 48px 8px 48px;
     background: var(--bg-glass);
-    border: 1px solid var(--border);
-    border-radius: 6px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
     color: var(--text-primary);
-    font-size: 13px;
+    font-size: 1rem;
     font-family: var(--font-primary);
+    height: 38px;
+    box-sizing: border-box;
     backdrop-filter: blur(10px);
     transition: var(--transition);
     outline: none;
+    position: relative;
+    z-index: 1;
 }
 
 .search-input::placeholder {
@@ -724,33 +737,40 @@ body:not(.light-theme) {
 
 .search-input:focus {
     border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    box-shadow: var(--shadow-glow);
     background: var(--bg-card);
+}
+
+.search-input:focus + .search-icon {
+    color: var(--primary);
+    opacity: 1;
 }
 
 .search-icon {
     position: absolute;
-    left: 12px;
+    left: 16px;
     top: 50%;
     transform: translateY(-50%);
-    color: var(--text-muted);
-    font-size: 13px;
+    color: var(--text-secondary);
+    font-size: 16px;
     pointer-events: none;
+    z-index: 10;
+    opacity: 0.7;
 }
 
 .search-clear {
     position: absolute;
-    right: 12px;
+    right: 16px;
     top: 50%;
     transform: translateY(-50%);
     background: none;
     border: none;
     color: var(--text-muted);
     cursor: pointer;
-    padding: 3px;
-    border-radius: 3px;
+    padding: 4px;
+    border-radius: 4px;
     transition: var(--transition);
-    font-size: 11px;
+    font-size: 14px;
 }
 
 .search-clear:hover {
@@ -760,30 +780,48 @@ body:not(.light-theme) {
 
 .projects-filter {
     display: flex;
-    gap: 12px;
     flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    min-height: 22px;
 }
 
 .filter-btn {
-    padding: 8px 16px;
     background: var(--bg-glass);
-    border: 1px solid var(--border);
-    border-radius: 6px;
     color: var(--text-secondary);
-    font-size: 13px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1px 8px;
+    font-size: 0.89rem;
+    font-family: var(--font-primary);
     font-weight: 500;
+    box-shadow: var(--shadow-sm);
+    margin: 0;
+    display: inline-block;
     cursor: pointer;
     transition: var(--transition);
+    outline: none;
+    height: 22px;
+    line-height: 16px;
+    opacity: 1;
+    transform: scale(1);
     backdrop-filter: blur(10px);
 }
 
-.filter-btn.active,
-.filter-btn:hover {
+.filter-btn.active, .filter-btn:focus {
     background: var(--primary);
-    border-color: var(--primary);
     color: white;
-    transform: translateY(-2px);
+    border-color: var(--primary);
     box-shadow: var(--shadow-glow);
+    transform: translateY(-1px) scale(1.04);
+}
+
+.filter-btn:hover:not(.active) {
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
+    transform: translateY(-1px) scale(1.03);
 }
 
 .no-results-message {
@@ -878,6 +916,7 @@ body:not(.light-theme) {
     position: relative;
     flex-shrink: 0;
     width: 400px;
+    z-index: 3;
 }
 
 .project-card::before {
@@ -972,7 +1011,7 @@ body:not(.light-theme) {
 }
 
 .project-content {
-    padding: 20px 24px 16px 24px;
+    padding: 20px 24px 12px 24px;
 }
 
 .project-header {
@@ -1016,21 +1055,21 @@ body:not(.light-theme) {
 
 .project-content p {
     color: var(--text-secondary);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
     line-height: 1.6;
 }
 
 .project-tech {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
 }
 
 .project-tech span {
     background: var(--bg-glass);
     color: var(--text-secondary);
-    padding: 6px 12px;
-    border-radius: 8px;
+    padding: 4px 10px;
+    border-radius: 6px;
     font-size: 12px;
     font-weight: 500;
     border: 1px solid var(--border);
@@ -1454,7 +1493,8 @@ body:not(.light-theme) .sticky-footer {
     .projects-controls {
         flex-direction: column;
         align-items: stretch;
-        gap: 16px;
+        gap: 8px;
+        flex-wrap: wrap;
     }
     
     .projects-search {
@@ -1462,18 +1502,21 @@ body:not(.light-theme) .sticky-footer {
     }
     
     .search-input {
-        padding: 10px 36px 10px 36px;
-        font-size: 13px;
+        padding: 8px 48px 8px 48px;
+        font-size: 1rem;
     }
     
     .projects-filter {
-        gap: 6px;
-        justify-content: center;
+        flex-wrap: wrap;
+        justify-content: flex-start;
     }
     
     .filter-btn {
-        padding: 8px 14px;
-        font-size: 12px;
+        font-size: 0.87rem;
+        padding: 1px 7px;
+        border-radius: 6px;
+        height: 20px;
+        line-height: 14px;
     }
     
     .skills-grid {

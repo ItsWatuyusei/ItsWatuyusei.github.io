@@ -639,8 +639,8 @@ class ModernPortfolio {
             const randomTop = Math.random() * 85 + 5;
             const randomLeft = Math.random() * 85 + 5;
             const randomDelay = Math.random() * 20;
-            const randomSize = Math.random() * 40 + 40;
-            const randomIconSize = Math.random() * 15 + 25;
+            const randomSize = Math.random() * 80 + 20;
+            const randomIconSize = Math.random() * 25 + 15;
             
             circle.style.top = randomTop + '%';
             circle.style.left = randomLeft + '%';
