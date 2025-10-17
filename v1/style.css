@@ -674,7 +674,7 @@ body {
 .main-box {
     max-width: 950px;
     margin: 48px auto 32px auto;
-    background: var(--box-bg);
+    background: #ffffff;
     border-radius: 22px;
     box-shadow: var(--shadow);
     padding: 0 0 0 0;
@@ -827,7 +827,7 @@ body {
 }
 
 .project-card {
-    background: var(--box-bg);
+    background: #ffffff;
     border-radius: 12px;
     box-shadow: 0 2px 12px rgba(26,35,126,0.07);
     border: 1px solid var(--border);
@@ -1365,15 +1365,16 @@ body {
 }
 
 .contact-modal-content {
-    background: #fff;
+    background: #ffffff;
     border-radius: 16px;
     max-width: 420px;
     width: 92vw;
-    padding: 32px 18px 18px 18px;
-    box-shadow: 0 8px 32px rgba(26,35,126,0.18);
+    padding: 24px 16px 16px 16px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
     position: relative;
     animation: modalIn 0.3s cubic-bezier(.4,0,.2,1);
     min-height: 120px;
+    border: 1px solid #e6e6e6;
 }
 
 .contact-modal-close {
@@ -1384,7 +1385,7 @@ body {
     color: #1a237e;
     cursor: pointer;
     font-weight: bold;
-    transition: color 0.2s;
+    transition: color 0.2s ease;
     z-index: 10;
     background: none;
     border: none;
@@ -1403,7 +1404,7 @@ body {
 @media (max-width: 600px) {
     .contact-modal-content {
         max-width: 98vw;
-        padding: 18px 4vw 10px 4vw;
+        padding: 16px 3vw 12px 3vw;
     }
 }
 

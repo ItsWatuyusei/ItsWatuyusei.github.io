@@ -1,8 +1,11 @@
 class PortfolioHub {
     constructor() {
-        this.currentTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        this.currentTheme = localStorage.getItem('theme') || 'light';
         this.soundEnabled = localStorage.getItem('sound') !== 'false';
         this.loadingProgress = 0;
+        this.audioContext = null;
+        this.audioInitialized = false;
+        this.audioNeedsUserGesture = true;
         this.init();
         this.loadingSteps = [
             'Initializing...',
@@ -160,7 +163,13 @@ class PortfolioHub {
         navSoundToggle?.addEventListener('click', () => this.toggleSound());
         
         document.addEventListener('click', () => {
-            if (this.soundEnabled && this.audioNeedsUserGesture) {
+            if (this.audioNeedsUserGesture) {
+                this.initializeAudio();
+            }
+        }, { once: true });
+        
+        document.addEventListener('touchstart', () => {
+            if (this.audioNeedsUserGesture) {
                 this.initializeAudio();
             }
         }, { once: true });
@@ -225,8 +234,13 @@ class PortfolioHub {
         this.updateSoundIcon();
         
         if (this.soundEnabled) {
-            this.initializeAudio();
-            this.playSound('enable');
+            this.initializeAudio().then((success) => {
+                if (success) {
+                    setTimeout(() => {
+                        this.playSound('enable');
+                    }, 150);
+                }
+            });
         }
     }
 
@@ -312,19 +326,21 @@ class PortfolioHub {
         if (!this.soundEnabled) return;
         
         if (!this.audioContext) {
-            try {
-                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                this.audioInitialized = true;
-                this.audioNeedsUserGesture = false;
-            } catch (error) {
-                return;
-            }
+            this.initializeAudio().then((success) => {
+                if (success) {
+                    this.createSoundEffect(this.audioContext, type);
+                }
+            });
+            return;
         }
         
         if (this.audioContext.state === 'suspended') {
             this.audioContext.resume().then(() => {
-                this.createSoundEffect(this.audioContext, type);
+                setTimeout(() => {
+                    this.createSoundEffect(this.audioContext, type);
+                }, 50);
             }).catch(() => {
+                return;
             });
         } else {
             this.createSoundEffect(this.audioContext, type);
@@ -622,13 +638,28 @@ class PortfolioHub {
     }
     
     initializeAudio() {
-        if (!this.audioContext && this.soundEnabled) {
-            try {
+        try {
+            if (!this.audioContext) {
                 this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            
+            if (this.audioContext.state === 'suspended') {
+                return this.audioContext.resume().then(() => {
+                    this.audioInitialized = true;
+                    this.audioNeedsUserGesture = false;
+                    return true;
+                }).catch(() => {
+                    this.audioInitialized = false;
+                    return false;
+                });
+            } else {
                 this.audioInitialized = true;
                 this.audioNeedsUserGesture = false;
-            } catch (error) {
+                return Promise.resolve(true);
             }
+        } catch (error) {
+            this.audioInitialized = false;
+            return Promise.resolve(false);
         }
     }
 
@@ -1014,4 +1045,5 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
 
