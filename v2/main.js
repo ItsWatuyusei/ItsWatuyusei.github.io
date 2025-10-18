@@ -372,7 +372,7 @@ class ModernPortfolio {
             }
         });
 
-        if (visibleCards.length > 0 && (!isFiltered || visibleCards.length > 3)) {
+        if (visibleCards.length > 0 && (!isFiltered || visibleCards.length > 1)) {
             visibleCards.forEach(card => {
                 const clone = card.cloneNode(true);
                 fragment.appendChild(clone);
@@ -383,7 +383,7 @@ class ModernPortfolio {
             projectsTrack.innerHTML = '';
             projectsTrack.appendChild(fragment);
             
-            if (isFiltered && visibleCards.length <= 3) {
+            if (isFiltered && visibleCards.length <= 1) {
                 projectsTrack.classList.add('filtered');
             } else {
                 projectsTrack.classList.remove('filtered');
