@@ -476,6 +476,11 @@ class ModernPortfolio {
             this.currentImages = JSON.parse(images);
             this.currentImageIndex = 0;
             showCurrentImage();
+            
+            const showNav = this.currentImages.length > 1;
+            if (galleryPrev) galleryPrev.style.display = showNav ? 'flex' : 'none';
+            if (galleryNext) galleryNext.style.display = showNav ? 'flex' : 'none';
+            
             imageModal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
             setTimeout(() => {
@@ -495,6 +500,10 @@ class ModernPortfolio {
             if (this.currentImages.length > 0) {
                 modalImage.src = this.currentImages[this.currentImageIndex];
                 modalImage.alt = `Project Screenshot ${this.currentImageIndex + 1}`;
+                
+                const showNav = this.currentImages.length > 1;
+                if (galleryPrev) galleryPrev.style.display = showNav ? 'flex' : 'none';
+                if (galleryNext) galleryNext.style.display = showNav ? 'flex' : 'none';
             }
         };
 
