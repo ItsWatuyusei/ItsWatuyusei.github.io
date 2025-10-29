@@ -222,20 +222,26 @@ class ModernPortfolio {
     setupSkills() {
         const skillItems = document.querySelectorAll('.skill-item');
         
-        const observer = new IntersectionObserver((entries) => {
+        const observer = new IntersectionObserver((entries, obs) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const progressBar = entry.target.querySelector('.skill-progress');
-                    if (progressBar) {
-                        const width = progressBar.style.width;
-                        progressBar.style.width = '0%';
-                        requestAnimationFrame(() => {
-                            setTimeout(() => {
-                                progressBar.style.width = width;
-                            }, 100);
-                        });
-                    }
+                if (!entry.isIntersecting) return;
+                const progressBar = entry.target.querySelector('.skill-progress');
+                if (!progressBar) return;
+                if (progressBar.dataset.animated === 'true') {
+                    obs.unobserve(entry.target);
+                    return;
                 }
+
+                const finalWidth = progressBar.getAttribute('data-final-width') || progressBar.style.width || '0%';
+                progressBar.setAttribute('data-final-width', finalWidth);
+                progressBar.style.width = '0%';
+                requestAnimationFrame(() => {
+                    setTimeout(() => {
+                        progressBar.style.width = finalWidth;
+                        progressBar.dataset.animated = 'true';
+                        obs.unobserve(entry.target);
+                    }, 100);
+                });
             });
         }, { threshold: 0.5 });
 
@@ -651,6 +657,8 @@ class ModernPortfolio {
     }
 
     createParticles() {
+        if (window.innerWidth <= 768) return;
+        
         const particlesContainer = document.querySelector('.hero-particles');
         if (!particlesContainer) return;
 
@@ -673,23 +681,22 @@ class ModernPortfolio {
 
     randomizeTechPositions() {
         const techCircles = document.querySelectorAll('.tech-circle');
+        const isMobile = window.innerWidth <= 768;
         
         requestAnimationFrame(() => {
             techCircles.forEach((circle, index) => {
                 const randomTop = Math.random() * 96 + 2;
                 const randomLeft = Math.random() * 96 + 2;
-                const randomDelay = Math.random() * 15 + 5;
-                const randomSize = Math.random() * 40 + 40;
-                const randomIconSize = Math.random() * 15 + 25;
+                const randomSize = isMobile ? (Math.random() * 20 + 40) : (Math.random() * 40 + 40);
+                const randomIconSize = isMobile ? (Math.random() * 10 + 20) : (Math.random() * 15 + 25);
                 
                 circle.style.cssText = `
                     top: ${randomTop}%;
                     left: ${randomLeft}%;
-                    animation-delay: -${randomDelay}s;
                     width: ${randomSize}px;
                     height: ${randomSize}px;
                     opacity: 0;
-                    transition: opacity 1s ease-in-out;
+                    transition: opacity ${isMobile ? '0.5s' : '1s'} ease-in-out;
                 `;
                 
                 const icon = circle.querySelector('img');
@@ -702,7 +709,7 @@ class ModernPortfolio {
                 
                 setTimeout(() => {
                     circle.style.opacity = '0.6';
-                }, index * 200 + 500);
+                }, isMobile ? (index * 100 + 300) : (index * 200 + 500));
             });
         });
     }

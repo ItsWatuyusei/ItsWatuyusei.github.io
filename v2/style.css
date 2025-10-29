@@ -89,8 +89,7 @@ body {
     justify-content: center;
     backdrop-filter: blur(10px);
     opacity: 0.6;
-    transition: all 0.3s ease;
-    animation: techFloat 20s infinite linear;
+    transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
 .tech-circle:hover {
@@ -112,24 +111,6 @@ body {
 }
 
 
-@keyframes techFloat {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-        opacity: 0.6;
-    }
-    25% {
-        transform: translateY(-20px) rotate(90deg);
-        opacity: 0.8;
-    }
-    50% {
-        transform: translateY(-40px) rotate(180deg);
-        opacity: 0.6;
-    }
-    75% {
-        transform: translateY(-20px) rotate(270deg);
-        opacity: 0.8;
-    }
-}
 
 body:not(.light-theme) {
     background: var(--bg-primary);
@@ -145,6 +126,12 @@ body:not(.light-theme) {
     background: rgba(255, 255, 255, 0.1);
     z-index: 9999;
     backdrop-filter: blur(10px);
+}
+
+@media (max-width: 768px) {
+    .progress-bar {
+        backdrop-filter: none;
+    }
 }
 
 .progress-fill {
@@ -167,6 +154,12 @@ body:not(.light-theme) {
     transition: transform 0.3s ease, opacity 0.3s ease, background 0.3s ease;
     transform: translateY(-100%);
     opacity: 0;
+}
+
+@media (max-width: 768px) {
+    .nav {
+        backdrop-filter: blur(10px);
+    }
 }
 
 .nav.visible {
@@ -408,6 +401,12 @@ body:not(.light-theme) {
     opacity: 0.2;
 }
 
+@media (max-width: 768px) {
+    .particle {
+        display: none;
+    }
+}
+
 @keyframes particleFloat {
     0% {
         transform: translateY(100vh) translateX(0);
@@ -608,6 +607,13 @@ body:not(.light-theme) {
     opacity: 0.3;
     animation: pulse 2s infinite;
     z-index: 1;
+}
+
+@media (max-width: 768px) {
+    .hero-image-glow {
+        animation: none;
+        opacity: 0.2;
+    }
 }
 
 @keyframes pulse {
@@ -934,6 +940,12 @@ body:not(.light-theme) {
     animation-play-state: paused;
 }
 
+@media (max-width: 768px) {
+    .projects-track:not(.filtered) {
+        animation-duration: 80s;
+    }
+}
+
 @keyframes scroll {
     0% {
         transform: translateX(0);
@@ -1131,6 +1143,12 @@ body:not(.light-theme) {
     box-shadow: 0 -2px 20px rgba(99, 102, 241, 0.1);
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
     width: 100%;
+}
+
+@media (max-width: 768px) {
+    .sticky-footer {
+        backdrop-filter: blur(5px);
+    }
 }
 
 .sticky-footer.expanded {
@@ -1617,6 +1635,7 @@ body:not(.light-theme) .sticky-footer {
     .tech-circle {
         min-width: 50px;
         min-height: 50px;
+        backdrop-filter: blur(5px);
     }
     
     .tech-circle img {
@@ -1757,6 +1776,7 @@ body:not(.light-theme) .sticky-footer {
     .tech-circle {
         min-width: 45px;
         min-height: 45px;
+        backdrop-filter: blur(3px);
     }
     
     .tech-circle img {

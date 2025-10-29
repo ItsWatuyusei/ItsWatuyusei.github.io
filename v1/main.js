@@ -1228,6 +1228,8 @@ function setupDynamicFooter() {
 setupDynamicFooter();
 
 function randomizeShapePositions() {
+    if (window.innerWidth <= 900) return;
+    
     const floatingShapes = document.querySelector('.floating-shapes');
     if (!floatingShapes) {
         setTimeout(() => randomizeShapePositions(), 100);
@@ -1237,7 +1239,8 @@ function randomizeShapePositions() {
     floatingShapes.innerHTML = '';
     
     const shapeTypes = ['circle', 'square', 'triangle'];
-    const numShapes = 24;
+    const isMobile = window.innerWidth <= 900;
+    const numShapes = isMobile ? 12 : 24;
     
     const positions = [
         { top: '5%', left: '8%' },
@@ -1269,19 +1272,15 @@ function randomizeShapePositions() {
     for (let i = 0; i < numShapes; i++) {
         const shape = document.createElement('div');
         const randomType = shapeTypes[Math.floor(Math.random() * shapeTypes.length)];
-        const randomSize = Math.random() * 80 + 15;
+        const randomSize = isMobile ? (Math.random() * 40 + 15) : (Math.random() * 80 + 15);
         const position = positions[i] || { 
             top: Math.random() * 90 + 5 + '%', 
             left: Math.random() * 90 + 5 + '%' 
         };
-        const randomDelay = Math.random() * 25;
-        const randomDuration = Math.random() * 15 + 20;
         
         shape.className = `shape ${randomType}`;
         shape.style.top = position.top;
         shape.style.left = position.left;
-        shape.style.animationDelay = '-' + randomDelay + 's';
-        shape.style.animationDuration = randomDuration + 's';
         
         if (randomType === 'triangle') {
             const triangleSize = randomSize / 2;

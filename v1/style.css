@@ -62,7 +62,6 @@ body {
 .shape {
     position: absolute;
     opacity: 0.2;
-    animation: float 25s infinite linear;
     transition: opacity 0.3s ease;
 }
 
@@ -92,20 +91,6 @@ body {
     opacity: 0.3;
 }
 
-@keyframes float {
-    0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-    }
-    25% {
-        transform: translateY(-30px) rotate(90deg);
-    }
-    50% {
-        transform: translateY(-60px) rotate(180deg);
-    }
-    75% {
-        transform: translateY(-30px) rotate(270deg);
-    }
-}
 
 
 .keyboard-navigation *:focus {
@@ -125,6 +110,12 @@ body {
     transform: translateY(-100%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 2px 20px rgba(26, 35, 126, 0.1);
+}
+
+@media (max-width: 900px) {
+    .sticky-nav {
+        backdrop-filter: blur(6px);
+    }
 }
 
 .sticky-nav.visible {
@@ -508,6 +499,12 @@ body {
     justify-content: center;
 }
 
+@media (max-width: 900px) {
+    .quick-search-modal {
+        backdrop-filter: none;
+    }
+}
+
 .quick-search-content {
     background: var(--box-bg);
     border-radius: 16px;
@@ -620,6 +617,12 @@ body {
     box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.1);
     transform: translateY(100%);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (max-width: 900px) {
+    .sticky-footer {
+        backdrop-filter: blur(6px);
+    }
 }
 
 .sticky-footer.visible {
@@ -2069,6 +2072,12 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
     backdrop-filter: blur(10px);
+}
+
+@media (max-width: 900px) {
+    .gallery-prev, .gallery-next {
+        backdrop-filter: blur(5px);
+    }
 }
 
 .gallery-prev:hover, .gallery-next:hover {
