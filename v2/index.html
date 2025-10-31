@@ -30,18 +30,20 @@
             page_location: window.location.href
         });
         
-        // Apply theme immediately to prevent flash
         (function() {
             try {
                 const storedTheme = localStorage.getItem('v2-darkMode');
                 const isDarkMode = storedTheme === null ? false : storedTheme === 'true';
                 if (!isDarkMode) {
                     document.documentElement.classList.add('light-theme');
+                    document.body.classList.add('light-theme');
                 } else {
                     document.documentElement.classList.remove('light-theme');
+                    document.body.classList.remove('light-theme');
                 }
             } catch(e) {
                 document.documentElement.classList.add('light-theme');
+                document.body.classList.add('light-theme');
             }
         })();
     </script>

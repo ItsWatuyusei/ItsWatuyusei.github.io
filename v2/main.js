@@ -32,9 +32,11 @@ class ModernPortfolio {
         const toggle = document.getElementById('nav-darkmode-toggle');
         if (toggle) {
             if (this.isDarkMode) {
+                document.documentElement.classList.remove('light-theme');
                 document.body.classList.remove('light-theme');
                 toggle.checked = false;
             } else {
+                document.documentElement.classList.add('light-theme');
                 document.body.classList.add('light-theme');
                 toggle.checked = true;
             }
@@ -42,12 +44,14 @@ class ModernPortfolio {
             toggle.addEventListener('change', (e) => {
                 const isLightMode = e.target.checked;
                 this.isDarkMode = !isLightMode;
-                
+
                 localStorage.setItem('v2-darkMode', this.isDarkMode.toString());
-                
+
                 if (isLightMode) {
+                    document.documentElement.classList.add('light-theme');
                     document.body.classList.add('light-theme');
                 } else {
+                    document.documentElement.classList.remove('light-theme');
                     document.body.classList.remove('light-theme');
                 }
                 
@@ -63,7 +67,7 @@ class ModernPortfolio {
     updateNavBackground() {
         const nav = document.getElementById('sticky-nav');
         if (nav) {
-            const isLightMode = document.body.classList.contains('light-theme');
+            const isLightMode = document.documentElement.classList.contains('light-theme');
             const scrollY = window.scrollY;
             
             requestAnimationFrame(() => {
@@ -130,7 +134,7 @@ class ModernPortfolio {
 
             const updateNav = () => {
                 const currentScrollY = window.scrollY;
-                const isLightMode = document.body.classList.contains('light-theme');
+                const isLightMode = document.documentElement.classList.contains('light-theme');
                 
                 requestAnimationFrame(() => {
                     if (currentScrollY > 100) {
