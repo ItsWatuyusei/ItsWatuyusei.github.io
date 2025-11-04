@@ -786,13 +786,22 @@ class PortfolioHub {
         
         if (!hamburgerMenu || !mobileNavLinks) return;
 
-        hamburgerMenu.addEventListener('click', function() {
-            this.classList.toggle('active');
+        hamburgerMenu.addEventListener('click', () => {
+            hamburgerMenu.classList.toggle('active');
             mobileNavLinks.classList.toggle('active');
+
+            const expanded = hamburgerMenu.classList.contains('active');
+            try {
+                hamburgerMenu.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+            } catch (e) {}
+            try {
+                mobileNavLinks.setAttribute('aria-hidden', expanded ? 'false' : 'true');
+            } catch (e) {}
+
             if (this.soundEnabled && this.audioInitialized) {
                 this.playSound('toggle');
             }
-        }.bind(this));
+        });
 
         document.addEventListener('click', function(e) {
             if (!hamburgerMenu.contains(e.target) && !mobileNavLinks.contains(e.target)) {
