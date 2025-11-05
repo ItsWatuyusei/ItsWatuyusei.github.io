@@ -1407,6 +1407,7 @@ body {
     align-items: center;
     justify-content: center;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .contact-modal-content {
@@ -1422,6 +1423,7 @@ body {
     max-height: 50vh;
     border: 1px solid #e6e6e6;
     overflow: hidden;
+    margin: 0 auto;
 }
 
 .contact-modal-close {
