@@ -285,6 +285,21 @@ body {
     margin: 0 auto;
 }
 
+[data-theme="light"] .title-word:not(.highlight),
+body:not([data-theme="dark"]) .title-word:not(.highlight) {
+    color: #64748b;
+}
+
+[data-theme="light"] .loading-subtitle,
+body:not([data-theme="dark"]) .loading-subtitle {
+    color: #475569;
+}
+
+[data-theme="light"] .loading-stats,
+body:not([data-theme="dark"]) .loading-stats {
+    color: #64748b;
+}
+
 .loading-progress {
     margin-bottom: 0;
 }
