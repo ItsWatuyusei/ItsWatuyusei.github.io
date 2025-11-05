@@ -1436,6 +1436,35 @@ body:not(.light-theme) .sticky-footer {
     border: none !important;
 }
 
+body:not(.light-theme) .contact-modal-content {
+    background: #ffffff !important;
+    border: 1px solid #e6e6e6 !important;
+}
+
+body:not(.light-theme) .contact-modal .hs-form-frame {
+    color: #000000 !important;
+}
+
+body:not(.light-theme) .contact-modal .hs-form-frame label {
+    color: #333333 !important;
+}
+
+body:not(.light-theme) .contact-modal .hs-form-frame input,
+body:not(.light-theme) .contact-modal .hs-form-frame textarea,
+body:not(.light-theme) .contact-modal .hs-form-frame select {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc !important;
+}
+
+body:not(.light-theme) .contact-modal-close {
+    color: #1a237e !important;
+}
+
+body:not(.light-theme) .contact-modal-close:hover {
+    color: #00c6ae !important;
+}
+
 .gallery-container {
     display: flex;
     align-items: center;

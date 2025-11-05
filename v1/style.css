@@ -1478,6 +1478,35 @@ body {
     border: none !important;
 }
 
+.dark .contact-modal-content {
+    background: #ffffff !important;
+    border: 1px solid #e6e6e6 !important;
+}
+
+.dark .contact-modal .hs-form-frame {
+    color: #000000 !important;
+}
+
+.dark .contact-modal .hs-form-frame label {
+    color: #333333 !important;
+}
+
+.dark .contact-modal .hs-form-frame input,
+.dark .contact-modal .hs-form-frame textarea,
+.dark .contact-modal .hs-form-frame select {
+    color: #000000 !important;
+    background-color: #ffffff !important;
+    border: 1px solid #cccccc !important;
+}
+
+.dark .contact-modal-close {
+    color: #1a237e !important;
+}
+
+.dark .contact-modal-close:hover {
+    color: #00c6ae !important;
+}
+
 @keyframes modalIn {
     from { opacity: 0; transform: translateY(40px) scale(0.98); }
     to { opacity: 1; transform: none; }

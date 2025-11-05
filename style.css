@@ -241,6 +241,7 @@ body {
     display: inline-block;
     opacity: 0;
     animation: slideUpFade 0.8s ease forwards;
+    color: #ffffff;
 }
 
 .title-word:nth-child(1) {
@@ -275,7 +276,7 @@ body {
 
 .loading-subtitle {
     font-size: 1rem;
-    color: var(--text-secondary);
+    color: #e0e0e0;
     opacity: 0;
     animation: slideUpFade 0.8s ease 0.8s forwards;
     text-align: center;
@@ -308,7 +309,7 @@ body {
     justify-content: center;
     align-items: center;
     font-size: 0.8rem;
-    color: var(--text-muted);
+    color: #d0d0d0;
     margin: 0 auto;
     width: 100%;
     max-width: 300px;
@@ -1834,7 +1835,7 @@ body {
 }
 
 .contact-modal-content {
-    background: var(--bg-primary);
+    background: #ffffff;
     border-radius: 16px;
     max-width: 480px;
     width: 92vw;
@@ -1844,7 +1845,7 @@ body {
     animation: modalIn 0.3s cubic-bezier(.4,0,.2,1);
     min-height: 60px;
     max-height: 70vh;
-    border: 1px solid var(--border);
+    border: 1px solid rgba(0, 0, 0, 0.1);
     overflow: hidden;
 }
 
@@ -1872,19 +1873,19 @@ body {
 }
 
 .contact-modal .hs-form-frame {
-    color: var(--text-primary);
+    color: #0f172a;
 }
 
 .contact-modal .hs-form-frame label {
-    color: var(--text-primary) !important;
+    color: #0f172a !important;
 }
 
 .contact-modal .hs-form-frame input,
 .contact-modal .hs-form-frame textarea,
 .contact-modal .hs-form-frame select {
-    color: var(--text-primary) !important;
-    background-color: var(--bg-primary) !important;
-    border: 1px solid var(--border) !important;
+    color: #0f172a !important;
+    background-color: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
 }
 
 .contact-modal .hs-form-frame input:focus,
@@ -1896,8 +1897,37 @@ body {
 
 .contact-modal .hs-form-frame .hs-button {
     background: var(--primary) !important;
-    color: var(--text-inverse) !important;
+    color: #ffffff !important;
     border: none !important;
+}
+
+[data-theme="dark"] .contact-modal-content {
+    background: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="dark"] .contact-modal .hs-form-frame {
+    color: #0f172a !important;
+}
+
+[data-theme="dark"] .contact-modal .hs-form-frame label {
+    color: #0f172a !important;
+}
+
+[data-theme="dark"] .contact-modal .hs-form-frame input,
+[data-theme="dark"] .contact-modal .hs-form-frame textarea,
+[data-theme="dark"] .contact-modal .hs-form-frame select {
+    color: #0f172a !important;
+    background-color: #ffffff !important;
+    border: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-theme="dark"] .contact-modal-close {
+    color: #1a237e !important;
+}
+
+[data-theme="dark"] .contact-modal-close:hover {
+    color: #00c6ae !important;
 }
 
 .nav-contact-btn {
