@@ -1,7 +1,16 @@
 class ModernPortfolio {
     constructor() {
-        const storedTheme = localStorage.getItem('v2-darkMode');
-        this.isDarkMode = storedTheme === null ? false : storedTheme === 'true';
+        const hubTheme = localStorage.getItem('theme');
+        const v2Theme = localStorage.getItem('v2-darkMode');
+        
+        if (hubTheme && !v2Theme) {
+            const isDark = hubTheme === 'dark';
+            localStorage.setItem('v2-darkMode', isDark.toString());
+            this.isDarkMode = isDark;
+        } else {
+            this.isDarkMode = v2Theme === null ? false : v2Theme === 'true';
+        }
+        
         this.currentImageIndex = 0;
         this.currentImages = [];
         this.soundEnabled = localStorage.getItem('v2-sound') !== 'false';
@@ -46,6 +55,7 @@ class ModernPortfolio {
                 this.isDarkMode = !isLightMode;
 
                 localStorage.setItem('v2-darkMode', this.isDarkMode.toString());
+                localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
 
                 if (isLightMode) {
                     document.documentElement.classList.add('light-theme');

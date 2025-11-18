@@ -413,6 +413,13 @@ class PortfolioHub {
             </div>
         `;
         
+        const currentTheme = localStorage.getItem('theme') || 'light';
+        const isDarkMode = currentTheme === 'dark';
+        const bgColor = isDarkMode ? '#0a0a0a' : '#ffffff';
+        const bgSecondary = isDarkMode ? '#111111' : '#f8fafc';
+        const textColor = isDarkMode ? '#a1a1aa' : '#1a202c';
+        const loadingTextColor = isDarkMode ? '#f0f0f0' : '#000000';
+        
         const transitionStyle = document.createElement('style');
         transitionStyle.textContent = `
             .version-transition {
@@ -421,7 +428,7 @@ class PortfolioHub {
                 left: 0;
                 width: 100%;
                 height: 100%;
-                background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+                background: linear-gradient(135deg, ${bgColor}, ${bgSecondary});
                 z-index: 10000;
                 display: flex;
                 align-items: center;
@@ -461,7 +468,7 @@ class PortfolioHub {
             }
             
             .loading-text {
-                color: #000000;
+                color: ${loadingTextColor};
                 display: inline;
             }
             
@@ -476,12 +483,12 @@ class PortfolioHub {
             .transition-progress {
                 width: 280px;
                 height: 4px;
-                background: rgba(99, 102, 241, 0.2);
+                background: ${isDarkMode ? 'rgba(99, 102, 241, 0.3)' : 'rgba(99, 102, 241, 0.2)'};
                 border-radius: var(--radius-full);
                 overflow: hidden;
                 margin: var(--space-md) auto;
                 position: relative;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                box-shadow: ${isDarkMode ? '0 2px 4px rgba(0, 0, 0, 0.3)' : '0 2px 4px rgba(0, 0, 0, 0.1)'};
             }
             
             .transition-fill {
@@ -495,7 +502,7 @@ class PortfolioHub {
             }
             
             .transition-content p {
-                color: var(--text-secondary);
+                color: ${textColor};
                 font-size: 0.875rem;
             }
             
@@ -515,6 +522,14 @@ class PortfolioHub {
         
         document.head.appendChild(transitionStyle);
         document.body.appendChild(transitionOverlay);
+        
+        if (version === 'v1') {
+            const v1Theme = currentTheme === 'dark' ? 'dark' : 'light';
+            localStorage.setItem('v1-theme', v1Theme);
+        } else if (version === 'v2') {
+            const v2DarkMode = currentTheme === 'dark' ? 'true' : 'false';
+            localStorage.setItem('v2-darkMode', v2DarkMode);
+        }
         
         setTimeout(() => {
             window.location.href = url;
@@ -760,22 +775,36 @@ class PortfolioHub {
         if (!stickyFooter || !footerLinks || !footerBottom) return;
 
         const toggleFooterExpansion = () => {
-            const scrollTop = window.pageYOffset;
-            const windowHeight = window.innerHeight;
-            const documentHeight = document.documentElement.scrollHeight;
-            
-            if (documentHeight > windowHeight + 200 && scrollTop + windowHeight >= documentHeight - 50) {
-                stickyFooter.classList.add('expanded');
-                footerLinks.classList.add('visible');
-                footerBottom.classList.add('visible');
-            } else {
-                stickyFooter.classList.remove('expanded');
-                footerLinks.classList.remove('visible');
-                footerBottom.classList.remove('visible');
-            }
+            requestAnimationFrame(() => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+                const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+                const documentHeight = Math.max(
+                    document.body.scrollHeight,
+                    document.body.offsetHeight,
+                    document.documentElement.clientHeight,
+                    document.documentElement.scrollHeight,
+                    document.documentElement.offsetHeight
+                );
+                
+                const scrollBottom = documentHeight - (scrollTop + windowHeight);
+                const threshold = 150;
+                
+                if (documentHeight > windowHeight && scrollBottom <= threshold) {
+                    stickyFooter.classList.add('expanded');
+                    setTimeout(() => {
+                        footerLinks.classList.add('visible');
+                        footerBottom.classList.add('visible');
+                    }, 50);
+                } else {
+                    stickyFooter.classList.remove('expanded');
+                    footerLinks.classList.remove('visible');
+                    footerBottom.classList.remove('visible');
+                }
+            });
         };
 
-        window.addEventListener('scroll', this.throttle(toggleFooterExpansion, 16));
+        window.addEventListener('scroll', this.throttle(toggleFooterExpansion, 16), { passive: true });
+        window.addEventListener('resize', this.throttle(toggleFooterExpansion, 16), { passive: true });
         
         toggleFooterExpansion();
     }

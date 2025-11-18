@@ -633,9 +633,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (checked) {
             root.classList.add('dark');
             localStorage.setItem('v1-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
         } else {
             root.classList.remove('dark');
             localStorage.setItem('v1-theme', 'light');
+            localStorage.setItem('theme', 'light');
         }
         updateMoon();
         
@@ -644,8 +646,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    const savedTheme = localStorage.getItem('v1-theme');
+    const hubTheme = localStorage.getItem('theme');
+    const v1Theme = localStorage.getItem('v1-theme');
+    const savedTheme = hubTheme || v1Theme || 'light';
     const shouldUseDark = savedTheme === 'dark';
+    
+    if (hubTheme && !v1Theme) {
+        localStorage.setItem('v1-theme', hubTheme);
+    }
     
     if (shouldUseDark) {
         root.classList.add('dark');
