@@ -17,6 +17,9 @@ class ModernPortfolio {
         this.audioContext = null;
         this.audioInitialized = false;
         this.audioNeedsUserGesture = true;
+        this.prevBtnHandler = null;
+        this.nextBtnHandler = null;
+        this.wheelHandler = null;
         this.init();
     }
 
@@ -264,12 +267,17 @@ class ModernPortfolio {
 
     setupProjectsSlider() {
         const projectsTrack = document.querySelector('.projects-track');
-        if (!projectsTrack) return;
+        const sliderContainer = document.querySelector('.projects-slider-container');
+        if (!projectsTrack || !sliderContainer) return;
 
         this.originalCards = Array.from(projectsTrack.children);
+        this.currentScrollPosition = 0;
+        this.scrollStep = 440;
         
         this.generateDynamicFilters();
         
+        projectsTrack.classList.add('filtered');
+        sliderContainer.classList.add('show-nav');
         this.filterProjects(this.originalCards, 'all', '');
 
         projectsTrack.addEventListener('mouseenter', () => {
@@ -277,8 +285,94 @@ class ModernPortfolio {
         });
 
         projectsTrack.addEventListener('mouseleave', () => {
-            projectsTrack.style.animationPlayState = 'running';
+            if (!projectsTrack.classList.contains('filtered')) {
+                projectsTrack.style.animationPlayState = 'running';
+            }
         });
+
+        this.setupSliderNavigation();
+    }
+
+    setupSliderNavigation() {
+        const projectsTrack = document.querySelector('.projects-track');
+        const sliderContainer = document.querySelector('.projects-slider-container');
+        const prevBtn = document.getElementById('slider-nav-prev');
+        const nextBtn = document.getElementById('slider-nav-next');
+        
+        if (!projectsTrack || !sliderContainer || !prevBtn || !nextBtn) return;
+
+        if (this.prevBtnHandler) {
+            prevBtn.removeEventListener('click', this.prevBtnHandler);
+        }
+        if (this.nextBtnHandler) {
+            nextBtn.removeEventListener('click', this.nextBtnHandler);
+        }
+        if (this.wheelHandler) {
+            sliderContainer.removeEventListener('wheel', this.wheelHandler);
+        }
+
+        const updateNavButtons = () => {
+            const maxScroll = projectsTrack.scrollWidth - sliderContainer.offsetWidth;
+            
+            if (this.currentScrollPosition <= 0) {
+                prevBtn.disabled = true;
+                prevBtn.style.opacity = '0.3';
+            } else {
+                prevBtn.disabled = false;
+                prevBtn.style.opacity = '1';
+            }
+            
+            if (this.currentScrollPosition >= maxScroll - 10) {
+                nextBtn.disabled = true;
+                nextBtn.style.opacity = '0.3';
+            } else {
+                nextBtn.disabled = false;
+                nextBtn.style.opacity = '1';
+            }
+        };
+
+        this.prevBtnHandler = () => {
+            if (this.soundEnabled && this.audioInitialized) {
+                this.playSound('hover');
+            }
+            
+            this.currentScrollPosition = Math.max(0, this.currentScrollPosition - this.scrollStep);
+            projectsTrack.style.transform = `translateX(-${this.currentScrollPosition}px)`;
+            projectsTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            
+            setTimeout(updateNavButtons, 400);
+        };
+
+        this.nextBtnHandler = () => {
+            if (this.soundEnabled && this.audioInitialized) {
+                this.playSound('hover');
+            }
+            
+            const maxScroll = projectsTrack.scrollWidth - sliderContainer.offsetWidth;
+            this.currentScrollPosition = Math.min(maxScroll, this.currentScrollPosition + this.scrollStep);
+            projectsTrack.style.transform = `translateX(-${this.currentScrollPosition}px)`;
+            projectsTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            
+            setTimeout(updateNavButtons, 400);
+        };
+
+        this.wheelHandler = (e) => {
+            if (projectsTrack.classList.contains('filtered')) {
+                e.preventDefault();
+                const delta = e.deltaY > 0 ? this.scrollStep : -this.scrollStep;
+                const maxScroll = projectsTrack.scrollWidth - sliderContainer.offsetWidth;
+                this.currentScrollPosition = Math.max(0, Math.min(maxScroll, this.currentScrollPosition + delta));
+                projectsTrack.style.transform = `translateX(-${this.currentScrollPosition}px)`;
+                projectsTrack.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                setTimeout(updateNavButtons, 300);
+            }
+        };
+
+        prevBtn.addEventListener('click', this.prevBtnHandler);
+        nextBtn.addEventListener('click', this.nextBtnHandler);
+        sliderContainer.addEventListener('wheel', this.wheelHandler, { passive: false });
+
+        setTimeout(updateNavButtons, 100);
     }
 
     generateDynamicFilters() {
@@ -403,10 +497,41 @@ class ModernPortfolio {
             projectsTrack.innerHTML = '';
             projectsTrack.appendChild(fragment);
             
+            const sliderContainer = document.querySelector('.projects-slider-container');
+            
             if (visibleCards.length <= 1) {
                 projectsTrack.classList.add('filtered');
+                if (sliderContainer) {
+                    sliderContainer.classList.remove('show-nav');
+                }
+                this.currentScrollPosition = 0;
+                projectsTrack.style.transform = 'translateX(0)';
+            } else if (filter === 'all' && search === '') {
+                projectsTrack.classList.add('filtered');
+                if (sliderContainer) {
+                    sliderContainer.classList.add('show-nav');
+                }
+                this.currentScrollPosition = 0;
+                projectsTrack.style.transform = 'translateX(0)';
+                setTimeout(() => {
+                    this.setupSliderNavigation();
+                }, 100);
             } else {
                 projectsTrack.classList.remove('filtered');
+                if (sliderContainer) {
+                    sliderContainer.classList.remove('show-nav');
+                }
+                this.currentScrollPosition = 0;
+                
+                projectsTrack.style.removeProperty('transform');
+                projectsTrack.style.removeProperty('transition');
+                projectsTrack.style.removeProperty('animation');
+                
+                setTimeout(() => {
+                    projectsTrack.style.animation = 'none';
+                    void projectsTrack.offsetWidth;
+                    projectsTrack.style.removeProperty('animation');
+                }, 50);
             }
             
             this.showNoResultsMessage(visibleCards, filter, search);

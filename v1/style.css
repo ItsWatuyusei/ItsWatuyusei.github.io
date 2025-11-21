@@ -205,6 +205,21 @@ body {
     transform: translateY(-1px);
 }
 
+.nav-hub-btn {
+    background: var(--primary);
+    color: #fff !important;
+    padding: 6px 16px;
+    border-radius: 18px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.nav-hub-btn:hover {
+    background: var(--primary-dark);
+    color: #fff !important;
+    transform: translateY(-1px);
+}
+
 .nav-contact-btn {
     background: var(--accent);
     color: #fff !important;
@@ -1887,6 +1902,14 @@ body:not(.dark) .footer-bottom a:hover {
 
 .dark .nav-links-btn:hover {
     background: #8e44ad;
+}
+
+.dark .nav-hub-btn {
+    background: var(--primary);
+}
+
+.dark .nav-hub-btn:hover {
+    background: var(--primary-light);
 }
 
 .dark .nav-contact-btn {

@@ -32,18 +32,33 @@
         
         (function() {
             try {
+                if (typeof document === 'undefined') return;
+                
                 const storedTheme = localStorage.getItem('v2-darkMode');
                 const isDarkMode = storedTheme === null ? false : storedTheme === 'true';
-                if (!isDarkMode) {
-                    document.documentElement.classList.add('light-theme');
-                    document.body.classList.add('light-theme');
-                } else {
-                    document.documentElement.classList.remove('light-theme');
-                    document.body.classList.remove('light-theme');
+                
+                if (document.documentElement) {
+                    if (!isDarkMode) {
+                        document.documentElement.classList.add('light-theme');
+                    } else {
+                        document.documentElement.classList.remove('light-theme');
+                    }
+                }
+                
+                if (document.body) {
+                    if (!isDarkMode) {
+                        document.body.classList.add('light-theme');
+                    } else {
+                        document.body.classList.remove('light-theme');
+                    }
                 }
             } catch(e) {
-                document.documentElement.classList.add('light-theme');
-                document.body.classList.add('light-theme');
+                if (document.documentElement) {
+                    document.documentElement.classList.add('light-theme');
+                }
+                if (document.body) {
+                    document.body.classList.add('light-theme');
+                }
             }
         })();
     </script>
@@ -139,6 +154,7 @@
                 </a>
             </div>
             <div class="nav-links" id="nav-links">
+                <a href="../index.html" class="nav-link nav-hub-btn">Hub</a>
                 <a href="#skills" class="nav-link">Skills</a>
                 <a href="#projects" class="nav-link">Projects</a>
                 <a href="#" id="nav-contact-link" class="nav-link nav-contact-btn">Contact</a>
@@ -344,8 +360,14 @@
                 </div>
 
                 <div class="projects-slider-container">
+                    <button class="slider-nav-btn slider-nav-prev" id="slider-nav-prev" aria-label="Previous projects">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-nav-btn slider-nav-next" id="slider-nav-next" aria-label="Next projects">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                     <div class="projects-slider" id="projects-slider">
-                        <div class="projects-track">
+                        <div class="projects-track" id="projects-track">
                             <article class="project-card" data-technologies="ecommerce,cms">
                         <div class="project-image">
                             <img src="https://ik.imagekit.io/ItsWatuyusei/Image/BitelFibra/bitelfibra00.png?updatedAt=1752006146778" alt="BitelFibra" loading="lazy">
@@ -601,6 +623,7 @@
                             </div>
                         </div>
                     </article>
+                        </div>
                         </div>
                     </div>
                 </div>

@@ -1,41 +1,61 @@
 class PortfolioHub {
     constructor() {
-        this.currentTheme = localStorage.getItem('theme') || 'light';
-        this.soundEnabled = localStorage.getItem('sound') !== 'false';
-        this.loadingProgress = 0;
-        this.audioContext = null;
-        this.audioInitialized = false;
-        this.audioNeedsUserGesture = true;
-        this.init();
-        this.loadingSteps = [
-            'Initializing...',
-            'Loading Assets...',
-            'Preparing Experience...',
-            'Ready!'
-        ];
-        this.currentStep = 0;
+        try {
+            if (typeof document === 'undefined' || typeof window === 'undefined') {
+                console.warn('PortfolioHub: DOM not ready');
+                return;
+            }
+            
+            this.currentTheme = localStorage.getItem('theme') || 'light';
+            this.soundEnabled = localStorage.getItem('sound') !== 'false';
+            this.loadingProgress = 0;
+            this.audioContext = null;
+            this.audioInitialized = false;
+            this.audioNeedsUserGesture = true;
+            this.loadingSteps = [
+                'Initializing...',
+                'Loading Assets...',
+                'Preparing Experience...',
+                'Ready!'
+            ];
+            this.currentStep = 0;
+            
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', () => {
+                    this.init();
+                });
+            } else {
+                this.init();
+            }
+        } catch (e) {
+            console.error('Error in PortfolioHub constructor:', e);
+        }
     }
 
     init() {
-        this.setupLoadingScreen();
-        this.setupEventListeners();
-        this.setupTheme();
-        this.setupScrollAnimations();
-        this.setupParticleEffects();
-        this.setupKeyboardShortcuts();
-        this.setupServiceWorker();
-        this.setupAudioInitialization();
-        this.setupProgressBar();
-        this.setupStickyNav();
-        this.setupStickyFooter();
-        this.setupContactModal();
-        this.setupHamburgerMenu();
-        this.setupTypewriter();
-        this.updateSoundIcon();
-        
-        setTimeout(() => {
-            this.randomizeShapePositions();
-        }, 500);
+        try {
+            this.setupLoadingScreen();
+            this.setupEventListeners();
+            this.setupTheme();
+            this.setupScrollAnimations();
+            this.setupParticleEffects();
+            this.setupKeyboardShortcuts();
+            this.setupServiceWorker();
+            this.setupAudioInitialization();
+            this.setupProgressBar();
+            this.setupStickyNav();
+            this.setupStickyFooter();
+            this.setupContactModal();
+            this.setupHamburgerMenu();
+            this.setupTypewriter();
+            this.updateSoundIcon();
+            
+            setTimeout(() => {
+                this.randomizeShapePositions();
+            }, 500);
+        } catch (e) {
+            console.error('Error initializing PortfolioHub:', e);
+        }
     }
 
     setupLoadingScreen() {
@@ -199,9 +219,13 @@ class PortfolioHub {
     }
 
     setupTheme() {
-        document.documentElement.setAttribute('data-theme', this.currentTheme);
-        this.updateThemeIcon();
-        this.updateSoundIcon();
+        try {
+            document.documentElement.setAttribute('data-theme', this.currentTheme);
+            this.updateThemeIcon();
+            this.updateSoundIcon();
+        } catch (e) {
+            return;
+        }
     }
 
     toggleTheme() {
@@ -214,10 +238,15 @@ class PortfolioHub {
     }
 
     updateThemeIcon() {
-        const themeToggle = document.getElementById('theme-toggle');
-        const icon = themeToggle?.querySelector('i');
-        if (icon) {
-            icon.className = this.currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+        try {
+            const themeToggle = document.getElementById('theme-toggle');
+            if (!themeToggle) return;
+            const icon = themeToggle.querySelector('i');
+            if (icon) {
+                icon.className = this.currentTheme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        } catch (e) {
+            return;
         }
     }
 
@@ -245,10 +274,15 @@ class PortfolioHub {
     }
 
     updateSoundIcon() {
-        const navSoundToggle = document.getElementById('nav-sound-toggle');
-        const navIcon = navSoundToggle?.querySelector('i');
-        if (navIcon) {
-            navIcon.className = this.soundEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+        try {
+            const navSoundToggle = document.getElementById('nav-sound-toggle');
+            if (!navSoundToggle) return;
+            const navIcon = navSoundToggle.querySelector('i');
+            if (navIcon) {
+                navIcon.className = this.soundEnabled ? 'fas fa-volume-up' : 'fas fa-volume-mute';
+            }
+        } catch (e) {
+            return;
         }
     }
 
@@ -567,14 +601,18 @@ class PortfolioHub {
         });
         
         elements.forEach(el => {
-            observer.observe(el);
-            el.classList.add('visible');
+            if (el) {
+                observer.observe(el);
+                el.classList.add('visible');
+            }
         });
     }
 
     setupScrollAnimations() {
         document.querySelectorAll('.stat-item').forEach(el => {
-            el.classList.add('fade-in');
+            if (el) {
+                el.classList.add('fade-in');
+            }
         });
     }
 
@@ -902,11 +940,13 @@ class PortfolioHub {
         const contactModalClose = document.getElementById('contact-modal-close');
 
         function openModal(modal) {
+            if (!modal) return;
             modal.classList.add('visible');
             document.body.style.overflow = 'hidden';
         }
 
         function closeModal(modal) {
+            if (!modal) return;
             modal.classList.remove('visible');
             document.body.style.overflow = '';
         }
@@ -973,52 +1013,94 @@ class PortfolioHub {
         
         const fullText = typewriterText.getAttribute('data-text');
         const subtitleText = typewriterSubtitle.getAttribute('data-text');
+        
+        if (!fullText || !subtitleText) return;
+        
         let currentIndex = 0;
         let subtitleIndex = 0;
         
         typewriterSubtitle.classList.remove('typing');
         
         const typeText = () => {
+            if (!typewriterText) return;
             if (currentIndex < fullText.length) {
                 typewriterText.textContent += fullText.charAt(currentIndex);
                 currentIndex++;
                 setTimeout(typeText, 100);
             } else {
-                typewriterText.classList.remove('typing');
-                typewriterText.classList.add('completed');
+                if (typewriterText) {
+                    typewriterText.classList.remove('typing');
+                    typewriterText.classList.add('completed');
+                }
                 setTimeout(() => {
-                    typewriterSubtitle.classList.add('typing');
-                    setTimeout(() => {
-                        typeSubtitle();
-                    }, 1000);
+                    if (typewriterSubtitle) {
+                        typewriterSubtitle.classList.add('typing');
+                        setTimeout(() => {
+                            typeSubtitle();
+                        }, 1000);
+                    }
                 }, 1000);
             }
         };
         
         const typeSubtitle = () => {
+            if (!typewriterSubtitle) return;
             if (subtitleIndex < subtitleText.length) {
                 typewriterSubtitle.textContent += subtitleText.charAt(subtitleIndex);
                 subtitleIndex++;
                 setTimeout(typeSubtitle, 50);
             } else {
-                typewriterSubtitle.classList.remove('typing');
-                typewriterSubtitle.classList.add('completed');
+                if (typewriterSubtitle) {
+                    typewriterSubtitle.classList.remove('typing');
+                    typewriterSubtitle.classList.add('completed');
+                }
             }
         };
         
         setTimeout(() => {
-            typewriterText.classList.add('typing');
-            typeText();
+            if (typewriterText) {
+                typewriterText.classList.add('typing');
+                typeText();
+            }
         }, 1500);
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const portfolioHub = new PortfolioHub();
+(function() {
+    function initializePortfolioHub() {
+        try {
+            if (typeof document === 'undefined') {
+                return;
+            }
+            
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializePortfolioHub);
+                return;
+            }
+            
+            const portfolioHub = new PortfolioHub();
+            
+            setTimeout(() => {
+                if (portfolioHub && typeof portfolioHub.randomizeShapePositions === 'function') {
+                    portfolioHub.randomizeShapePositions();
+                }
+            }, 1000);
+        } catch (e) {
+            console.error('Error initializing PortfolioHub:', e);
+        }
+    }
     
-    setTimeout(() => {
-        portfolioHub.randomizeShapePositions();
-    }, 1000);
+    if (typeof window !== 'undefined') {
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            initializePortfolioHub();
+        } else {
+            window.addEventListener('load', initializePortfolioHub);
+            document.addEventListener('DOMContentLoaded', initializePortfolioHub);
+        }
+    }
+})();
+
+document.addEventListener('DOMContentLoaded', () => {
     
     const dynamicStyles = document.createElement('style');
     dynamicStyles.textContent = `
