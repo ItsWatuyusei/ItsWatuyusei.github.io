@@ -282,6 +282,12 @@ class EnhancedLazyLoader {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    const isAndroid = /android/i.test(userAgent);
+    if (isAndroid) {
+        document.body.classList.add('android');
+    }
+    
     const lazyLoader = new EnhancedLazyLoader();
     window.lazyLoader = lazyLoader;
     
@@ -388,6 +394,54 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.style.overflow = '';
     }
 
+    function hideHubSpotPromotional() {
+        if (!document.body.classList.contains('android')) return;
+        
+        const formFrame = document.querySelector('.hs-form-frame');
+        if (!formFrame) return;
+        
+        const promotionalSelectors = [
+            '.hs-poweredby',
+            '.hs-poweredby-wrapper',
+            '.hs-poweredby-container',
+            '[class*="poweredby"]',
+            '[class*="hs-poweredby"]',
+            '[id*="poweredby"]',
+            '[id*="hs-poweredby"]',
+            '.hs-form-poweredby',
+            '.hs-form-footer',
+            '.hs-form-poweredby-container',
+            'iframe[src*="poweredby"]'
+        ];
+        
+        promotionalSelectors.forEach(selector => {
+            const elements = formFrame.querySelectorAll(selector);
+            elements.forEach(el => {
+                el.style.display = 'none';
+                el.style.visibility = 'hidden';
+                el.style.height = '0';
+                el.style.margin = '0';
+                el.style.padding = '0';
+                el.style.overflow = 'hidden';
+            });
+        });
+        
+        const allDivs = formFrame.querySelectorAll('div');
+        allDivs.forEach(div => {
+            const text = div.textContent || '';
+            if (text.includes('Create your own free forms') || 
+                text.includes('powered by') || 
+                text.includes('HubSpot') && div.querySelector('a')) {
+                div.style.display = 'none';
+                div.style.visibility = 'hidden';
+                div.style.height = '0';
+                div.style.margin = '0';
+                div.style.padding = '0';
+                div.style.overflow = 'hidden';
+            }
+        });
+    }
+
     [contactLink, navContactLink].forEach(link => {
         link.addEventListener('click', function(e) {
             e.preventDefault();
@@ -395,6 +449,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.lazyLoader.playSound('click');
             }
             openModal(contactModal);
+            
+            setTimeout(() => {
+                hideHubSpotPromotional();
+                const observer = new MutationObserver(() => {
+                    hideHubSpotPromotional();
+                });
+                const formFrame = document.querySelector('.hs-form-frame');
+                if (formFrame) {
+                    observer.observe(formFrame, {
+                        childList: true,
+                        subtree: true
+                    });
+                }
+            }, 500);
         });
     });
 

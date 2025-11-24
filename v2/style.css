@@ -1419,9 +1419,10 @@ body:not(.light-theme) .sticky-footer {
     position: relative;
     animation: modalIn 0.3s cubic-bezier(.4,0,.2,1);
     min-height: 60px;
-    max-height: 70vh;
+    max-height: 85vh;
     border: 1px solid #e6e6e6;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .image-modal-content {
@@ -1526,6 +1527,44 @@ body:not(.light-theme) .sticky-footer {
     background: #6366f1 !important;
     color: #ffffff !important;
     border: none !important;
+}
+
+.contact-modal .hs-form-frame .hs-poweredby,
+.contact-modal .hs-form-frame .hs-poweredby-wrapper,
+.contact-modal .hs-form-frame .hs-poweredby-container,
+.contact-modal .hs-form-frame [class*="poweredby"],
+.contact-modal .hs-form-frame [class*="hs-poweredby"],
+.contact-modal .hs-form-frame [id*="poweredby"],
+.contact-modal .hs-form-frame [id*="hs-poweredby"],
+.contact-modal .hs-form-frame .hs-form-poweredby,
+.contact-modal .hs-form-frame iframe[src*="poweredby"],
+.contact-modal .hs-form-frame .hs-form-footer,
+.contact-modal .hs-form-frame .hs-form-poweredby-container {
+    display: none !important;
+    visibility: hidden !important;
+    height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+}
+
+.contact-modal .hs-form-frame > div:last-child:not(.hs-submit):not(.hs-button):not([class*="field"]):not([class*="input"]):not([class*="label"]) {
+    display: none !important;
+}
+
+.contact-modal-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.8) 15%, #ffffff 30%);
+    z-index: 10;
+    pointer-events: none;
+}
+
+body:not(.light-theme) .contact-modal-overlay {
+    background: #ffffff !important;
 }
 
 body:not(.light-theme) .contact-modal-content {
@@ -1967,6 +2006,11 @@ a:focus {
 @media (max-width: 600px) {
     .contact-modal-content {
         max-width: 98vw;
-        padding: 10px 2vw 6px 2vw;
+        padding: 10px 2vw 8px 2vw;
+    }
+    
+    .contact-modal-overlay {
+        height: 65px;
+        background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.9) 10%, #ffffff 25%);
     }
 }

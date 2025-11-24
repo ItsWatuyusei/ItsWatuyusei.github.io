@@ -565,12 +565,72 @@ class ModernPortfolio {
         const contactModal = document.getElementById('contact-modal');
         const contactClose = document.getElementById('contact-modal-close');
 
+        const hideHubSpotPromotional = () => {
+            const formFrame = document.querySelector('.hs-form-frame');
+            if (!formFrame) return;
+            
+            const promotionalSelectors = [
+                '.hs-poweredby',
+                '.hs-poweredby-wrapper',
+                '.hs-poweredby-container',
+                '[class*="poweredby"]',
+                '[class*="hs-poweredby"]',
+                '[id*="poweredby"]',
+                '[id*="hs-poweredby"]',
+                '.hs-form-poweredby',
+                '.hs-form-footer',
+                '.hs-form-poweredby-container',
+                'iframe[src*="poweredby"]'
+            ];
+            
+            promotionalSelectors.forEach(selector => {
+                const elements = formFrame.querySelectorAll(selector);
+                elements.forEach(el => {
+                    el.style.display = 'none';
+                    el.style.visibility = 'hidden';
+                    el.style.height = '0';
+                    el.style.margin = '0';
+                    el.style.padding = '0';
+                    el.style.overflow = 'hidden';
+                });
+            });
+            
+            const allDivs = formFrame.querySelectorAll('div');
+            allDivs.forEach(div => {
+                const text = div.textContent || '';
+                if (text.includes('Create your own free forms') || 
+                    text.includes('powered by') || 
+                    text.includes('HubSpot') && div.querySelector('a')) {
+                    div.style.display = 'none';
+                    div.style.visibility = 'hidden';
+                    div.style.height = '0';
+                    div.style.margin = '0';
+                    div.style.padding = '0';
+                    div.style.overflow = 'hidden';
+                }
+            });
+        };
+
         const openContactModal = () => {
             contactModal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
             setTimeout(() => {
                 contactModal.style.opacity = '1';
             }, 10);
+            
+            setTimeout(() => {
+                hideHubSpotPromotional();
+                const observer = new MutationObserver(() => {
+                    hideHubSpotPromotional();
+                });
+                const formFrame = document.querySelector('.hs-form-frame');
+                if (formFrame) {
+                    observer.observe(formFrame, {
+                        childList: true,
+                        subtree: true
+                    });
+                }
+            }, 500);
         };
 
         const closeContactModal = () => {
