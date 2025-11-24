@@ -960,8 +960,8 @@ body:not(.light-theme) {
     visibility: hidden;
 }
 
-.projects-slider-container:hover .slider-nav-btn,
-.projects-slider-container:focus-within .slider-nav-btn {
+.projects-slider-container.show-nav:hover .slider-nav-btn,
+.projects-slider-container.show-nav:focus-within .slider-nav-btn {
     opacity: 1;
     pointer-events: all;
     visibility: visible;

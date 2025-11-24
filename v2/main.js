@@ -313,21 +313,29 @@ class ModernPortfolio {
 
         const updateNavButtons = () => {
             const maxScroll = projectsTrack.scrollWidth - sliderContainer.offsetWidth;
+            const isAllFilter = this.currentFilter === 'all';
             
-            if (this.currentScrollPosition <= 0) {
-                prevBtn.disabled = true;
-                prevBtn.style.opacity = '0.3';
-            } else {
+            if (isAllFilter) {
                 prevBtn.disabled = false;
                 prevBtn.style.opacity = '1';
-            }
-            
-            if (this.currentScrollPosition >= maxScroll - 10) {
-                nextBtn.disabled = true;
-                nextBtn.style.opacity = '0.3';
-            } else {
                 nextBtn.disabled = false;
                 nextBtn.style.opacity = '1';
+            } else {
+                if (this.currentScrollPosition <= 0) {
+                    prevBtn.disabled = true;
+                    prevBtn.style.opacity = '0.3';
+                } else {
+                    prevBtn.disabled = false;
+                    prevBtn.style.opacity = '1';
+                }
+                
+                if (this.currentScrollPosition >= maxScroll - 10) {
+                    nextBtn.disabled = true;
+                    nextBtn.style.opacity = '0.3';
+                } else {
+                    nextBtn.disabled = false;
+                    nextBtn.style.opacity = '1';
+                }
             }
         };
 
@@ -336,7 +344,19 @@ class ModernPortfolio {
                 this.playSound('hover');
             }
             
-            this.currentScrollPosition = Math.max(0, this.currentScrollPosition - this.scrollStep);
+            const maxScroll = projectsTrack.scrollWidth - sliderContainer.offsetWidth;
+            const isAllFilter = this.currentFilter === 'all';
+            
+            if (isAllFilter) {
+                if (this.currentScrollPosition <= 0) {
+                    this.currentScrollPosition = maxScroll;
+                } else {
+                    this.currentScrollPosition = Math.max(0, this.currentScrollPosition - this.scrollStep);
+                }
+            } else {
+                this.currentScrollPosition = Math.max(0, this.currentScrollPosition - this.scrollStep);
+            }
+            
             projectsTrack.style.transform = `translateX(-${this.currentScrollPosition}px)`;
             projectsTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
             
@@ -349,7 +369,18 @@ class ModernPortfolio {
             }
             
             const maxScroll = projectsTrack.scrollWidth - sliderContainer.offsetWidth;
-            this.currentScrollPosition = Math.min(maxScroll, this.currentScrollPosition + this.scrollStep);
+            const isAllFilter = this.currentFilter === 'all';
+            
+            if (isAllFilter) {
+                if (this.currentScrollPosition >= maxScroll - 10) {
+                    this.currentScrollPosition = 0;
+                } else {
+                    this.currentScrollPosition = Math.min(maxScroll, this.currentScrollPosition + this.scrollStep);
+                }
+            } else {
+                this.currentScrollPosition = Math.min(maxScroll, this.currentScrollPosition + this.scrollStep);
+            }
+            
             projectsTrack.style.transform = `translateX(-${this.currentScrollPosition}px)`;
             projectsTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
             
@@ -359,9 +390,21 @@ class ModernPortfolio {
         this.wheelHandler = (e) => {
             if (projectsTrack.classList.contains('filtered')) {
                 e.preventDefault();
-                const delta = e.deltaY > 0 ? this.scrollStep : -this.scrollStep;
                 const maxScroll = projectsTrack.scrollWidth - sliderContainer.offsetWidth;
-                this.currentScrollPosition = Math.max(0, Math.min(maxScroll, this.currentScrollPosition + delta));
+                const isAllFilter = this.currentFilter === 'all';
+                const delta = e.deltaY > 0 ? this.scrollStep : -this.scrollStep;
+                
+                if (isAllFilter) {
+                    this.currentScrollPosition = this.currentScrollPosition + delta;
+                    if (this.currentScrollPosition < 0) {
+                        this.currentScrollPosition = maxScroll;
+                    } else if (this.currentScrollPosition > maxScroll) {
+                        this.currentScrollPosition = 0;
+                    }
+                } else {
+                    this.currentScrollPosition = Math.max(0, Math.min(maxScroll, this.currentScrollPosition + delta));
+                }
+                
                 projectsTrack.style.transform = `translateX(-${this.currentScrollPosition}px)`;
                 projectsTrack.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                 setTimeout(updateNavButtons, 300);
@@ -462,6 +505,11 @@ class ModernPortfolio {
         const projectsTrack = document.querySelector('.projects-track');
         if (!projectsTrack) return;
 
+        const sliderContainer = document.querySelector('.projects-slider-container');
+        if (filter !== 'all' && sliderContainer) {
+            sliderContainer.classList.remove('show-nav');
+        }
+
         const fragment = document.createDocumentFragment();
         let visibleCards = [];
         const isFiltered = filter !== 'all' || search !== '';
@@ -506,7 +554,7 @@ class ModernPortfolio {
                 }
                 this.currentScrollPosition = 0;
                 projectsTrack.style.transform = 'translateX(0)';
-            } else if (filter === 'all' && search === '') {
+            } else if (filter === 'all') {
                 projectsTrack.classList.add('filtered');
                 if (sliderContainer) {
                     sliderContainer.classList.add('show-nav');
