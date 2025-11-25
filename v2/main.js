@@ -20,6 +20,10 @@ class ModernPortfolio {
         this.prevBtnHandler = null;
         this.nextBtnHandler = null;
         this.wheelHandler = null;
+        this.touchStartX = 0;
+        this.touchStartY = 0;
+        this.touchCurrentX = 0;
+        this.isDragging = false;
         this.init();
     }
 
@@ -415,7 +419,75 @@ class ModernPortfolio {
         nextBtn.addEventListener('click', this.nextBtnHandler);
         sliderContainer.addEventListener('wheel', this.wheelHandler, { passive: false });
 
+        this.setupTouchSwipe(projectsTrack, sliderContainer, updateNavButtons);
+
         setTimeout(updateNavButtons, 100);
+    }
+
+    setupTouchSwipe(projectsTrack, sliderContainer, updateNavButtons) {
+        if (!projectsTrack || !sliderContainer) return;
+
+        const handleTouchStart = (e) => {
+            if (this.currentFilter !== 'all') return;
+            
+            this.touchStartX = e.touches[0].clientX;
+            this.touchStartY = e.touches[0].clientY;
+            this.touchCurrentX = this.touchStartX;
+            this.isDragging = true;
+            projectsTrack.style.transition = 'none';
+        };
+
+        const handleTouchMove = (e) => {
+            if (!this.isDragging || this.currentFilter !== 'all') return;
+            
+            e.preventDefault();
+            this.touchCurrentX = e.touches[0].clientX;
+            const deltaX = this.touchCurrentX - this.touchStartX;
+            const currentTransform = this.currentScrollPosition - deltaX;
+            
+            projectsTrack.style.transform = `translateX(-${currentTransform}px)`;
+        };
+
+        const handleTouchEnd = (e) => {
+            if (!this.isDragging || this.currentFilter !== 'all') return;
+            
+            this.isDragging = false;
+            projectsTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
+            
+            const deltaX = this.touchCurrentX - this.touchStartX;
+            const deltaY = Math.abs(e.changedTouches[0].clientY - this.touchStartY);
+            const minSwipeDistance = 50;
+            
+            if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaX) > Math.abs(deltaY)) {
+                const maxScroll = projectsTrack.scrollWidth - sliderContainer.offsetWidth;
+                
+                if (deltaX > 0) {
+                    if (this.currentScrollPosition <= 0) {
+                        this.currentScrollPosition = maxScroll;
+                    } else {
+                        this.currentScrollPosition = Math.max(0, this.currentScrollPosition - this.scrollStep);
+                    }
+                } else {
+                    if (this.currentScrollPosition >= maxScroll - 10) {
+                        this.currentScrollPosition = 0;
+                    } else {
+                        this.currentScrollPosition = Math.min(maxScroll, this.currentScrollPosition + this.scrollStep);
+                    }
+                }
+                
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('hover');
+                }
+            }
+            
+            projectsTrack.style.transform = `translateX(-${this.currentScrollPosition}px)`;
+            setTimeout(updateNavButtons, 400);
+        };
+
+        projectsTrack.addEventListener('touchstart', handleTouchStart, { passive: true });
+        projectsTrack.addEventListener('touchmove', handleTouchMove, { passive: false });
+        projectsTrack.addEventListener('touchend', handleTouchEnd, { passive: true });
+        projectsTrack.addEventListener('touchcancel', handleTouchEnd, { passive: true });
     }
 
     generateDynamicFilters() {
