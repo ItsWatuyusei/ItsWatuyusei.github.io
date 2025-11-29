@@ -20,10 +20,6 @@ class ModernPortfolio {
         this.prevBtnHandler = null;
         this.nextBtnHandler = null;
         this.wheelHandler = null;
-        this.touchStartX = 0;
-        this.touchStartY = 0;
-        this.touchCurrentX = 0;
-        this.isDragging = false;
         this.init();
     }
 
@@ -269,6 +265,17 @@ class ModernPortfolio {
         skillItems.forEach(item => observer.observe(item));
     }
 
+    updateScrollStep() {
+        const firstCard = document.querySelector('.project-card');
+        if (firstCard) {
+            const cardWidth = firstCard.offsetWidth;
+            const gap = window.innerWidth <= 768 ? 16 : 20;
+            this.scrollStep = cardWidth + gap;
+        } else {
+            this.scrollStep = window.innerWidth <= 768 ? 296 : 340;
+        }
+    }
+
     setupProjectsSlider() {
         const projectsTrack = document.querySelector('.projects-track');
         const sliderContainer = document.querySelector('.projects-slider-container');
@@ -276,14 +283,14 @@ class ModernPortfolio {
 
         this.originalCards = Array.from(projectsTrack.children);
         this.currentScrollPosition = 0;
-        this.scrollStep = 440;
+        this.updateScrollStep();
         
         this.generateDynamicFilters();
         
         projectsTrack.classList.add('filtered');
         sliderContainer.classList.add('show-nav');
         this.filterProjects(this.originalCards, 'all', '');
-
+        
         projectsTrack.addEventListener('mouseenter', () => {
             projectsTrack.style.animationPlayState = 'paused';
         });
@@ -292,6 +299,10 @@ class ModernPortfolio {
             if (!projectsTrack.classList.contains('filtered')) {
                 projectsTrack.style.animationPlayState = 'running';
             }
+        });
+
+        window.addEventListener('resize', () => {
+            this.updateScrollStep();
         });
 
         this.setupSliderNavigation();
@@ -427,38 +438,69 @@ class ModernPortfolio {
     setupTouchSwipe(projectsTrack, sliderContainer, updateNavButtons) {
         if (!projectsTrack || !sliderContainer) return;
 
+        let touchStartX = 0;
+        let touchStartY = 0;
+        let touchCurrentX = 0;
+        let touchCurrentY = 0;
+        let isDragging = false;
+        let isHorizontalSwipe = false;
+        let initialScrollTop = 0;
+        const swipeThreshold = 10;
+        const minSwipeDistance = 50;
+
         const handleTouchStart = (e) => {
             if (this.currentFilter !== 'all') return;
             
-            this.touchStartX = e.touches[0].clientX;
-            this.touchStartY = e.touches[0].clientY;
-            this.touchCurrentX = this.touchStartX;
-            this.isDragging = true;
+            touchStartX = e.touches[0].clientX;
+            touchStartY = e.touches[0].clientY;
+            touchCurrentX = touchStartX;
+            touchCurrentY = touchStartY;
+            isDragging = true;
+            isHorizontalSwipe = false;
+            initialScrollTop = window.pageYOffset || document.documentElement.scrollTop;
             projectsTrack.style.transition = 'none';
         };
 
         const handleTouchMove = (e) => {
-            if (!this.isDragging || this.currentFilter !== 'all') return;
+            if (!isDragging || this.currentFilter !== 'all') return;
             
-            e.preventDefault();
-            this.touchCurrentX = e.touches[0].clientX;
-            const deltaX = this.touchCurrentX - this.touchStartX;
-            const currentTransform = this.currentScrollPosition - deltaX;
+            touchCurrentX = e.touches[0].clientX;
+            touchCurrentY = e.touches[0].clientY;
             
-            projectsTrack.style.transform = `translateX(-${currentTransform}px)`;
+            const deltaX = Math.abs(touchCurrentX - touchStartX);
+            const deltaY = Math.abs(touchCurrentY - touchStartY);
+            
+            if (!isHorizontalSwipe && deltaX > swipeThreshold && deltaX > deltaY) {
+                isHorizontalSwipe = true;
+            }
+            
+            if (isHorizontalSwipe && deltaX > deltaY) {
+                e.preventDefault();
+                const deltaXMovement = touchCurrentX - touchStartX;
+                const currentTransform = this.currentScrollPosition - deltaXMovement;
+                const maxScroll = projectsTrack.scrollWidth - sliderContainer.offsetWidth;
+                
+                projectsTrack.style.transform = `translateX(-${Math.max(0, Math.min(maxScroll, currentTransform))}px)`;
+            } else if (!isHorizontalSwipe && deltaY > swipeThreshold) {
+                isDragging = false;
+                projectsTrack.style.transition = '';
+                projectsTrack.style.transform = `translateX(-${this.currentScrollPosition}px)`;
+            }
         };
 
         const handleTouchEnd = (e) => {
-            if (!this.isDragging || this.currentFilter !== 'all') return;
+            if (!isDragging || this.currentFilter !== 'all') {
+                isDragging = false;
+                return;
+            }
             
-            this.isDragging = false;
+            isDragging = false;
             projectsTrack.style.transition = 'transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
             
-            const deltaX = this.touchCurrentX - this.touchStartX;
-            const deltaY = Math.abs(e.changedTouches[0].clientY - this.touchStartY);
-            const minSwipeDistance = 50;
+            const deltaX = touchCurrentX - touchStartX;
+            const deltaY = Math.abs(e.changedTouches[0].clientY - touchStartY);
             
-            if (Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaX) > Math.abs(deltaY)) {
+            if (isHorizontalSwipe && Math.abs(deltaX) > minSwipeDistance && Math.abs(deltaX) > deltaY) {
                 const maxScroll = projectsTrack.scrollWidth - sliderContainer.offsetWidth;
                 
                 if (deltaX > 0) {
@@ -482,6 +524,8 @@ class ModernPortfolio {
             
             projectsTrack.style.transform = `translateX(-${this.currentScrollPosition}px)`;
             setTimeout(updateNavButtons, 400);
+            
+            isHorizontalSwipe = false;
         };
 
         projectsTrack.addEventListener('touchstart', handleTouchStart, { passive: true });
