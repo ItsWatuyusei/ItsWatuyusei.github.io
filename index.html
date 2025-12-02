@@ -101,7 +101,7 @@
                     <span class="title-word">Loading</span>
                     <span class="title-word highlight">Portfolio</span>
                 </h1>
-                <p class="loading-subtitle">Preparing your experience...</p>
+                        <p class="loading-subtitle" data-i18n="loading.preparing">Preparing your experience...</p>
                 <div class="loading-progress-bar">
                     <div class="progress-fill" id="progress-fill-loading"></div>
                 </div>
@@ -109,10 +109,10 @@
             
             <div class="loading-progress">
                 <div class="loading-stats">
-                    <span class="stat">Initializing...</span>
-                    <span class="stat">Loading Assets...</span>
-                    <span class="stat">Preparing Experience...</span>
-                    <span class="stat">Ready!</span>
+                    <span class="stat" data-i18n="loading.initializing">Initializing...</span>
+                    <span class="stat" data-i18n="loading.loadingAssets">Loading Assets...</span>
+                    <span class="stat" data-i18n="loading.preparingExperience">Preparing Experience...</span>
+                    <span class="stat" data-i18n="loading.ready">Ready!</span>
                 </div>
             </div>
         </div>
@@ -149,12 +149,18 @@
                 </a>
             </div>
             <div class="nav-links" id="nav-links">
-                <a href="#features" class="nav-link">Features</a>
-                <a href="#versions" class="nav-link">Versions</a>
-                <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" class="nav-link nav-links-btn">Links</a>
-                <a href="#" id="nav-contact-link" class="nav-link nav-contact-btn">Contact</a>
+                <a href="#features" class="nav-link" data-i18n="nav.features">Features</a>
+                <a href="#versions" class="nav-link" data-i18n="nav.versions">Versions</a>
+                <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" class="nav-link nav-links-btn" data-i18n="nav.links">Links</a>
+                <a href="#" id="nav-contact-link" class="nav-link nav-contact-btn" data-i18n="nav.contact">Contact</a>
             </div>
             <div class="nav-controls">
+                <div class="nav-language">
+                    <button class="nav-language-toggle" id="nav-language-toggle" aria-label="Toggle language">
+                        <i class="fas fa-globe"></i>
+                        <span class="nav-language-text" id="nav-language-text">ENG</span>
+                    </button>
+                </div>
                 <div class="nav-darkmode">
                     <input type="checkbox" id="nav-darkmode-toggle" aria-label="Toggle dark mode">
                     <label for="nav-darkmode-toggle" class="nav-darkmode-label"><i class="fas fa-moon"></i></label>
@@ -187,10 +193,10 @@
                     </div>
                     <div class="hero-text">
                         <h2 class="hero-title">
-                            <span class="typewriter-text" data-text="Choose Your Experience"></span>
+                            <span class="typewriter-text" data-i18n-typewriter="hero.title" data-text="Choose Your Experience"></span>
                         </h2>
                         <p class="hero-description">
-                            <span class="typewriter-subtitle" data-text="Discover two unique portfolio styles: the original classic design and a modern version that uses the latest web technology."></span>
+                            <span class="typewriter-subtitle" data-i18n-typewriter="hero.subtitle" data-text="Discover two unique portfolio styles: the original classic design and a modern version that uses the latest web technology."></span>
                         </p>
                     </div>
                     
@@ -221,23 +227,23 @@
                                 </div>
                             </div>
                             <div class="version-info">
-                                <h3 class="version-title">Classic Portfolio</h3>
-                                <p class="version-description">Clean, professional portfolio with comprehensive project showcase, advanced search functionality, and detailed tech stack presentation. Perfect for traditional portfolio browsing.</p>
+                                <h3 class="version-title" data-i18n="version.v1.title">Classic Portfolio</h3>
+                                <p class="version-description" data-i18n="version.v1.description">Clean, professional portfolio with comprehensive project showcase, advanced search functionality, and detailed tech stack presentation. Perfect for traditional portfolio browsing.</p>
                                 <div class="version-features">
-                                    <span class="feature-tag">Project Gallery</span>
-                                    <span class="feature-tag">Advanced Search</span>
-                                    <span class="feature-tag">Tech Stack</span>
-                                    <span class="feature-tag">Responsive</span>
+                                    <span class="feature-tag" data-i18n="version.v1.features.gallery">Project Gallery</span>
+                                    <span class="feature-tag" data-i18n="version.v1.features.search">Advanced Search</span>
+                                    <span class="feature-tag" data-i18n="version.v1.features.tech">Tech Stack</span>
+                                    <span class="feature-tag" data-i18n="version.v1.features.responsive">Responsive</span>
                                 </div>
                                 <a href="v1/index.html" class="version-link" data-version="v1">
-                                    <span>Explore Classic</span>
+                                    <span data-i18n="version.v1.link">Explore Classic</span>
                                     <i class="fas fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
                         
                         <div class="version-card featured" data-version="v2">
-                            <div class="version-badge">NEW</div>
+                            <div class="version-badge" data-i18n="version.v2.badge">NEW</div>
                             <div class="version-preview">
                                 <div class="preview-image v2-preview">
                                     <div class="preview-content modern">
@@ -264,16 +270,16 @@
                                 </div>
                             </div>
                             <div class="version-info">
-                                <h3 class="version-title">Modern Portfolio</h3>
-                                <p class="version-description">Revolutionary portfolio experience with glassmorphism design, interactive skill progress bars, dynamic tech background, and modern project slider. Showcases the future of web development.</p>
+                                <h3 class="version-title" data-i18n="version.v2.title">Modern Portfolio</h3>
+                                <p class="version-description" data-i18n="version.v2.description">Revolutionary portfolio experience with glassmorphism design, interactive skill progress bars, dynamic tech background, and modern project slider. Showcases the future of web development.</p>
                                 <div class="version-features">
-                                    <span class="feature-tag">Glassmorphism</span>
-                                    <span class="feature-tag">Skill Progress</span>
-                                    <span class="feature-tag">Dynamic Background</span>
-                                    <span class="feature-tag">Modern UI</span>
+                                    <span class="feature-tag" data-i18n="version.v2.features.glassmorphism">Glassmorphism</span>
+                                    <span class="feature-tag" data-i18n="version.v2.features.progress">Skill Progress</span>
+                                    <span class="feature-tag" data-i18n="version.v2.features.background">Dynamic Background</span>
+                                    <span class="feature-tag" data-i18n="version.v2.features.modern">Modern UI</span>
                                 </div>
                                 <a href="v2/index.html" class="version-link" data-version="v2">
-                                    <span>Experience Modern</span>
+                                    <span data-i18n="version.v2.link">Experience Modern</span>
                                     <i class="fas fa-rocket"></i>
                                 </a>
                             </div>
@@ -287,7 +293,7 @@
                             </div>
                             <div class="stat-content">
                                 <span class="stat-number">15+</span>
-                                <span class="stat-label">Technologies</span>
+                                <span class="stat-label" data-i18n="stats.technologies">Technologies</span>
                             </div>
                         </div>
                         <div class="stat-item">
@@ -296,7 +302,7 @@
                             </div>
                             <div class="stat-content">
                                 <span class="stat-number">20+</span>
-                                <span class="stat-label">Projects</span>
+                                <span class="stat-label" data-i18n="stats.projects">Projects</span>
                             </div>
                         </div>
                         <div class="stat-item">
@@ -305,7 +311,7 @@
                             </div>
                             <div class="stat-content">
                                 <span class="stat-number">8+</span>
-                                <span class="stat-label">Years Experience</span>
+                                <span class="stat-label" data-i18n="stats.years">Years Experience</span>
                             </div>
                         </div>
                     </div>
@@ -316,8 +322,8 @@
         <section class="features-section" id="features">
             <div class="features-container">
                 <div class="section-header">
-                    <h2 class="section-title">Why Choose This Hub?</h2>
-                    <p class="section-subtitle">Experience the evolution of web development</p>
+                    <h2 class="section-title" data-i18n="features.title">Why Choose This Hub?</h2>
+                    <p class="section-subtitle" data-i18n="features.subtitle">Experience the evolution of web development</p>
                 </div>
                 
                 <div class="features-grid">
@@ -325,32 +331,32 @@
                         <div class="feature-icon">
                             <i class="fas fa-code"></i>
                         </div>
-                        <h3 class="feature-title">Full Stack Development</h3>
-                        <p class="feature-description">Complete web solutions from frontend to backend, delivering end-to-end applications with modern technologies.</p>
+                        <h3 class="feature-title" data-i18n="features.fullstack.title">Full Stack Development</h3>
+                        <p class="feature-description" data-i18n="features.fullstack.description">Complete web solutions from frontend to backend, delivering end-to-end applications with modern technologies.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-lightbulb"></i>
                         </div>
-                        <h3 class="feature-title">Innovative Solutions</h3>
-                        <p class="feature-description">Creative problem-solving approach that transforms complex challenges into elegant, user-friendly applications.</p>
+                        <h3 class="feature-title" data-i18n="features.innovative.title">Innovative Solutions</h3>
+                        <p class="feature-description" data-i18n="features.innovative.description">Creative problem-solving approach that transforms complex challenges into elegant, user-friendly applications.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-mobile-alt"></i>
                         </div>
-                        <h3 class="feature-title">Responsive Design</h3>
-                        <p class="feature-description">Perfect experience across all devices, from mobile to desktop and beyond with adaptive layouts.</p>
+                        <h3 class="feature-title" data-i18n="features.responsive.title">Responsive Design</h3>
+                        <p class="feature-description" data-i18n="features.responsive.description">Perfect experience across all devices, from mobile to desktop and beyond with adaptive layouts.</p>
                     </div>
                     
                     <div class="feature-card">
                         <div class="feature-icon">
                             <i class="fas fa-rocket"></i>
                         </div>
-                        <h3 class="feature-title">Modern Technology</h3>
-                        <p class="feature-description">Cutting-edge tools and frameworks to build fast, scalable, and maintainable applications with the latest industry standards.</p>
+                        <h3 class="feature-title" data-i18n="features.modern.title">Modern Technology</h3>
+                        <p class="feature-description" data-i18n="features.modern.description">Cutting-edge tools and frameworks to build fast, scalable, and maintainable applications with the latest industry standards.</p>
                     </div>
                 </div>
             </div>
@@ -366,7 +372,7 @@
                 </div>
                 <div class="footer-info">
                     <h3>ItsWatuyusei</h3>
-                    <p>Full Stack Developer</p>
+                    <p data-i18n="footer.fullStack">Full Stack Developer</p>
                 </div>
             </div>
             <div class="footer-links" id="footer-links">
@@ -390,6 +396,7 @@
     </div>
 
     <script src="https://js.hsforms.net/forms/embed/49346124.js" defer></script>
+    <script src="i18n.js?v=202502152300"></script>
     <script src="main.js?v=202502152300" defer></script>
 </body>
 </html>

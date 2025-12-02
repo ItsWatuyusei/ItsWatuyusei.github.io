@@ -664,6 +664,43 @@ body:not([data-theme="dark"]) .loading-stats {
     gap: 16px;
 }
 
+.nav-language {
+    position: relative;
+}
+
+.nav-language-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    min-width: 60px;
+    height: 40px;
+    padding: 0 8px;
+    border-radius: var(--radius-md);
+    background: var(--bg-glass);
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.nav-language-toggle:hover {
+    background: var(--bg-glass-hover);
+    transform: scale(1.05);
+}
+
+.nav-language-toggle:active {
+    transform: scale(0.95);
+}
+
+.nav-language-text {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
 .nav-darkmode {
     position: relative;
 }

@@ -34,6 +34,7 @@ class PortfolioHub {
 
     init() {
         try {
+            this.setupI18n();
             this.setupLoadingScreen();
             this.setupEventListeners();
             this.setupTheme();
@@ -55,6 +56,48 @@ class PortfolioHub {
             }, 500);
         } catch (e) {
             console.error('Error initializing PortfolioHub:', e);
+        }
+    }
+
+    setupI18n() {
+        if (typeof i18n === 'undefined') {
+            setTimeout(() => this.setupI18n(), 100);
+            return;
+        }
+        
+        i18n.init();
+        this.updateLanguageSelector();
+        
+        const languageToggle = document.getElementById('nav-language-toggle');
+        
+        if (languageToggle) {
+            languageToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.typewriterTimeouts) {
+                    this.typewriterTimeouts.forEach(timeout => clearTimeout(timeout));
+                    this.typewriterTimeouts = [];
+                }
+                const currentLang = i18n.getLanguage();
+                const newLang = currentLang === 'eng' ? 'spn' : 'eng';
+                i18n.setLanguage(newLang);
+                this.updateLanguageSelector();
+                setTimeout(() => {
+                    this.setupTypewriter();
+                }, 100);
+                
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('toggle');
+                }
+            });
+        }
+    }
+
+    updateLanguageSelector() {
+        if (typeof i18n === 'undefined') return;
+        
+        const languageText = document.getElementById('nav-language-text');
+        if (languageText) {
+            languageText.textContent = i18n.getLanguage() === 'eng' ? 'ENG' : 'ESP';
         }
     }
 
@@ -1006,49 +1049,77 @@ class PortfolioHub {
     }
 
     setupTypewriter() {
+        if (this.typewriterTimeouts) {
+            this.typewriterTimeouts.forEach(timeout => clearTimeout(timeout));
+            this.typewriterTimeouts = [];
+        } else {
+            this.typewriterTimeouts = [];
+        }
+        
         const typewriterText = document.querySelector('.typewriter-text');
         const typewriterSubtitle = document.querySelector('.typewriter-subtitle');
         
         if (!typewriterText || !typewriterSubtitle) return;
         
-        const fullText = typewriterText.getAttribute('data-text');
-        const subtitleText = typewriterSubtitle.getAttribute('data-text');
+        typewriterText.classList.remove('typing', 'completed');
+        typewriterSubtitle.classList.remove('typing', 'completed');
+        
+        typewriterText.textContent = '';
+        typewriterSubtitle.textContent = '';
+        
+        let fullText = typewriterText.getAttribute('data-text');
+        let subtitleText = typewriterSubtitle.getAttribute('data-text');
+        
+        if (typeof i18n !== 'undefined') {
+            if (typewriterText.hasAttribute('data-i18n-typewriter')) {
+                fullText = i18n.t(typewriterText.getAttribute('data-i18n-typewriter'));
+            }
+            if (typewriterSubtitle.hasAttribute('data-i18n-typewriter')) {
+                subtitleText = i18n.t(typewriterSubtitle.getAttribute('data-i18n-typewriter'));
+            }
+        }
         
         if (!fullText || !subtitleText) return;
         
         let currentIndex = 0;
         let subtitleIndex = 0;
-        
-        typewriterSubtitle.classList.remove('typing');
+        let isStopped = false;
         
         const typeText = () => {
-            if (!typewriterText) return;
+            if (isStopped || !typewriterText) return;
             if (currentIndex < fullText.length) {
-                typewriterText.textContent += fullText.charAt(currentIndex);
+                typewriterText.textContent = fullText.substring(0, currentIndex + 1);
                 currentIndex++;
-                setTimeout(typeText, 100);
+                const timeout = setTimeout(typeText, 100);
+                this.typewriterTimeouts.push(timeout);
             } else {
                 if (typewriterText) {
                     typewriterText.classList.remove('typing');
                     typewriterText.classList.add('completed');
                 }
-                setTimeout(() => {
+                const timeout1 = setTimeout(() => {
+                    if (isStopped) return;
                     if (typewriterSubtitle) {
                         typewriterSubtitle.classList.add('typing');
-                        setTimeout(() => {
-                            typeSubtitle();
+                        const timeout2 = setTimeout(() => {
+                            if (!isStopped) {
+                                typeSubtitle();
+                            }
                         }, 1000);
+                        this.typewriterTimeouts.push(timeout2);
                     }
                 }, 1000);
+                this.typewriterTimeouts.push(timeout1);
             }
         };
         
         const typeSubtitle = () => {
-            if (!typewriterSubtitle) return;
+            if (isStopped || !typewriterSubtitle) return;
             if (subtitleIndex < subtitleText.length) {
-                typewriterSubtitle.textContent += subtitleText.charAt(subtitleIndex);
+                typewriterSubtitle.textContent = subtitleText.substring(0, subtitleIndex + 1);
                 subtitleIndex++;
-                setTimeout(typeSubtitle, 50);
+                const timeout = setTimeout(typeSubtitle, 50);
+                this.typewriterTimeouts.push(timeout);
             } else {
                 if (typewriterSubtitle) {
                     typewriterSubtitle.classList.remove('typing');
@@ -1057,12 +1128,13 @@ class PortfolioHub {
             }
         };
         
-        setTimeout(() => {
-            if (typewriterText) {
+        const initialTimeout = setTimeout(() => {
+            if (!isStopped && typewriterText) {
                 typewriterText.classList.add('typing');
                 typeText();
             }
         }, 1500);
+        this.typewriterTimeouts.push(initialTimeout);
     }
 }
 

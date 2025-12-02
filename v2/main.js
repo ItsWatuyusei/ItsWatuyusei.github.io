@@ -24,6 +24,7 @@ class ModernPortfolio {
     }
 
     init() {
+        this.setupI18n();
         this.setupTheme();
         this.setupNavigation();
         this.setupProgressBar();
@@ -38,6 +39,58 @@ class ModernPortfolio {
         this.setupSoundToggle();
         this.updateSoundIcon();
         this.randomizeTechPositions();
+    }
+
+    setupI18n() {
+        if (typeof i18n === 'undefined') {
+            setTimeout(() => this.setupI18n(), 100);
+            return;
+        }
+        
+        i18n.init();
+        this.updateLanguageSelector();
+        
+        setTimeout(() => {
+            if (typeof i18n !== 'undefined') {
+                i18n.updatePage();
+            }
+        }, 200);
+        
+        const languageToggle = document.getElementById('nav-language-toggle');
+        
+        if (languageToggle) {
+            languageToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (this.heroTimeouts) {
+                    this.heroTimeouts.forEach(timeout => clearTimeout(timeout));
+                    this.heroTimeouts = [];
+                }
+                const currentLang = i18n.getLanguage();
+                const newLang = currentLang === 'eng' ? 'spn' : 'eng';
+                i18n.setLanguage(newLang);
+                this.updateLanguageSelector();
+                setTimeout(() => {
+                    if (typeof i18n !== 'undefined') {
+                        i18n.updatePage();
+                        this.generateDynamicFilters();
+                    }
+                    this.setupHero();
+                }, 100);
+                
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('toggle');
+                }
+            });
+        }
+    }
+
+    updateLanguageSelector() {
+        if (typeof i18n === 'undefined') return;
+        
+        const languageText = document.getElementById('nav-language-text');
+        if (languageText) {
+            languageText.textContent = i18n.getLanguage() === 'eng' ? 'ENG' : 'ESP';
+        }
     }
 
     setupTheme() {
@@ -212,26 +265,60 @@ class ModernPortfolio {
     }
 
     setupHero() {
+        if (this.heroTimeouts) {
+            this.heroTimeouts.forEach(timeout => clearTimeout(timeout));
+            this.heroTimeouts = [];
+        } else {
+            this.heroTimeouts = [];
+        }
+        
         const typewriter = document.querySelector('.typewriter');
         if (typewriter) {
-            const text = typewriter.dataset.text;
+            typewriter.classList.remove('typing', 'completed');
+            typewriter.textContent = '';
+            
+            let text = typewriter.dataset.text;
+            
+            if (typeof i18n !== 'undefined' && typewriter.hasAttribute('data-i18n-typewriter')) {
+                text = i18n.t(typewriter.getAttribute('data-i18n-typewriter'), 'v2');
+            }
+            
+            if (!text) return;
+            
             let index = 0;
+            let isStopped = false;
             
             const type = () => {
+                if (isStopped) return;
+                
                 if (index < text.length) {
-                    typewriter.textContent = text.slice(0, index + 1);
+                    typewriter.textContent = text.substring(0, index + 1);
                     index++;
-                    setTimeout(type, 100);
+                    const timeout = setTimeout(type, 100);
+                    this.heroTimeouts.push(timeout);
                 } else {
-                    setTimeout(() => {
+                    const timeout1 = setTimeout(() => {
+                        if (isStopped) return;
                         index = 0;
                         typewriter.textContent = '';
-                        setTimeout(type, 500);
+                        const timeout2 = setTimeout(() => {
+                            if (!isStopped) {
+                                type();
+                            }
+                        }, 500);
+                        this.heroTimeouts.push(timeout2);
                     }, 2000);
+                    this.heroTimeouts.push(timeout1);
                 }
             };
             
-            setTimeout(type, 1000);
+            const initialTimeout = setTimeout(() => {
+                if (!isStopped) {
+                    typewriter.classList.add('typing');
+                    type();
+                }
+            }, 1000);
+            this.heroTimeouts.push(initialTimeout);
         }
 
     }
@@ -544,19 +631,31 @@ class ModernPortfolio {
             technologies.forEach(tech => allTechnologies.add(tech.trim()));
         });
 
-        const technologyLabels = {
-            'cpp': 'C++',
-            'cms': 'CMS',
-            'dotnet': '.NET',
-            'ecommerce': 'E-commerce',
-            'flutter': 'Flutter',
-            'javascript': 'JavaScript',
-            'python': 'Python'
+        const getFilterLabel = (tech) => {
+            if (typeof i18n !== 'undefined') {
+                return i18n.t(`filters.${tech}`, 'v2');
+            }
+            const fallback = {
+                'all': 'All',
+                'cpp': 'C++',
+                'cms': 'CMS',
+                'dotnet': '.NET',
+                'ecommerce': 'E-commerce',
+                'flutter': 'Flutter',
+                'javascript': 'JavaScript',
+                'python': 'Python'
+            };
+            return fallback[tech] || tech;
         };
 
         const allButton = filterContainer.querySelector('[data-filter="all"]');
+        if (allButton && typeof i18n !== 'undefined') {
+            allButton.textContent = i18n.t('filters.all', 'v2');
+        }
         filterContainer.innerHTML = '';
-        filterContainer.appendChild(allButton);
+        if (allButton) {
+            filterContainer.appendChild(allButton);
+        }
 
         const v1FilterOrder = ['cpp', 'cms', 'dotnet', 'ecommerce', 'flutter', 'javascript', 'python'];
         
@@ -565,7 +664,7 @@ class ModernPortfolio {
                 const button = document.createElement('button');
                 button.className = 'filter-btn';
                 button.dataset.filter = tech;
-                button.textContent = technologyLabels[tech];
+                button.textContent = getFilterLabel(tech);
                 filterContainer.appendChild(button);
             }
         });

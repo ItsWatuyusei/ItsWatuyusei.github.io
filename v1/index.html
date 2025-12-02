@@ -132,15 +132,15 @@
             </div>
             <div class="quick-search-results" id="quick-search-results">
                 <div class="search-category">
-                    <h4>Sections</h4>
+                    <h4 data-i18n="search.sections" data-i18n-version="v1">Sections</h4>
                     <div class="search-items" id="sections-results"></div>
                 </div>
                 <div class="search-category">
-                    <h4>Projects</h4>
+                    <h4 data-i18n="search.projects" data-i18n-version="v1">Projects</h4>
                     <div class="search-items" id="projects-results"></div>
                 </div>
                 <div class="search-category">
-                    <h4>Skills</h4>
+                    <h4 data-i18n="search.skills" data-i18n-version="v1">Skills</h4>
                     <div class="search-items" id="skills-results"></div>
                 </div>
             </div>
@@ -156,14 +156,20 @@
                 </a>
             </div>
             <div class="nav-links" id="nav-links">
-                <a href="../index.html" class="nav-link nav-hub-btn">Hub</a>
-                <a href="#skills" class="nav-link">Skills</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#tech-stack" class="nav-link">Tech Stack</a>
-                <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" class="nav-link nav-links-btn">Links</a>
-                <a href="#" id="nav-contact-link" class="nav-link nav-contact-btn">Contact</a>
+                <a href="../index.html" class="nav-link nav-hub-btn" data-i18n="nav.hub" data-i18n-version="v1">Hub</a>
+                <a href="#skills" class="nav-link" data-i18n="nav.skills" data-i18n-version="v1">Skills</a>
+                <a href="#projects" class="nav-link" data-i18n="nav.projects" data-i18n-version="v1">Projects</a>
+                <a href="#tech-stack" class="nav-link" data-i18n="nav.techStack" data-i18n-version="v1">Tech Stack</a>
+                <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" class="nav-link nav-links-btn" data-i18n="nav.links" data-i18n-version="v1">Links</a>
+                <a href="#" id="nav-contact-link" class="nav-link nav-contact-btn" data-i18n="nav.contact" data-i18n-version="v1">Contact</a>
             </div>
             <div class="nav-controls">
+                <div class="nav-language">
+                    <button class="nav-language-toggle" id="nav-language-toggle" aria-label="Toggle language">
+                        <i class="fas fa-globe"></i>
+                        <span class="nav-language-text" id="nav-language-text">ENG</span>
+                    </button>
+                </div>
                 <div class="nav-darkmode">
                     <input type="checkbox" id="nav-darkmode-toggle" aria-label="Toggle dark mode">
                     <label for="nav-darkmode-toggle" class="nav-darkmode-label"><i class="fas fa-moon"></i></label>
@@ -188,14 +194,14 @@
                 </div>
                 <h1 class="name">ItsWatuyusei</h1>
                 <div class="subtitle">
-                    <span class="typewriter-text" data-text="Developer with 8+ years of experience building scalable applications and software solutions."></span>
+                    <span class="typewriter-text" data-i18n-typewriter="hero.subtitle" data-i18n-version="v1" data-text="Developer with 8+ years of experience building scalable applications and software solutions."></span>
                 </div>
                 <div class="role">
-                    <span class="typewriter" data-text="Full Stack Developer"></span>
+                    <span class="typewriter" data-i18n-typewriter="hero.role" data-i18n-version="v1" data-text="Full Stack Developer"></span>
                 </div>
                 <div class="links">
-                    <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" class="links-btn"><i class="fas fa-link links-icon"></i> Links</a>
-                    <a href="#" id="contact-link" class="contact-btn"><i class="fas fa-envelope contact-icon"></i> Contact</a>
+                    <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" class="links-btn"><i class="fas fa-link links-icon"></i> <span data-i18n="hero.links" data-i18n-version="v1">Links</span></a>
+                    <a href="#" id="contact-link" class="contact-btn"><i class="fas fa-envelope contact-icon"></i> <span data-i18n="hero.contact" data-i18n-version="v1">Contact</span></a>
                 </div>
                 <div class="darkmode-switch">
                     <input type="checkbox" id="darkmode-toggle" aria-label="Toggle dark mode">
@@ -205,7 +211,7 @@
         </header>
         <div class="container">
             <section class="section" id="skills">
-                <h2 class="section-title">Skills</h2>
+                <h2 class="section-title" data-i18n="sections.skills" data-i18n-version="v1">Skills</h2>
                 <div class="skills">
                     <div class="skill">.NET</div>
                     <div class="skill">AWS</div>
@@ -229,24 +235,24 @@
             </section>
             <hr class="section-separator" />
             <section class="section" id="projects">
-                <h2 class="section-title">Featured Projects</h2>
+                <h2 class="section-title" data-i18n="sections.projects" data-i18n-version="v1">Featured Projects</h2>
                 <div class="project-controls">
                     <div class="search-container">
-                        <input type="text" id="project-search" placeholder="Search projects..." class="project-search">
+                        <input type="text" id="project-search" data-i18n="search.placeholder" data-i18n-version="v1" placeholder="Search projects..." class="project-search">
                         <i class="fas fa-search search-icon"></i>
                         <button type="button" id="clear-search" class="clear-search-btn" style="display: none;">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                     <div class="filter-container">
-                        <button class="filter-btn active" data-filter="all">All</button>
-                        <button class="filter-btn" data-filter="cpp">C++</button>
-                        <button class="filter-btn" data-filter="cms">CMS</button>
-                        <button class="filter-btn" data-filter="dotnet">.NET</button>
-                        <button class="filter-btn" data-filter="ecommerce">E-commerce</button>
-                        <button class="filter-btn" data-filter="flutter">Flutter</button>
-                        <button class="filter-btn" data-filter="javascript">JavaScript</button>
-                        <button class="filter-btn" data-filter="python">Python</button>
+                        <button class="filter-btn active" data-filter="all" data-i18n="filters.all" data-i18n-version="v1">All</button>
+                        <button class="filter-btn" data-filter="cpp" data-i18n="filters.cpp" data-i18n-version="v1">C++</button>
+                        <button class="filter-btn" data-filter="cms" data-i18n="filters.cms" data-i18n-version="v1">CMS</button>
+                        <button class="filter-btn" data-filter="dotnet" data-i18n="filters.dotnet" data-i18n-version="v1">.NET</button>
+                        <button class="filter-btn" data-filter="ecommerce" data-i18n="filters.ecommerce" data-i18n-version="v1">E-commerce</button>
+                        <button class="filter-btn" data-filter="flutter" data-i18n="filters.flutter" data-i18n-version="v1">Flutter</button>
+                        <button class="filter-btn" data-filter="javascript" data-i18n="filters.javascript" data-i18n-version="v1">JavaScript</button>
+                        <button class="filter-btn" data-filter="python" data-i18n="filters.python" data-i18n-version="v1">Python</button>
                     </div>
                 </div>
                 <div class="projects fadein-group" id="projects-container">
@@ -456,7 +462,7 @@
             </section>
             <hr class="section-separator" />
             <section class="section tech-stack-section" id="tech-stack">
-                <h2 class="section-title">Tech Stack</h2>
+                <h2 class="section-title" data-i18n="sections.techStack" data-i18n-version="v1">Tech Stack</h2>
                 <div class="tech-stack-logos">
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" alt="HTML" title="HTML" />
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" alt="CSS" title="CSS" />
@@ -488,7 +494,7 @@
                 </div>
                 <div class="footer-info">
                     <h3>ItsWatuyusei</h3>
-                    <p>Full Stack Developer</p>
+                    <p data-i18n="footer.fullStack" data-i18n-version="v1">Full Stack Developer</p>
                 </div>
             </div>
             <div class="footer-links" id="footer-links">
@@ -543,6 +549,7 @@
             addCacheBuster();
         }
     </script>
+    <script src="../i18n.js?v=202502152300"></script>
     <script src="main.js?v=202502152300" defer></script>
 </body>
 </html>

@@ -288,6 +288,129 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.classList.add('android');
     }
     
+    function setupI18n() {
+        if (typeof i18n === 'undefined') {
+            setTimeout(() => setupI18n(), 100);
+            return;
+        }
+        
+        i18n.init();
+        updateLanguageSelector();
+        
+        const languageToggle = document.getElementById('nav-language-toggle');
+        
+        if (languageToggle) {
+            languageToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                clearTypewriterTimeouts();
+                const currentLang = i18n.getLanguage();
+                const newLang = currentLang === 'eng' ? 'spn' : 'eng';
+                i18n.setLanguage(newLang);
+                updateLanguageSelector();
+                setTimeout(() => {
+                    setupTypewriter();
+                }, 100);
+            });
+        }
+    }
+    
+    function updateLanguageSelector() {
+        if (typeof i18n === 'undefined') return;
+        
+        const languageText = document.getElementById('nav-language-text');
+        if (languageText) {
+            languageText.textContent = i18n.getLanguage() === 'eng' ? 'ENG' : 'ESP';
+        }
+    }
+    
+    let typewriterTimeouts = [];
+    
+    function clearTypewriterTimeouts() {
+        typewriterTimeouts.forEach(timeout => clearTimeout(timeout));
+        typewriterTimeouts = [];
+    }
+    
+    function setupTypewriter() {
+        clearTypewriterTimeouts();
+        
+        const typewriterText = document.querySelector('.typewriter-text');
+        const typewriterRole = document.querySelector('.typewriter');
+        
+        if (!typewriterText || !typewriterRole) return;
+        
+        typewriterText.classList.remove('typing', 'completed');
+        typewriterRole.classList.remove('typing', 'completed');
+        
+        typewriterText.textContent = '';
+        typewriterRole.textContent = '';
+        
+        let fullText = typewriterText.getAttribute('data-text');
+        let roleText = typewriterRole.getAttribute('data-text');
+        
+        if (typeof i18n !== 'undefined') {
+            if (typewriterText.hasAttribute('data-i18n-typewriter')) {
+                fullText = i18n.t(typewriterText.getAttribute('data-i18n-typewriter'), 'v1');
+            }
+            if (typewriterRole.hasAttribute('data-i18n-typewriter')) {
+                roleText = i18n.t(typewriterRole.getAttribute('data-i18n-typewriter'), 'v1');
+            }
+        }
+        
+        if (!fullText || !roleText) return;
+        
+        let currentIndex = 0;
+        let roleIndex = 0;
+        let isStopped = false;
+        
+        function typeWriter() {
+            if (isStopped) return;
+            
+            if (currentIndex < fullText.length) {
+                typewriterText.textContent = fullText.substring(0, currentIndex + 1);
+                currentIndex++;
+                const timeout = setTimeout(typeWriter, 80);
+                typewriterTimeouts.push(timeout);
+            } else {
+                typewriterText.classList.remove('typing');
+                typewriterText.classList.add('completed');
+                const timeout1 = setTimeout(() => {
+                    if (isStopped) return;
+                    typewriterRole.classList.add('typing');
+                    const timeout2 = setTimeout(() => {
+                        if (isStopped) return;
+                        typeWriterRole();
+                    }, 1000);
+                    typewriterTimeouts.push(timeout2);
+                }, 1000);
+                typewriterTimeouts.push(timeout1);
+            }
+        }
+        
+        function typeWriterRole() {
+            if (isStopped) return;
+            
+            if (roleIndex < roleText.length) {
+                typewriterRole.textContent = roleText.substring(0, roleIndex + 1);
+                roleIndex++;
+                const timeout = setTimeout(typeWriterRole, 80);
+                typewriterTimeouts.push(timeout);
+            } else {
+                typewriterRole.classList.remove('typing');
+                typewriterRole.classList.add('completed');
+            }
+        }
+        
+        typewriterText.classList.add('typing');
+        const initialTimeout = setTimeout(() => {
+            if (!isStopped) {
+                typeWriter();
+            }
+        }, 1500);
+        typewriterTimeouts.push(initialTimeout);
+    }
+    
+    setupI18n();
+    
     const lazyLoader = new EnhancedLazyLoader();
     window.lazyLoader = lazyLoader;
     
@@ -637,10 +760,22 @@ document.addEventListener('DOMContentLoaded', function() {
         requestAnimationFrame(() => {
             quickSearchResults.style.display = 'block';
         });
+        const getSectionName = (key) => {
+            if (typeof i18n !== 'undefined') {
+                return i18n.t(key, 'v1');
+            }
+            const fallback = {
+                'sections.skills': 'Skills',
+                'sections.projects': 'Projects',
+                'sections.techStack': 'Tech Stack'
+            };
+            return fallback[key] || key;
+        };
+        
         const sections = [
-            { name: 'Skills', id: 'skills' },
-            { name: 'Projects', id: 'projects' },
-            { name: 'Tech Stack', id: 'tech-stack' }
+            { name: getSectionName('sections.skills'), id: 'skills' },
+            { name: getSectionName('sections.projects'), id: 'projects' },
+            { name: getSectionName('sections.techStack'), id: 'tech-stack' }
         ];
         const projects = Array.from(projectCards).map(card => ({
             name: card.querySelector('.project-title')?.textContent || '',
