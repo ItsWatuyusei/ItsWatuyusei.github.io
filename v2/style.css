@@ -537,14 +537,54 @@ body:not(.light-theme) {
     color: var(--text-primary);
 }
 
+.typewriter-text {
+    position: relative;
+    display: inline-block;
+}
+
+.typewriter-text::after {
+    content: '|';
+    position: relative;
+    display: inline-block;
+    animation: blink 1s infinite;
+    color: var(--primary);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    margin-left: 2px;
+}
+
+.typewriter-text.typing::after {
+    opacity: 1;
+}
+
+.typewriter-text.completed::after {
+    display: none;
+}
+
 .typewriter {
     position: relative;
+    display: inline-block;
 }
 
 .typewriter::after {
     content: '|';
+    position: relative;
+    display: inline-block;
     animation: blink 1s infinite;
     color: var(--primary);
+    margin-left: 2px;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.typewriter.typing::after {
+    opacity: 1;
+    visibility: visible;
+}
+
+.typewriter.completed::after {
+    opacity: 0;
+    visibility: hidden;
 }
 
 @keyframes blink {

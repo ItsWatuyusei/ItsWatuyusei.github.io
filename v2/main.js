@@ -272,55 +272,94 @@ class ModernPortfolio {
             this.heroTimeouts = [];
         }
         
-        const typewriter = document.querySelector('.typewriter');
-        if (typewriter) {
-            typewriter.classList.remove('typing', 'completed');
-            typewriter.textContent = '';
-            
-            let text = typewriter.dataset.text;
-            
-            if (typeof i18n !== 'undefined' && typewriter.hasAttribute('data-i18n-typewriter')) {
-                text = i18n.t(typewriter.getAttribute('data-i18n-typewriter'), 'v2');
+        const typewriterText = document.querySelector('.typewriter-text');
+        const typewriterRole = document.querySelector('.typewriter');
+        
+        if (!typewriterText || !typewriterRole) return;
+        
+        typewriterText.classList.remove('typing', 'completed');
+        typewriterRole.classList.remove('typing', 'completed');
+        
+        typewriterText.textContent = '';
+        typewriterRole.textContent = '';
+        
+        let fullText = typewriterText.getAttribute('data-text');
+        let roleText = typewriterRole.getAttribute('data-text');
+        
+        if (typeof i18n !== 'undefined') {
+            if (typewriterText.hasAttribute('data-i18n-typewriter')) {
+                fullText = i18n.t(typewriterText.getAttribute('data-i18n-typewriter'), 'v2');
             }
-            
-            if (!text) return;
-            
-            let index = 0;
-            let isStopped = false;
-            
-            const type = () => {
-                if (isStopped) return;
-                
-                if (index < text.length) {
-                    typewriter.textContent = text.substring(0, index + 1);
-                    index++;
-                    const timeout = setTimeout(type, 100);
-                    this.heroTimeouts.push(timeout);
-                } else {
-                    const timeout1 = setTimeout(() => {
-                        if (isStopped) return;
-                        index = 0;
-                        typewriter.textContent = '';
-                        const timeout2 = setTimeout(() => {
-                            if (!isStopped) {
-                                type();
-                            }
-                        }, 500);
-                        this.heroTimeouts.push(timeout2);
-                    }, 2000);
-                    this.heroTimeouts.push(timeout1);
-                }
-            };
-            
-            const initialTimeout = setTimeout(() => {
-                if (!isStopped) {
-                    typewriter.classList.add('typing');
-                    type();
-                }
-            }, 1000);
-            this.heroTimeouts.push(initialTimeout);
+            if (typewriterRole.hasAttribute('data-i18n-typewriter')) {
+                roleText = i18n.t(typewriterRole.getAttribute('data-i18n-typewriter'), 'v2');
+            }
         }
-
+        
+        if (!fullText || !roleText) return;
+        
+        let currentIndex = 0;
+        let roleIndex = 0;
+        let isStopped = false;
+        
+        const typeWriter = () => {
+            if (isStopped) return;
+            
+            if (currentIndex < fullText.length) {
+                typewriterText.textContent = fullText.substring(0, currentIndex + 1);
+                currentIndex++;
+                const timeout = setTimeout(typeWriter, 80);
+                this.heroTimeouts.push(timeout);
+            } else {
+                typewriterText.classList.remove('typing');
+                typewriterText.classList.add('completed');
+                const timeout1 = setTimeout(() => {
+                    if (isStopped) return;
+                    typewriterRole.classList.add('typing');
+                    const timeout2 = setTimeout(() => {
+                        if (isStopped) return;
+                        typeWriterRole();
+                    }, 1000);
+                    this.heroTimeouts.push(timeout2);
+                }, 1000);
+                this.heroTimeouts.push(timeout1);
+            }
+        };
+        
+        const typeWriterRole = () => {
+            if (isStopped) return;
+            
+            if (roleIndex < roleText.length) {
+                typewriterRole.textContent = roleText.substring(0, roleIndex + 1);
+                roleIndex++;
+                const timeout = setTimeout(typeWriterRole, 80);
+                this.heroTimeouts.push(timeout);
+            } else {
+                typewriterRole.classList.remove('typing');
+                typewriterRole.classList.add('completed');
+                const timeout = setTimeout(() => {
+                    if (isStopped) return;
+                    roleIndex = 0;
+                    typewriterRole.textContent = '';
+                    typewriterRole.classList.remove('completed');
+                    typewriterRole.classList.add('typing');
+                    const timeout2 = setTimeout(() => {
+                        if (!isStopped) {
+                            typeWriterRole();
+                        }
+                    }, 500);
+                    this.heroTimeouts.push(timeout2);
+                }, 2000);
+                this.heroTimeouts.push(timeout);
+            }
+        };
+        
+        typewriterText.classList.add('typing');
+        const initialTimeout = setTimeout(() => {
+            if (!isStopped) {
+                typeWriter();
+            }
+        }, 1500);
+        this.heroTimeouts.push(initialTimeout);
     }
 
     setupSkills() {
