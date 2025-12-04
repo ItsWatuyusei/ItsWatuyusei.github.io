@@ -47,9 +47,14 @@ class PortfolioHub {
             this.setupStickyNav();
             this.setupStickyFooter();
             this.setupContactModal();
+            this.setupSaasModal();
             this.setupHamburgerMenu();
             this.setupTypewriter();
             this.updateSoundIcon();
+            
+            setTimeout(() => {
+                this.updateSaasDescription();
+            }, 200);
             
             setTimeout(() => {
                 this.randomizeShapePositions();
@@ -83,7 +88,8 @@ class PortfolioHub {
                 this.updateLanguageSelector();
                 setTimeout(() => {
                     this.setupTypewriter();
-                }, 100);
+                    this.updateSaasDescription();
+                }, 150);
                 
                 if (this.soundEnabled && this.audioInitialized) {
                     this.playSound('toggle');
@@ -1023,6 +1029,123 @@ class PortfolioHub {
                     if (contactModal.classList.contains('visible')) closeModal(contactModal);
                 }
             });
+        }
+    }
+
+    setupSaasModal() {
+        const openSaasModal = document.getElementById('open-saas-modal');
+        const saasModal = document.getElementById('saas-modal');
+        const saasModalClose = document.getElementById('saas-modal-close');
+        const saasUnifiedLicense = document.getElementById('saas-unified-license');
+
+        this.updateSaasDescription();
+        this.randomizeSaasCards();
+
+        const openModal = (modal) => {
+            if (!modal) return;
+            this.randomizeSaasCards();
+            modal.classList.add('visible');
+            document.body.style.overflow = 'hidden';
+        };
+
+        const closeModal = (modal) => {
+            if (!modal) return;
+            modal.classList.remove('visible');
+            document.body.style.overflow = '';
+        };
+
+        if (openSaasModal && saasModal) {
+            openSaasModal.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('hover');
+                }
+                openModal(saasModal);
+            }.bind(this));
+        }
+
+        if (saasModalClose && saasModal) {
+            saasModalClose.addEventListener('click', () => {
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('hover');
+                }
+                closeModal(saasModal);
+            });
+        }
+
+        if (saasUnifiedLicense) {
+            const contactModal = document.getElementById('contact-modal');
+            saasUnifiedLicense.addEventListener('click', function(e) {
+                e.preventDefault();
+                if (this.soundEnabled && this.audioInitialized) {
+                    this.playSound('hover');
+                }
+                closeModal(saasModal);
+                setTimeout(() => {
+                    if (contactModal) {
+                        contactModal.classList.add('visible');
+                        document.body.style.overflow = 'hidden';
+                    }
+                }, 300);
+            }.bind(this));
+        }
+
+        if (saasModal) {
+            window.addEventListener('click', function(e) {
+                if (e.target === saasModal) closeModal(saasModal);
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    if (saasModal.classList.contains('visible')) closeModal(saasModal);
+                }
+            });
+        }
+    }
+
+    randomizeSaasCards() {
+        try {
+            const saasGrid = document.querySelector('.saas-grid');
+            if (!saasGrid) return;
+
+            const cards = Array.from(saasGrid.querySelectorAll('.saas-card'));
+            if (cards.length === 0) return;
+
+            for (let i = cards.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [cards[i], cards[j]] = [cards[j], cards[i]];
+            }
+
+            cards.forEach(card => saasGrid.appendChild(card));
+        } catch (e) {
+            console.error('Error randomizing SaaS cards:', e);
+        }
+    }
+
+    updateSaasDescription() {
+        try {
+            const saasDescription = document.querySelector('.saas-cta-description');
+            
+            if (!saasDescription) {
+                setTimeout(() => this.updateSaasDescription(), 100);
+                return;
+            }
+
+            const currentLang = typeof i18n !== 'undefined' ? i18n.getLanguage() : 'eng';
+            
+            let descriptionText = '';
+            
+            if (currentLang === 'spn') {
+                descriptionText = 'Soluciones de software profesionales con opciones de licencia flexibles. Descubre nuestros productos disponibles y obtén la licencia que se adapte a tus necesidades.';
+            } else {
+                descriptionText = 'Professional software solutions with flexible licensing options. Discover our available products and get the license that fits your needs.';
+            }
+            
+            if (saasDescription) {
+                saasDescription.textContent = descriptionText;
+            }
+        } catch (e) {
+            console.error('Error updating SaaS description:', e);
         }
     }
 

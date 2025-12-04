@@ -634,6 +634,18 @@ body:not(.light-theme) {
     backdrop-filter: blur(10px);
 }
 
+.email-btn {
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: white;
+    border: none;
+    box-shadow: var(--shadow-lg);
+}
+
+.email-btn:hover {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    color: white;
+}
+
 .btn:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg), var(--shadow-glow);

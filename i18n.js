@@ -7,6 +7,7 @@ class I18n {
                     nav: {
                         features: 'Features',
                         versions: 'Versions',
+                        saas: 'SaaS Licenses',
                         links: 'Links',
                         contact: 'Contact'
                     },
@@ -62,6 +63,57 @@ class I18n {
                         modern: {
                             title: 'Modern Technology',
                             description: 'Cutting-edge tools and frameworks to build fast, scalable, and maintainable applications with the latest industry standards.'
+                        }
+                    },
+                    saas: {
+                        title: 'SaaS Licenses Available',
+                        subtitle: 'Professional software solutions with flexible licensing options',
+                        ctaSection: {
+                            title: 'SaaS Licenses Available',
+                            description: 'Professional software solutions with flexible licensing options. Discover our available products and get the license that fits your needs.',
+                            button: 'View Available Licenses'
+                        },
+                        muservereasy: {
+                            description: 'Professional Windows desktop application for MU Online server creation and configuration. Features dual licensing system, multi-theme support, and advanced authentication.'
+                        },
+                        publicassets: {
+                            description: 'Public assets inventory system with multi-database support, advanced QR/barcode scanner, import/export services, and dual licensing system with Hardware ID validation.'
+                        },
+                        passwordsmanager: {
+                            description: 'Professional password manager with advanced security features, license system with Hardware ID validation, auto-lock functionality, and bidirectional database synchronization.'
+                        },
+                        muemulator: {
+                            description: 'Custom Season 6 MMORPG server emulator with multi-language support. Features encrypted Lua scripting system, web-based server control panel, advanced health bar system, monster AI system, custom events, and real-time online user tracking.'
+                        },
+                        dataprotect: {
+                            description: 'Comprehensive file protection and encryption system built with C++ and Windows API. Features file encryption, key generation, data protection DLL, and secure file management tools for enterprise-level security.'
+                        },
+                        features: {
+                            licensing: 'Dual Licensing',
+                            multilang: 'Multilingual',
+                            secure: 'Secure',
+                            inventory: 'Inventory System',
+                            qr: 'QR Scanner',
+                            security: 'Advanced Security',
+                            sync: 'Database Sync',
+                            advanced: 'Advanced Features',
+                            encryption: 'Encryption'
+                        },
+                        cta: 'Get License',
+                        unifiedCta: 'Get License',
+                        info: {
+                            secure: {
+                                title: 'Secure Licensing',
+                                description: 'Hardware-based licensing system with flexible license types and expiration management.'
+                            },
+                            support: {
+                                title: 'Priority Support',
+                                description: 'Direct technical support for license holders with regular updates and improvements.'
+                            },
+                            updates: {
+                                title: 'Regular Updates',
+                                description: 'Frequent updates with new features, improvements, and security enhancements.'
+                            }
                         }
                     },
                     loading: {
@@ -189,6 +241,7 @@ class I18n {
                     nav: {
                         features: 'Características',
                         versions: 'Versiones',
+                        saas: 'Licencias SaaS',
                         links: 'Enlaces',
                         contact: 'Contacto'
                     },
@@ -244,6 +297,57 @@ class I18n {
                         modern: {
                             title: 'Tecnología Moderna',
                             description: 'Herramientas y frameworks de vanguardia para construir aplicaciones rápidas, escalables y mantenibles con los últimos estándares de la industria.'
+                        }
+                    },
+                    saas: {
+                        title: 'Licencias SaaS Disponibles',
+                        subtitle: 'Soluciones de software profesionales con opciones de licencia flexibles',
+                        ctaSection: {
+                            title: 'Licencias SaaS Disponibles',
+                            description: 'Soluciones de software profesionales con opciones de licencia flexibles. Descubre nuestros productos disponibles y obtén la licencia que se adapte a tus necesidades.',
+                            button: 'Ver Licencias Disponibles'
+                        },
+                        muservereasy: {
+                            description: 'Aplicación profesional de escritorio Windows para creación y configuración de servidores MU Online. Incluye sistema de licencias dual, soporte multi-tema y autenticación avanzada.'
+                        },
+                        publicassets: {
+                            description: 'Sistema de inventario de activos públicos con soporte multi-base de datos, escáner QR/código de barras avanzado, servicios de importación/exportación y sistema de licencias dual con validación de Hardware ID.'
+                        },
+                        passwordsmanager: {
+                            description: 'Gestor de contraseñas profesional con características de seguridad avanzadas, sistema de licencias con validación de Hardware ID, funcionalidad de bloqueo automático y sincronización bidireccional de base de datos.'
+                        },
+                        muemulator: {
+                            description: 'Emulador de servidor MMORPG Season 6 personalizado con soporte multiidioma. Incluye sistema de scripting Lua encriptado, panel de control de servidor basado en web, sistema de barra de salud avanzado, sistema de IA de monstruos, eventos personalizados y seguimiento de usuarios en línea en tiempo real.'
+                        },
+                        dataprotect: {
+                            description: 'Sistema integral de protección y encriptación de archivos construido con C++ y Windows API. Incluye encriptación de archivos, generación de claves, DLL de protección de datos y herramientas de gestión segura de archivos para seguridad a nivel empresarial.'
+                        },
+                        features: {
+                            licensing: 'Licencias Duales',
+                            multilang: 'Multilingüe',
+                            secure: 'Seguro',
+                            inventory: 'Sistema de Inventario',
+                            qr: 'Escáner QR',
+                            security: 'Seguridad Avanzada',
+                            sync: 'Sincronización',
+                            advanced: 'Características Avanzadas',
+                            encryption: 'Encriptación'
+                        },
+                        cta: 'Obtener Licencia',
+                        unifiedCta: 'Obtener Licencia',
+                        info: {
+                            secure: {
+                                title: 'Licencias Seguras',
+                                description: 'Sistema de licencias basado en hardware con tipos de licencia flexibles y gestión de expiración.'
+                            },
+                            support: {
+                                title: 'Soporte Prioritario',
+                                description: 'Soporte técnico directo para titulares de licencias con actualizaciones y mejoras regulares.'
+                            },
+                            updates: {
+                                title: 'Actualizaciones Regulares',
+                                description: 'Actualizaciones frecuentes con nuevas características, mejoras y mejoras de seguridad.'
+                            }
                         }
                     },
                     loading: {
@@ -374,8 +478,7 @@ class I18n {
         if (stored && (stored === 'eng' || stored === 'spn')) {
             return stored;
         }
-        const browserLang = navigator.language || navigator.userLanguage;
-        return browserLang.startsWith('es') ? 'spn' : 'eng';
+        return 'eng';
     }
 
     setLanguage(lang) {

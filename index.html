@@ -151,6 +151,7 @@
             <div class="nav-links" id="nav-links">
                 <a href="#features" class="nav-link" data-i18n="nav.features">Features</a>
                 <a href="#versions" class="nav-link" data-i18n="nav.versions">Versions</a>
+                <a href="#saas" class="nav-link" data-i18n="nav.saas">SaaS Licenses</a>
                 <a href="https://linktr.ee/ItsWatuyusei" target="_blank" rel="noopener noreferrer" class="nav-link nav-links-btn" data-i18n="nav.links">Links</a>
                 <a href="#" id="nav-contact-link" class="nav-link nav-contact-btn" data-i18n="nav.contact">Contact</a>
             </div>
@@ -362,6 +363,19 @@
             </div>
         </section>
 
+        <section class="saas-cta-section" id="saas">
+            <div class="saas-cta-container">
+                <div class="saas-cta-content">
+                    <div class="saas-cta-icon">
+                        <i class="fas fa-key"></i>
+                    </div>
+                    <h2 class="saas-cta-title" data-i18n="saas.ctaSection.title">SaaS Licenses Available</h2>
+                    <p class="saas-cta-description" data-i18n="saas.ctaSection.description">Professional software solutions with flexible licensing options. Discover our available products and get the license that fits your needs.</p>
+                    <button class="saas-cta-button" id="open-saas-modal" data-i18n="saas.ctaSection.button">View Available Licenses</button>
+                </div>
+            </div>
+        </section>
+
     </main>
     
     <footer class="sticky-footer" id="sticky-footer">
@@ -376,6 +390,7 @@
                 </div>
             </div>
             <div class="footer-links" id="footer-links">
+                <a href="mailto:ItsWatuyusei@proton.me" aria-label="Email"><i class="fas fa-envelope"></i></a>
                 <a href="https://forum.ItsWatuyusei.com" target="_blank" rel="noopener noreferrer" aria-label="Forum"><i class="fas fa-comments"></i></a>
                 <a href="https://instagram.com/ItsWatuyusei" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
                 <a href="https://facebook.com/ItsWatuyuseiFB" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
@@ -392,6 +407,110 @@
             <button class="contact-modal-close" id="contact-modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
             <div class="hs-form-frame" data-region="na1" data-form-id="16683cb4-cb65-4421-ba88-58a310b3ac2f" data-portal-id="49346124"></div>
             <div class="contact-modal-overlay"></div>
+        </div>
+    </div>
+
+    <div id="saas-modal" class="saas-modal">
+        <div class="saas-modal-content">
+            <button class="saas-modal-close" id="saas-modal-close" aria-label="Close"><i class="fas fa-times"></i></button>
+            <div class="saas-modal-body">
+                <div class="saas-modal-header">
+                    <h2 class="saas-modal-title" data-i18n="saas.title">SaaS Licenses Available</h2>
+                    <p class="saas-modal-subtitle" data-i18n="saas.subtitle">Professional software solutions with flexible licensing options</p>
+                </div>
+                
+                <div class="saas-grid">
+                    <div class="saas-card">
+                        <div class="saas-icon">
+                            <i class="fas fa-server"></i>
+                        </div>
+                        <h3 class="saas-title">MuServerEasy</h3>
+                        <p class="saas-description" data-i18n="saas.muservereasy.description">Professional Windows desktop application for MU Online server creation and configuration. Features dual licensing system, multi-theme support, and advanced authentication.</p>
+                        <div class="saas-features">
+                            <span class="saas-feature-tag" data-i18n="saas.features.licensing">Dual Licensing</span>
+                            <span class="saas-feature-tag" data-i18n="saas.features.multilang">Multilingual</span>
+                            <span class="saas-feature-tag" data-i18n="saas.features.secure">Secure</span>
+                        </div>
+                    </div>
+                    
+                    <div class="saas-card">
+                        <div class="saas-icon">
+                            <i class="fas fa-boxes"></i>
+                        </div>
+                        <h3 class="saas-title">PublicAssets</h3>
+                        <p class="saas-description" data-i18n="saas.publicassets.description">Public assets inventory system with multi-database support, advanced QR/barcode scanner, import/export services, and dual licensing system with Hardware ID validation.</p>
+                        <div class="saas-features">
+                            <span class="saas-feature-tag" data-i18n="saas.features.inventory">Inventory System</span>
+                            <span class="saas-feature-tag" data-i18n="saas.features.qr">QR Scanner</span>
+                            <span class="saas-feature-tag" data-i18n="saas.features.licensing">Dual Licensing</span>
+                        </div>
+                    </div>
+                    
+                    <div class="saas-card">
+                        <div class="saas-icon">
+                            <i class="fas fa-key"></i>
+                        </div>
+                        <h3 class="saas-title">PasswordsManager</h3>
+                        <p class="saas-description" data-i18n="saas.passwordsmanager.description">Professional password manager with advanced security features, license system with Hardware ID validation, auto-lock functionality, and bidirectional database synchronization.</p>
+                        <div class="saas-features">
+                            <span class="saas-feature-tag" data-i18n="saas.features.security">Advanced Security</span>
+                            <span class="saas-feature-tag" data-i18n="saas.features.sync">Database Sync</span>
+                            <span class="saas-feature-tag" data-i18n="saas.features.licensing">License System</span>
+                        </div>
+                    </div>
+                    
+                    <div class="saas-card">
+                        <div class="saas-icon">
+                            <i class="fas fa-gamepad"></i>
+                        </div>
+                        <h3 class="saas-title">MU Online Emulator</h3>
+                        <p class="saas-description" data-i18n="saas.muemulator.description">Custom Season 6 MMORPG server emulator with multi-language support. Features encrypted Lua scripting system, web-based server control panel, advanced health bar system, monster AI system, custom events, and real-time online user tracking.</p>
+                        <div class="saas-features">
+                            <span class="saas-feature-tag" data-i18n="saas.features.multilang">Multilingual</span>
+                            <span class="saas-feature-tag" data-i18n="saas.features.secure">Secure</span>
+                            <span class="saas-feature-tag" data-i18n="saas.features.advanced">Advanced Features</span>
+                        </div>
+                    </div>
+                    
+                    <div class="saas-card">
+                        <div class="saas-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3 class="saas-title">DataProtect</h3>
+                        <p class="saas-description" data-i18n="saas.dataprotect.description">Comprehensive file protection and encryption system built with C++ and Windows API. Features file encryption, key generation, data protection DLL, and secure file management tools for enterprise-level security.</p>
+                        <div class="saas-features">
+                            <span class="saas-feature-tag" data-i18n="saas.features.security">Advanced Security</span>
+                            <span class="saas-feature-tag" data-i18n="saas.features.secure">Secure</span>
+                            <span class="saas-feature-tag" data-i18n="saas.features.encryption">Encryption</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="saas-unified-cta">
+                    <a href="#" class="saas-unified-button" id="saas-unified-license" data-i18n="saas.unifiedCta">
+                        <i class="fas fa-envelope"></i>
+                        <span>Get License</span>
+                    </a>
+                </div>
+                
+                <div class="saas-info">
+                    <div class="saas-info-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4 data-i18n="saas.info.secure.title">Secure Licensing</h4>
+                        <p data-i18n="saas.info.secure.description">Hardware-based licensing system with flexible license types and expiration management.</p>
+                    </div>
+                    <div class="saas-info-card">
+                        <i class="fas fa-headset"></i>
+                        <h4 data-i18n="saas.info.support.title">Priority Support</h4>
+                        <p data-i18n="saas.info.support.description">Direct technical support for license holders with regular updates and improvements.</p>
+                    </div>
+                    <div class="saas-info-card">
+                        <i class="fas fa-sync-alt"></i>
+                        <h4 data-i18n="saas.info.updates.title">Regular Updates</h4>
+                        <p data-i18n="saas.info.updates.description">Frequent updates with new features, improvements, and security enhancements.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

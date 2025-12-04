@@ -1814,6 +1814,18 @@ body.android .contact-modal .hs-form-frame .hs-button {
     transform: translateY(-1px);
 }
 
+.email-btn {
+    background: var(--primary);
+    color: #fff !important;
+}
+
+.email-btn:hover {
+    background: var(--primary-dark);
+    color: #fff !important;
+    box-shadow: 0 4px 16px rgba(99,102,241,0.2);
+    transform: translateY(-1px);
+}
+
 .links-btn {
     background: #8e44ad;
     color: #fff !important;
@@ -1956,6 +1968,16 @@ body.android .contact-modal .hs-form-frame .hs-button {
 
 .dark .contact-btn:hover {
     background: #00c6ae;
+}
+
+.dark .email-btn {
+    background: var(--primary);
+    color: #fff !important;
+}
+
+.dark .email-btn:hover {
+    background: var(--primary-dark);
+    color: #fff !important;
 }
 
 .dark .links-btn {
