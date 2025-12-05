@@ -1439,14 +1439,14 @@ body:not([data-theme="dark"]) .loading-stats {
 }
 
 .saas-cta-section {
-    padding: var(--space-xl) var(--space-lg);
+    padding: var(--space-lg) var(--space-lg);
     background: linear-gradient(135deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
     position: relative;
     z-index: 2;
 }
 
 .saas-cta-container {
-    max-width: 800px;
+    max-width: 1200px;
     width: 100%;
     margin: 0 auto;
     padding: 0 var(--space-lg);
@@ -1455,49 +1455,54 @@ body:not([data-theme="dark"]) .loading-stats {
 
 .saas-cta-content {
     background: var(--bg-primary);
-    border-radius: var(--radius-2xl);
-    padding: var(--space-3xl);
+    border-radius: var(--radius-xl);
+    padding: var(--space-lg) var(--space-xl);
     border: 1px solid var(--border);
-    text-align: center;
+    display: flex;
+    align-items: center;
+    gap: var(--space-lg);
     box-shadow: var(--shadow-lg);
     transition: all var(--transition-normal);
 }
 
 .saas-cta-content:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
     box-shadow: var(--shadow-xl);
 }
 
 .saas-cta-icon {
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     background: linear-gradient(135deg, var(--primary), var(--secondary));
     border-radius: var(--radius-full);
     display: flex;
     align-items: center;
     justify-content: center;
-    margin: 0 auto var(--space-xl);
+    flex-shrink: 0;
     color: var(--text-inverse);
-    font-size: 2.5rem;
-    box-shadow: var(--shadow-lg);
+    font-size: 1.75rem;
+    box-shadow: var(--shadow-md);
+}
+
+.saas-cta-text {
+    flex: 1;
+    min-width: 0;
 }
 
 .saas-cta-title {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: 800;
-    margin-bottom: var(--space-md);
+    margin-bottom: var(--space-xs);
     color: var(--text-primary);
     font-family: var(--font-secondary);
 }
 
 .saas-cta-description {
-    font-size: 1.125rem;
+    font-size: 0.9375rem;
     color: var(--text-secondary);
-    line-height: 1.7;
-    margin-bottom: var(--space-xl);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    line-height: 1.5;
+    margin: 0;
+    max-width: none;
 }
 
 .saas-cta-button {
@@ -1509,22 +1514,24 @@ body:not([data-theme="dark"]) .loading-stats {
     color: var(--text-inverse);
     border: none;
     border-radius: var(--radius-lg);
-    font-weight: 600;
-    font-size: 1.125rem;
+    font-weight: 700;
+    font-size: 1rem;
     cursor: pointer;
     transition: all var(--transition-normal);
     box-shadow: var(--shadow-md);
     font-family: var(--font-primary);
+    flex-shrink: 0;
+    white-space: nowrap;
 }
 
 .saas-cta-button:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
     box-shadow: var(--shadow-xl);
     background: linear-gradient(135deg, var(--primary-dark), var(--primary));
 }
 
 .saas-cta-button:active {
-    transform: translateY(0);
+    transform: translateY(-1px);
 }
 
 .saas-modal {
@@ -1539,7 +1546,7 @@ body:not([data-theme="dark"]) .loading-stats {
     backdrop-filter: blur(10px);
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 50px 40px;
     overflow-y: auto;
 }
 
@@ -1826,6 +1833,10 @@ body:not([data-theme="dark"]) .loading-stats {
         grid-template-columns: 1fr;
     }
     
+    .saas-modal {
+        padding: 30px 20px;
+    }
+    
     .saas-modal-content {
         width: 98vw;
         padding: var(--space-md);
@@ -1862,12 +1873,34 @@ body:not([data-theme="dark"]) .loading-stats {
         padding: var(--space-md) 0;
     }
     
-    .saas-cta-title {
-        font-size: 1.5rem;
+    .saas-cta-content {
+        flex-direction: column;
+        text-align: center;
+        padding: var(--space-lg);
+        gap: var(--space-md);
     }
     
-    .saas-cta-content {
-        padding: var(--space-xl);
+    .saas-cta-icon {
+        margin: 0 auto;
+    }
+    
+    .saas-cta-text {
+        width: 100%;
+    }
+    
+    .saas-cta-title {
+        font-size: 1.25rem;
+        margin-bottom: var(--space-xs);
+    }
+    
+    .saas-cta-description {
+        font-size: 0.875rem;
+        margin-bottom: var(--space-md);
+    }
+    
+    .saas-cta-button {
+        width: 100%;
+        padding: var(--space-md) var(--space-lg);
     }
 }
 
