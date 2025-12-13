@@ -1157,6 +1157,10 @@ body:not(.light-theme) {
         touch-action: pan-y pinch-zoom;
     }
     
+    .projects-track {
+        touch-action: pan-y pinch-zoom;
+    }
+    
     .view-gallery {
         width: 44px;
         height: 44px;

@@ -407,6 +407,7 @@ class ModernPortfolio {
         const sliderContainer = document.querySelector('.projects-slider-container');
         if (!projectsTrack || !sliderContainer) return;
 
+        this.randomizeProjectCards();
         this.originalCards = Array.from(projectsTrack.children);
         this.currentScrollPosition = 0;
         this.updateScrollStep();
@@ -530,25 +531,29 @@ class ModernPortfolio {
 
         this.wheelHandler = (e) => {
             if (projectsTrack.classList.contains('filtered')) {
-                e.preventDefault();
-                const maxScroll = projectsTrack.scrollWidth - sliderContainer.offsetWidth;
-                const isAllFilter = this.currentFilter === 'all';
-                const delta = e.deltaY > 0 ? this.scrollStep : -this.scrollStep;
+                const isHorizontalScroll = Math.abs(e.deltaX) > Math.abs(e.deltaY);
                 
-                if (isAllFilter) {
-                    this.currentScrollPosition = this.currentScrollPosition + delta;
-                    if (this.currentScrollPosition < 0) {
-                        this.currentScrollPosition = maxScroll;
-                    } else if (this.currentScrollPosition > maxScroll) {
-                        this.currentScrollPosition = 0;
+                if (isHorizontalScroll) {
+                    e.preventDefault();
+                    const maxScroll = projectsTrack.scrollWidth - sliderContainer.offsetWidth;
+                    const isAllFilter = this.currentFilter === 'all';
+                    const delta = e.deltaX > 0 ? this.scrollStep : -this.scrollStep;
+                    
+                    if (isAllFilter) {
+                        this.currentScrollPosition = this.currentScrollPosition + delta;
+                        if (this.currentScrollPosition < 0) {
+                            this.currentScrollPosition = maxScroll;
+                        } else if (this.currentScrollPosition > maxScroll) {
+                            this.currentScrollPosition = 0;
+                        }
+                    } else {
+                        this.currentScrollPosition = Math.max(0, Math.min(maxScroll, this.currentScrollPosition + delta));
                     }
-                } else {
-                    this.currentScrollPosition = Math.max(0, Math.min(maxScroll, this.currentScrollPosition + delta));
+                    
+                    projectsTrack.style.transform = `translateX(-${this.currentScrollPosition}px)`;
+                    projectsTrack.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                    setTimeout(updateNavButtons, 300);
                 }
-                
-                projectsTrack.style.transform = `translateX(-${this.currentScrollPosition}px)`;
-                projectsTrack.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-                setTimeout(updateNavButtons, 300);
             }
         };
 
@@ -596,11 +601,11 @@ class ModernPortfolio {
             const deltaX = Math.abs(touchCurrentX - touchStartX);
             const deltaY = Math.abs(touchCurrentY - touchStartY);
             
-            if (!isHorizontalSwipe && deltaX > swipeThreshold && deltaX > deltaY) {
+            if (!isHorizontalSwipe && deltaX > swipeThreshold && deltaX > deltaY * 1.5) {
                 isHorizontalSwipe = true;
             }
             
-            if (isHorizontalSwipe && deltaX > deltaY) {
+            if (isHorizontalSwipe && deltaX > deltaY * 1.5) {
                 e.preventDefault();
                 const deltaXMovement = touchCurrentX - touchStartX;
                 const currentTransform = this.currentScrollPosition - deltaXMovement;
@@ -658,6 +663,12 @@ class ModernPortfolio {
         projectsTrack.addEventListener('touchmove', handleTouchMove, { passive: false });
         projectsTrack.addEventListener('touchend', handleTouchEnd, { passive: true });
         projectsTrack.addEventListener('touchcancel', handleTouchEnd, { passive: true });
+        
+        const isMobile = window.innerWidth <= 768;
+        if (isMobile) {
+            sliderContainer.style.touchAction = 'pan-y pinch-zoom';
+            projectsTrack.style.touchAction = 'pan-y pinch-zoom';
+        }
     }
 
     generateDynamicFilters() {
@@ -707,6 +718,21 @@ class ModernPortfolio {
                 filterContainer.appendChild(button);
             }
         });
+    }
+
+    randomizeProjectCards() {
+        const projectsTrack = document.querySelector('.projects-track');
+        if (!projectsTrack) return;
+
+        const cards = Array.from(projectsTrack.querySelectorAll('.project-card'));
+        if (cards.length === 0) return;
+
+        for (let i = cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+
+        cards.forEach(card => projectsTrack.appendChild(card));
     }
 
     setupProjects() {

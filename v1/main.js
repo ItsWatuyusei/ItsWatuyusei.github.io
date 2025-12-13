@@ -1178,6 +1178,24 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     const projectSearch = document.getElementById('project-search');
+    
+    function randomizeProjectCards() {
+        const projectsContainer = document.getElementById('projects-container');
+        if (!projectsContainer) return;
+
+        const cards = Array.from(projectsContainer.querySelectorAll('.project-card'));
+        if (cards.length === 0) return;
+
+        for (let i = cards.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [cards[i], cards[j]] = [cards[j], cards[i]];
+        }
+
+        cards.forEach(card => projectsContainer.appendChild(card));
+    }
+
+    randomizeProjectCards();
+    
     const projectCards = document.querySelectorAll('.project-card');
     const filterBtns = document.querySelectorAll('.filter-btn');
 
