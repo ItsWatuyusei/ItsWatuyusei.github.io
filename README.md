@@ -23,43 +23,6 @@ I'm a passionate Full Stack Developer with **8+ years of experience** specializi
 
 This portfolio hub serves as a central showcase for my work, featuring multiple portfolio versions and interactive experiences designed to demonstrate different aspects of modern web development.
 
-## 📁 Project Structure
-
-```
-PortFolio/
-├── index.html              # Main portfolio hub entry point
-├── main.js                 # Hub functionality and interactions
-├── style.css              # Hub styling and themes
-├── sw.js                  # Service worker for PWA
-├── i18n.js                # Internationalization support
-├── favicon.ico            # Site favicon
-├── CNAME                  # Custom domain configuration
-├── pull.bat               # Git pull automation script
-├── post-merge             # Git post-merge hook
-├── v1/                    # Classic Portfolio Version
-│   ├── index.html
-│   ├── main.js
-│   ├── style.css
-│   └── sw.js
-├── v2/                    # Modern Portfolio Version (2025)
-│   ├── index.html
-│   ├── main.js
-│   ├── style.css
-│   └── sw.js
-├── muservereasy/          # MuServerEasy Documentation
-│   └── documentation.html
-├── passwordsmanager/      # Passwords Manager Documentation
-│   └── documentation.html
-├── publicassets/          # Public Assets Documentation
-│   └── documentation.html
-├── friends.html           # Interactive Personality Quiz Game
-├── qsmn.html             # Interactive Proposal Page
-├── qr.html               # QR Code Display Page
-├── qr.png                # QR Code Image
-├── 404.html              # Custom 404 Error Page
-└── README.md             # Project Documentation
-```
-
 ## 🛠️ Tech Stack
 
 ### Frontend
