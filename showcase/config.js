@@ -51,36 +51,14 @@ const CONFIG = {
       sendOrder: 'Enviar pedido por WhatsApp',
       checkoutMessage: '¡Hola! Me gustaría realizar el siguiente pedido:'
     },
-    pt: {
-      searchPlaceholder: 'Buscar produtos...',
-      all: 'Todos',
-      sweet: 'Doces',
-      savory: 'Salgados',
-      noResults: 'Nenhum producto encontrado.',
-      copyright: 'Copyright © ItsWatuyusei',
-      buy: 'Comprar agora',
-      back: 'Voltar ao catálogo',
-      orderMessage: 'Olá! Gostaria de encomendar: ',
-      promos: [
-        'Entrega gratuita em pedidos superiores a $30!',
-        'Assado fresco todas as manhãs às 6h00',
-        'Receitas artesanais tradicionais com ingredientes orgânicos'
-      ],
-      addToCart: 'Adicionar ao pedido',
-      cartTitle: 'Meu Pedido',
-      total: 'Total',
-      emptyCart: 'Seu pedido está vazio',
-      sendOrder: 'Enviar pedido pelo WhatsApp',
-      checkoutMessage: 'Olá! Gostaria de fazer o seguinte pedido:'
-    }
+
   },
   products: [
     {
       id: 'prod_01',
       name: {
         en: 'Golden Croissant',
-        es: 'Cruasán Dorado',
-        pt: 'Croissant Dourado'
+        es: 'Cruasán Dorado'
       },
       category: 'savory',
       price: 2.50,
@@ -94,8 +72,7 @@ const CONFIG = {
       id: 'prod_02',
       name: {
         en: 'Chocolate Ganache Cake',
-        es: 'Pastel de Ganache de Chocolate',
-        pt: 'Bolo de Ganache de Chocolate'
+        es: 'Pastel de Ganache de Chocolate'
       },
       category: 'sweet',
       price: 15.00,
@@ -109,8 +86,7 @@ const CONFIG = {
       id: 'prod_03',
       name: {
         en: 'Artisan Sourdough',
-        es: 'Masa Madre Artesanal',
-        pt: 'Pão de Fermentação Natural'
+        es: 'Masa Madre Artesanal'
       },
       category: 'savory',
       price: 4.80,
@@ -124,8 +100,7 @@ const CONFIG = {
       id: 'prod_04',
       name: {
         en: 'Strawberry Tart',
-        es: 'Tarta de Fresa',
-        pt: 'Torta de Morango'
+        es: 'Tarta de Fresa'
       },
       category: 'sweet',
       price: 3.20,
@@ -139,8 +114,7 @@ const CONFIG = {
       id: 'prod_05',
       name: {
         en: 'Baguette Tradition',
-        es: 'Baguette Tradicional',
-        pt: 'Baguette Tradicional'
+        es: 'Baguette Tradicional'
       },
       category: 'savory',
       price: 1.80,
@@ -154,8 +128,7 @@ const CONFIG = {
       id: 'prod_06',
       name: {
         en: 'Glazed Donut',
-        es: 'Dona Glaseada',
-        pt: 'Donut Glaceado'
+        es: 'Dona Glaseada'
       },
       category: 'sweet',
       price: 1.50,
@@ -169,8 +142,7 @@ const CONFIG = {
       id: 'prod_07',
       name: {
         en: 'Blueberry Muffin',
-        es: 'Muffin de Arándanos',
-        pt: 'Muffin de Mirtilo'
+        es: 'Muffin de Arándanos'
       },
       category: 'sweet',
       price: 2.75,
@@ -184,8 +156,7 @@ const CONFIG = {
       id: 'prod_08',
       name: {
         en: 'Cheese Danish',
-        es: 'Danesa de Queso',
-        pt: 'Folhado de Queijo'
+        es: 'Danesa de Queso'
       },
       category: 'savory',
       price: 3.10,
@@ -199,8 +170,7 @@ const CONFIG = {
       id: 'prod_09',
       name: {
         en: 'Cinnamon Roll',
-        es: 'Rollo de Canela',
-        pt: 'Rolo de Canela'
+        es: 'Rollo de Canela'
       },
       category: 'sweet',
       price: 3.50,
@@ -214,8 +184,7 @@ const CONFIG = {
       id: 'prod_10',
       name: {
         en: 'Focaccia Romana',
-        es: 'Focaccia Romana',
-        pt: 'Focaccia Romana'
+        es: 'Focaccia Romana'
       },
       category: 'savory',
       price: 4.20,

@@ -19,8 +19,8 @@ class BakeryApp {
   detectLanguage() {
     const savedLang = localStorage.getItem('lang');
     if (savedLang && this.config.i18n[savedLang]) return savedLang;
-    const lang = navigator.language.split('-')[0];
-    return this.config.i18n[lang] ? lang : 'en';
+
+    return 'en';
   }
 
   init() {
@@ -28,6 +28,7 @@ class BakeryApp {
     this.renderStaticContent();
     this.startPromoRotation();
     this.updateCartCount();
+    this.setupScrollEffects();
     setTimeout(() => {
       this.renderProducts();
       this.setupEventListeners();
@@ -57,9 +58,8 @@ class BakeryApp {
 
   initTheme() {
     const savedTheme = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    
-    if (savedTheme === 'dark' || (!savedTheme && prefersDark)) {
+
+    if (savedTheme === 'dark') {
       document.body.classList.add('dark-mode');
     }
   }
@@ -71,10 +71,9 @@ class BakeryApp {
   }
 
   changeLanguage() {
-    const langs = ['en', 'es', 'pt'];
-    let nextIndex = (langs.indexOf(this.currentLang) + 1) % langs.length;
+    const langs = ['en', 'es'];
+    const nextIndex = (langs.indexOf(this.currentLang) + 1) % langs.length;
     this.currentLang = langs[nextIndex];
-    
     localStorage.setItem('lang', this.currentLang);
     this.renderStaticContent();
     this.renderProducts();
@@ -85,9 +84,7 @@ class BakeryApp {
 
   updateLangSwitcher() {
     const indicator = document.getElementById('langIndicator');
-    if (indicator) {
-      indicator.textContent = this.currentLang.toUpperCase();
-    }
+    if (indicator) indicator.textContent = this.currentLang.toUpperCase();
   }
 
   renderStaticContent() {
@@ -107,7 +104,6 @@ class BakeryApp {
       footer.innerHTML = `<p>Copyright © <a href="https://itswatuyusei.com" target="_blank" rel="noopener noreferrer">ItsWatuyusei</a></p>`;
     }
 
-    // Cart Labels
     const cartTitle = document.getElementById('cartTitle');
     const totalLabel = document.getElementById('totalLabel');
     const checkoutBtn = document.getElementById('checkoutBtn');
@@ -207,12 +203,35 @@ class BakeryApp {
       });
     });
 
+    const paginationContainer = document.getElementById('pagination');
+    if (paginationContainer) {
+      paginationContainer.addEventListener('click', (e) => {
+        const btn = e.target.closest('.page-btn');
+        if (!btn) return;
+        const page = parseInt(btn.dataset.page);
+        if (page && page !== this.currentPage) {
+          this.currentPage = page;
+          this.renderProducts();
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          this.playSound('tick');
+        }
+      });
+    }
+
     const langToggle = document.getElementById('langToggle');
     if (langToggle) {
       langToggle.replaceWith(langToggle.cloneNode(true));
       document.getElementById('langToggle').addEventListener('click', () => {
         this.changeLanguage();
         this.playSound('tick');
+      });
+    }
+
+    const backToTop = document.getElementById('backToTop');
+    if (backToTop) {
+      backToTop.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        this.playSound('click');
       });
     }
 
@@ -366,9 +385,13 @@ class BakeryApp {
   }
 
   updateCartCount() {
+    const btn = document.getElementById('cartToggle');
     const count = document.getElementById('cartCount');
+    if (!btn || !count) return;
+
+    const hasItems = this.cart.length > 0;
+    btn.classList.toggle('hidden', !hasItems);
     count.textContent = this.cart.length;
-    count.style.display = this.cart.length > 0 ? 'flex' : 'none';
   }
 
   renderCart() {
@@ -419,31 +442,25 @@ class BakeryApp {
     window.open(whatsappUrl, '_blank');
   }
 
-  toggleTheme() {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
-    const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-theme', newTheme);
-    localStorage.setItem('theme', newTheme);
-  }
+  setupScrollEffects() {
+    const progress = document.getElementById('scrollProgress');
+    const backToTop = document.getElementById('backToTop');
 
-  changeLanguage() {
-    const langs = ['es', 'en', 'pt'];
-    let nextIndex = (langs.indexOf(this.currentLang) + 1) % langs.length;
-    const newLang = langs[nextIndex];
-    
-    this.currentLang = newLang;
-    localStorage.setItem('lang', newLang);
-    this.renderStaticContent();
-    this.renderProducts();
-    this.updateLangSwitcher();
-    this.updatePromo();
-  }
+    window.addEventListener('scroll', () => {
+      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (winScroll / height) * 100;
 
-  updateLangSwitcher() {
-    const langToggle = document.getElementById('langToggle');
-    if (langToggle) {
-      langToggle.textContent = this.currentLang.toUpperCase();
-    }
+      if (progress) progress.style.width = scrolled + "%";
+      
+      if (backToTop) {
+        if (winScroll > 300) {
+          backToTop.classList.add('active');
+        } else {
+          backToTop.classList.remove('active');
+        }
+      }
+    });
   }
 
   setupSecurity() {
