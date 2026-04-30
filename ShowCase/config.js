@@ -4,7 +4,7 @@ const CONFIG = {
     poweredBy: 'ItsWatuyusei',
     poweredByUrl: 'https://itswatuyusei.com',
     isWhitelabel: false,
-    whatsapp: '5491122334455'
+    whatsapp: '584126763167'
   },
   i18n: {
     en: {
