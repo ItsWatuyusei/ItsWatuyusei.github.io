@@ -17,6 +17,12 @@ class BakeryApp {
     this.init();
   }
 
+  getImagePath(path) {
+    if (!path) return 'https://via.placeholder.com/400?text=Bakery';
+    if (path.startsWith('http')) return path;
+    return `./${path}`;
+  }
+
   shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -143,11 +149,13 @@ class BakeryApp {
     const totalLabel = document.getElementById('totalLabel');
     const totalBcvLabel = document.getElementById('totalBcvLabel');
     const checkoutBtn = document.getElementById('checkoutBtn');
+    const clearCartBtn = document.getElementById('clearCartBtn');
     
     if (cartTitle) cartTitle.textContent = t.cartTitle;
     if (totalLabel) totalLabel.textContent = t.total;
     if (totalBcvLabel) totalBcvLabel.textContent = t.totalBcv;
     if (checkoutBtn) checkoutBtn.textContent = t.sendOrder;
+    if (clearCartBtn) clearCartBtn.textContent = t.clearCart;
   }
 
   renderProducts() {
@@ -173,8 +181,9 @@ class BakeryApp {
 
     grid.innerHTML = paginatedItems.map((p, index) => `
       <div class="product-card" style="animation-delay: ${index * 0.1}s" onclick="bakeryApp.openProduct('${p.id}')">
+        ${p.badge ? `<div class="product-badge ${p.badge}">${this.config.i18n[this.currentLang][p.badge]}</div>` : ''}
         <div class="product-image-container">
-          <img src="./${Array.isArray(p.image) ? p.image[0] : p.image}" alt="${p.name[this.currentLang]}" class="product-image" loading="lazy">
+          <img src="${this.getImagePath(Array.isArray(p.image) ? p.image[0] : p.image)}" alt="${p.name[this.currentLang]}" class="product-image" loading="lazy">
         </div>
         <div class="product-info">
           <div class="product-category">${this.config.i18n[this.currentLang][p.category]}</div>
@@ -249,7 +258,12 @@ class BakeryApp {
         if (page && page !== this.currentPage) {
           this.currentPage = page;
           this.renderProducts();
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+          const searchContainer = document.querySelector('.search-container');
+          if (searchContainer) {
+            searchContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          } else {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }
           this.playSound('tick');
         }
       });
@@ -290,6 +304,11 @@ class BakeryApp {
     const checkoutBtn = document.getElementById('checkoutBtn');
     if (checkoutBtn) {
       checkoutBtn.addEventListener('click', () => this.checkout());
+    }
+
+    const clearCartBtn = document.getElementById('clearCartBtn');
+    if (clearCartBtn) {
+      clearCartBtn.addEventListener('click', () => this.clearCart());
     }
 
     window.addEventListener('click', (e) => {
@@ -358,6 +377,18 @@ class BakeryApp {
     this.currentImageIndex = 0;
     this.renderModalImage();
     document.getElementById('modalCategory').textContent = t[p.category];
+    
+    const modalBadge = document.getElementById('modalBadge');
+    if (modalBadge) {
+      if (p.badge) {
+        modalBadge.textContent = t[p.badge];
+        modalBadge.className = `product-badge ${p.badge}`;
+        modalBadge.style.display = 'block';
+      } else {
+        modalBadge.style.display = 'none';
+      }
+    }
+
     document.getElementById('modalName').textContent = p.name[this.currentLang];
     document.getElementById('modalDescription').textContent = p.description ? p.description[this.currentLang] : '';
     document.getElementById('modalPrice').textContent = `$${p.price.toFixed(2)}`;
@@ -398,7 +429,7 @@ class BakeryApp {
     
     if (images.length > 1) {
       container.innerHTML = `
-        <img id="modalImage" src="./${images[this.currentImageIndex]}" alt="" class="modal-image">
+        <img id="modalImage" src="${this.getImagePath(images[this.currentImageIndex])}" alt="" class="modal-image">
         <div class="slider-controls">
           <button onclick="bakeryApp.prevImage(event)" class="slider-btn">&lt;</button>
           <button onclick="bakeryApp.nextImage(event)" class="slider-btn">&gt;</button>
@@ -408,7 +439,7 @@ class BakeryApp {
         </div>
       `;
     } else {
-      container.innerHTML = `<img id="modalImage" src="./${images[0]}" alt="" class="modal-image">`;
+      container.innerHTML = `<img id="modalImage" src="${this.getImagePath(images[0])}" alt="" class="modal-image">`;
     }
   }
 
@@ -433,16 +464,65 @@ class BakeryApp {
   }
 
   addToCart(product) {
+    const modalImg = document.getElementById('modalImage');
+    if (modalImg) {
+      this.flyToCart(modalImg);
+    }
+    
     this.cart.push(product);
     localStorage.setItem('bakery_cart', JSON.stringify(this.cart));
     this.updateCartCount();
-    this.closeProduct();
-    this.toggleCart(true);
-    this.playSound('tick');
+    
+    // Delay closing to let animation start
+    setTimeout(() => {
+      this.closeProduct();
+      this.playSound('tick');
+    }, 400);
+  }
+
+  flyToCart(startElement) {
+    const cartIcon = document.getElementById('cartToggle');
+    if (!cartIcon || !startElement) return;
+
+    const startRect = startElement.getBoundingClientRect();
+    const cartRect = cartIcon.getBoundingClientRect();
+
+    const flyingImg = document.createElement('img');
+    flyingImg.src = startElement.src;
+    flyingImg.className = 'flying-item';
+    flyingImg.style.left = `${startRect.left}px`;
+    flyingImg.style.top = `${startRect.top}px`;
+    flyingImg.style.width = `${startRect.width}px`;
+    flyingImg.style.height = `${startRect.height}px`;
+
+    document.body.appendChild(flyingImg);
+
+    setTimeout(() => {
+      flyingImg.style.left = `${cartRect.left + cartRect.width / 2}px`;
+      flyingImg.style.top = `${cartRect.top + cartRect.height / 2}px`;
+      flyingImg.style.width = '40px';
+      flyingImg.style.height = '40px';
+      flyingImg.style.opacity = '0.5';
+      flyingImg.style.transform = 'rotate(360deg)';
+    }, 10);
+
+    setTimeout(() => {
+      flyingImg.remove();
+      cartIcon.classList.add('cart-shake');
+      setTimeout(() => cartIcon.classList.remove('cart-shake'), 500);
+    }, 800);
   }
 
   removeFromCart(index) {
     this.cart.splice(index, 1);
+    localStorage.setItem('bakery_cart', JSON.stringify(this.cart));
+    this.updateCartCount();
+    this.renderCart();
+    this.playSound('click');
+  }
+
+  clearCart() {
+    this.cart = [];
     localStorage.setItem('bakery_cart', JSON.stringify(this.cart));
     this.updateCartCount();
     this.renderCart();
@@ -481,23 +561,26 @@ class BakeryApp {
     const totalEl = document.getElementById('cartTotal');
     const totalBcvEl = document.getElementById('cartTotalBcv');
     const checkoutBtn = document.getElementById('checkoutBtn');
+    const clearCartBtn = document.getElementById('clearCartBtn');
     const t = this.config.i18n[this.currentLang];
 
     if (this.cart.length === 0) {
       container.innerHTML = `<div class="no-results" style="margin-top: 50%">${t.emptyCart}</div>`;
       totalEl.textContent = '$0.00';
       if (totalBcvEl) totalBcvEl.textContent = 'Bs. —';
-      checkoutBtn.disabled = true;
+      if (checkoutBtn) checkoutBtn.disabled = true;
+      if (clearCartBtn) clearCartBtn.disabled = true;
       return;
     }
 
-    checkoutBtn.disabled = false;
+    if (checkoutBtn) checkoutBtn.disabled = false;
+    if (clearCartBtn) clearCartBtn.disabled = false;
     let total = 0;
     container.innerHTML = this.cart.map((item, index) => {
       total += item.price;
       return `
         <div class="cart-item">
-          <img src="./${Array.isArray(item.image) ? item.image[0] : item.image}" class="cart-item-img">
+          <img src="${this.getImagePath(Array.isArray(item.image) ? item.image[0] : item.image)}" class="cart-item-img">
           <div class="cart-item-info">
             <div class="cart-item-name">${item.name[this.currentLang]}</div>
             <div class="cart-item-price">$${item.price.toFixed(2)}</div>

@@ -7,25 +7,27 @@ This project evolved from a simple showcase into a functional, production-ready 
 ## ✨ Key Features
 
 - **Dynamic Shopping Cart**: A "Light" cart system allowing users to add multiple items, review their order, and send it directly via WhatsApp.
-- **Real-Time Currency Conversion**: Integrates with the MiniERP backend API (`ve.dolarapi.com`) to dynamically fetch and display the official BCV (Bs.) exchange rate alongside USD prices.
+- **Flying Cart Animation**: Interactive micro-animation where product images "fly" to the cart icon upon addition for enhanced visual feedback.
+- **Product Badges**: Visual indicators for "Bestseller", "New", and "Limited" items to drive conversion.
+- **Image Slider Modal**: High-quality product details modal with an interactive image slider for multiple views.
+- **Real-Time Currency Conversion**: Integrates with external APIs to dynamically fetch and display the official Bs. exchange rate alongside USD prices.
 - **Multilingual Support**: Fully localized interface in **English** and **Spanish**, with robust language detection and smooth switching.
 - **Modern UI & Soft Interactions**: 
   - Clean, premium design with HSL color palettes and Inter typography.
   - Interactive "Soft UI" features, including subtle Web Audio API sound effects for interactions.
   - Scroll-based progress bar and dynamic "Back to Top" functionality.
-  - Promotional marquee for marketing communications.
 - **Dark/Light Mode**: Automatic theme switching based on system preferences with manual override options.
-- **Performance Optimized**: Features Shimmer skeleton loaders, lazy loading for images, and responsive CSS grid/flexbox layouts for a seamless mobile and cross-device experience.
-- **Search & Filter**: Real-time filtering by category (Sweet/Savory) and search query.
+- **Search & Filter**: Real-time filtering by category (Sweet/Savory) and search query with automatic scroll-to-results.
 
 ## 📁 Project Structure
 
-The project follows a clean, vanilla architecture:
+The project follows a clean, modular architecture:
 
 - `index.html`: Semantic HTML5 structure serving as the single-page application entry point.
-- `styles.css`: Advanced CSS3 implementation featuring CSS variables (design tokens), animations, responsive queries, and theming.
-- `app.js`: Modular ES6 JavaScript handling application logic, cart state management, DOM manipulation, and API integrations.
-- `config.js`: Centralized Single Source of Truth (SSOT) configuration for products, translations, and global settings.
+- `assets/css/styles.css`: Advanced CSS3 implementation featuring CSS variables (design tokens), animations, responsive queries, and theming.
+- `assets/js/app.js`: Modular ES6 JavaScript handling application logic, cart state management, DOM manipulation, and animations.
+- `assets/js/config.js`: Centralized Single Source of Truth (SSOT) configuration for products, translations, and global settings.
+- `manifest.json`: Web app manifest for PWA support.
 
 ## 🚀 Deployment & Usage
 

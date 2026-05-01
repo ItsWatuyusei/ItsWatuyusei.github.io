@@ -90,6 +90,7 @@
           </div>
           <div class="modal-details">
             <div id="modalCategory" class="product-category"></div>
+            <div id="modalBadge" class="product-badge" style="display: none"></div>
             <h2 id="modalName" class="product-name"></h2>
             <p id="modalDescription" class="product-description"></p>
             <div id="modalPrice" class="product-price"></div>
@@ -110,7 +111,10 @@
     <div id="cartDrawer" class="cart-drawer">
       <div class="cart-header">
         <h2 id="cartTitle"></h2>
-        <button id="closeCart" class="close-cart">&times;</button>
+        <div class="cart-header-actions">
+          <button id="clearCartBtn" class="clear-cart-btn" aria-label="Clear cart"></button>
+          <button id="closeCart" class="close-cart">&times;</button>
+        </div>
       </div>
       <div id="cartItems" class="cart-items"></div>
       <div class="cart-footer">
