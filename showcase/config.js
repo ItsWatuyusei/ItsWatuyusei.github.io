@@ -6,6 +6,10 @@ const CONFIG = {
     isWhitelabel: false,
     whatsapp: '584126763167'
   },
+  erp: {
+    apiUrl: 'https://ve.dolarapi.com/v1/dolares/oficial'
+  },
+  bcvRate: null,
   i18n: {
     en: {
       searchPlaceholder: 'Search products...',
@@ -24,7 +28,10 @@ const CONFIG = {
       ],
       addToCart: 'Add to order',
       cartTitle: 'My Order',
-      total: 'Total',
+      total: 'Total (USD)',
+      totalBcv: 'Total (VES)',
+      bcvLabel: 'Bs. Rate',
+      bcvUnavailable: 'Bs. rate unavailable',
       emptyCart: 'Your order is empty',
       sendOrder: 'Send Order to WhatsApp',
       checkoutMessage: 'Hello! I would like to place the following order:'
@@ -46,7 +53,10 @@ const CONFIG = {
       ],
       addToCart: 'Añadir al pedido',
       cartTitle: 'Mi Pedido',
-      total: 'Total',
+      total: 'Total (USD)',
+      totalBcv: 'Total (VES)',
+      bcvLabel: 'Tasa Bs.',
+      bcvUnavailable: 'Tasa Bs. no disponible',
       emptyCart: 'Tu pedido está vacío',
       sendOrder: 'Enviar pedido por WhatsApp',
       checkoutMessage: '¡Hola! Me gustaría realizar el siguiente pedido:'
@@ -198,4 +208,3 @@ const CONFIG = {
 };
 
 window.CONFIG = CONFIG;
-Object.freeze(window.CONFIG);

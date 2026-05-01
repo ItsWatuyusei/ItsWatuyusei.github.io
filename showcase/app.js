@@ -29,6 +29,7 @@ class BakeryApp {
     this.startPromoRotation();
     this.updateCartCount();
     this.setupScrollEffects();
+    this.fetchBcvRate();
     setTimeout(() => {
       this.renderProducts();
       this.setupEventListeners();
@@ -53,6 +54,31 @@ class BakeryApp {
 
       el.style.animation = '';
       el.textContent = promos[this.promoIndex];
+    }
+  }
+
+  async fetchBcvRate() {
+    try {
+      const res = await fetch(this.config.erp.apiUrl, {
+        signal: AbortSignal.timeout(5000)
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const json = await res.json();
+      const rate = json?.promedio || json?.venta || json?.valor;
+      if (rate && rate > 0) {
+        this.config.bcvRate = rate;
+        this.updateBcvDisplay();
+      }
+    } catch (e) {
+      // API unreachable — carrito igual funciona sin tasa
+      console.warn('[Bs. Rate] Could not fetch rate from API:', e.message);
+    }
+  }
+
+  updateBcvDisplay() {
+    // Update totals if cart drawer is open
+    if (document.getElementById('cartDrawer')?.classList.contains('active')) {
+      this.renderCart();
     }
   }
 
@@ -106,10 +132,12 @@ class BakeryApp {
 
     const cartTitle = document.getElementById('cartTitle');
     const totalLabel = document.getElementById('totalLabel');
+    const totalBcvLabel = document.getElementById('totalBcvLabel');
     const checkoutBtn = document.getElementById('checkoutBtn');
     
     if (cartTitle) cartTitle.textContent = t.cartTitle;
     if (totalLabel) totalLabel.textContent = t.total;
+    if (totalBcvLabel) totalBcvLabel.textContent = t.totalBcv;
     if (checkoutBtn) checkoutBtn.textContent = t.sendOrder;
   }
 
@@ -397,12 +425,14 @@ class BakeryApp {
   renderCart() {
     const container = document.getElementById('cartItems');
     const totalEl = document.getElementById('cartTotal');
+    const totalBcvEl = document.getElementById('cartTotalBcv');
     const checkoutBtn = document.getElementById('checkoutBtn');
     const t = this.config.i18n[this.currentLang];
 
     if (this.cart.length === 0) {
       container.innerHTML = `<div class="no-results" style="margin-top: 50%">${t.emptyCart}</div>`;
       totalEl.textContent = '$0.00';
+      if (totalBcvEl) totalBcvEl.textContent = 'Bs. —';
       checkoutBtn.disabled = true;
       return;
     }
@@ -424,6 +454,13 @@ class BakeryApp {
     }).join('');
 
     totalEl.textContent = `$${total.toFixed(2)}`;
+
+    if (this.config.bcvRate) {
+      const totalBs = total * this.config.bcvRate;
+      if (totalBcvEl) totalBcvEl.textContent = `Bs. ${totalBs.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    } else {
+      if (totalBcvEl) totalBcvEl.textContent = `Bs. —`;
+    }
   }
 
   checkout() {
@@ -437,6 +474,11 @@ class BakeryApp {
     });
     
     message += `\n*TOTAL: $${total.toFixed(2)}*`;
+
+    if (this.config.bcvRate) {
+      const totalBs = total * this.config.bcvRate;
+      message += `\n*TOTAL (VES): Bs. ${totalBs.toLocaleString('es-VE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}*`;
+    }
     
     const whatsappUrl = `https://wa.me/${this.config.brand.whatsapp}?text=${encodeURIComponent(message)}`;
     window.open(whatsappUrl, '_blank');
