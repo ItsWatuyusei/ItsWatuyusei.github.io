@@ -18,7 +18,7 @@ const CONFIG = {
       savory: 'Savory',
       noResults: 'No products found.',
       copyright: 'Copyright © ItsWatuyusei',
-      buy: 'Buy on WhatsApp',
+      buy: 'Buy now',
       back: 'Back to catalog',
       orderMessage: 'Hello! I am interested in ordering: ',
       promos: [
