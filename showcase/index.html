@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bakery Showcase | ItsWatuyusei</title>
+  <meta name="description" content="Explore our delicious artisan bakery products. Sweet and savory delights made fresh daily.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/x-icon" href="https://itswatuyusei.github.io/favicon.ico">
+  <link rel="apple-touch-icon" href="https://itswatuyusei.github.io/favicon.ico">
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#ff6a00">
+  <link rel="stylesheet" href="./assets/css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <div id="scrollProgress" class="scroll-progress"></div>
+    <div id="promoBar" class="promo-bar">
+      <div id="promoText" class="promo-text"></div>
+    </div>
+    <header>
+      <div class="header-top">
+        <div class="header-left">
+          <button id="langToggle" class="icon-btn" aria-label="Toggle language">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            <span class="lang-indicator" id="langIndicator">EN</span>
+          </button>
+        </div>
+        <div class="header-actions">
+          <button id="themeToggle" class="icon-btn" aria-label="Toggle theme">
+            <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+          <button id="cartToggle" class="icon-btn cart-toggle" aria-label="View cart">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+            <span id="cartCount" class="cart-count">0</span>
+          </button>
+        </div>
+      </div>
+      <h1>ItsWatuyusei Bakery</h1>
+      <div class="search-container">
+        <input type="text" id="searchInput">
+      </div>
+      <div class="filters">
+        <button class="filter-btn active" id="filterAll" data-category="all"></button>
+        <button class="filter-btn" id="filterSweet" data-category="sweet"></button>
+        <button class="filter-btn" id="filterSavory" data-category="savory"></button>
+      </div>
+    </header>
+
+    <main>
+      <div class="products-grid" id="productsGrid">
+        <div class="product-card">
+          <div class="product-image-container shimmer skeleton-image"></div>
+          <div class="product-info">
+            <div class="skeleton-text shimmer"></div>
+            <div class="skeleton-text shimmer"></div>
+            <div class="skeleton-price shimmer"></div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-image-container shimmer skeleton-image"></div>
+          <div class="product-info">
+            <div class="skeleton-text shimmer"></div>
+            <div class="skeleton-text shimmer"></div>
+            <div class="skeleton-price shimmer"></div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-image-container shimmer skeleton-image"></div>
+          <div class="product-info">
+            <div class="skeleton-text shimmer"></div>
+            <div class="skeleton-text shimmer"></div>
+            <div class="skeleton-price shimmer"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="pagination" id="pagination"></div>
+    </main>
+
+    <div id="productModal" class="modal">
+      <div class="modal-content">
+        <button id="closeModal" class="close-modal">&times;</button>
+        <div class="modal-body">
+          <div class="modal-image-container" id="modalImageContainer">
+            <img id="modalImage" src="" alt="" class="modal-image">
+          </div>
+          <div class="modal-details">
+            <div id="modalCategory" class="product-category"></div>
+            <h2 id="modalName" class="product-name"></h2>
+            <p id="modalDescription" class="product-description"></p>
+            <div id="modalPrice" class="product-price"></div>
+            <div class="modal-actions">
+              <button id="addToCartBtn" class="add-to-cart-btn"></button>
+              <a id="buyButton" href="" target="_blank" class="buy-btn"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button id="backToTop" class="back-to-top" aria-label="Back to top">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>
+    </button>
+
+    <div id="cartOverlay" class="cart-overlay"></div>
+    <div id="cartDrawer" class="cart-drawer">
+      <div class="cart-header">
+        <h2 id="cartTitle"></h2>
+        <button id="closeCart" class="close-cart">&times;</button>
+      </div>
+      <div id="cartItems" class="cart-items"></div>
+      <div class="cart-footer">
+        <div class="cart-total-row">
+          <span id="totalLabel"></span>
+          <span id="cartTotal">$0.00</span>
+        </div>
+        <div class="cart-total-row cart-total-bcv">
+          <span id="totalBcvLabel"></span>
+          <span id="cartTotalBcv">Bs. —</span>
+        </div>
+        <button id="checkoutBtn" class="checkout-btn"></button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Copyright © <a href="https://itswatuyusei.com" target="_blank" rel="noopener noreferrer">ItsWatuyusei</a></p>
+    </footer>
+  </div>
+
+  <script src="./assets/js/config.js"></script>
+  <script src="./assets/js/app.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js')
+          .then(registration => console.log('SW registered: ', registration.scope))
+          .catch(err => console.log('SW registration failed: ', err));
+      });
+    }
+  </script>
+</body>
+</html>
